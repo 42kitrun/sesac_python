@@ -1,0 +1,31 @@
+h1 {
+    color: #FF0000
+}
+
+h2 {
+    color: #00FF00
+}
+
+
+h3 {
+    color: #0000FF
+}
+
+.color1 {
+    color: #000000;
+    background-color: yellow;
+    border: 5px solid red
+}
+
+.color2 {
+    color: #777777;
+    background-color: aqua;
+    border: 3px dotted purple;
+    width: 50%
+}
+
+#color3 {
+    color: #ffffff;
+    background-color: olivedrab;
+    border: 10px dashed brown
+}

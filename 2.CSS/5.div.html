@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            margin: 5px;
+        }
+
+        .location {
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            background-color: orangered;
+        }
+
+        /* 셀렉터의 다양한 표현법을 학습해볼것... div p 와 div > p 와 어떻게 다른지... 등등..*/
+        div>p {
+            position: relative;
+            top: 20px;
+            left: 50px;
+            background-color: rgba(255, 255, 255, 0.5);
+            display: inline;
+            /* 글자만큼만 배경 */
+        }
+
+        .cat-container {
+            width: 400px;
+            height: 300px;
+            background-image: url(img/cat2.jpeg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div>1</div>
+    <div class="location">2</div>
+    <div>3</div>
+    <div>
+        <p>귀여운 고양이</p>
+    </div class="cat-container">
+    <p>못생긴 고양이</p>
+</body>
+
+</html>
