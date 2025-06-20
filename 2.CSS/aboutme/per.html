@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>자기소개 페이지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .page-link {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 8px 15px;
+            background: #3498db;
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .page-link:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 1페이지: 자기소개 -->
+        <section id="about">
+            <h1>About Me</h1>
+            <img src="profile.jpg" alt="프로필 사진" class="profile-img">
+            <p>안녕하세요! 저는 홍길동입니다. 웹 개발을 공부하고 있습니다.</p>
+            <p>항상 새로운 것을 배우는 것을 좋아하고, 문제를 해결하는 과정에서 즐거움을 느낍니다.</p>
+        </section>
+
+        <!-- 2페이지: 취미 -->
+        <section id="hobby">
+            <h2>My Hobby</h2>
+            <p>저의 취미는 독서, 음악 감상, 여행입니다.</p>
+            <p>특히 새로운 음악을 발견하는 것을 좋아하고, 여행을 통해 다양한 문화를 경험하는 것을 즐깁니다.</p>
+        </section>
+
+        <!-- 3페이지: 관심사 -->
+        <section id="interest">
+            <h2>My Interests</h2>
+            <p>웹 개발, 디자인, 인공지능에 관심이 많습니다.</p>
+            <p>최근에는 프론트엔드 개발을 집중적으로 공부하고 있습니다.</p>
+        </section>
+
+        <!-- 4페이지: 목표 -->
+        <section id="goal">
+            <h2>My Goal</h2>
+            <p>앞으로 멋진 웹 서비스를 직접 개발하는 것이 목표입니다.</p>
+            <p>사람들에게 도움이 되는 서비스를 만들고 싶습니다.</p>
+        </section>
+
+        <!-- 페이지 이동 버튼 -->
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="#about" class="page-link">About Me</a>
+            <a href="#hobby" class="page-link">My Hobby</a>
+            <a href="#interest" class="page-link">My Interests</a>
+            <a href="#goal" class="page-link">My Goal</a>
+        </div>
+    </div>
+</body>
+
+</html>
