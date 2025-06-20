@@ -63,6 +63,7 @@ table td:first-child {
 }
 
 .holiday {
+    color: red;
     background-color: #ffeeee;
 
 }
