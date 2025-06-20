@@ -1,0 +1,228 @@
+.label-styles {
+    font-size: 0.7576rem;
+    /* 1.25rem / 1.65 ≈ 0.7576rem */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.065rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    margin: 0;
+    height: 100vh;
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-family: 'Helvetica', sans-serif;
+    line-height: 1.2;
+    background-color: hotpink;
+}
+
+a {
+    color: mediumslateblue;
+}
+
+a:focus {
+    color: hotpink;
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 1.875rem;
+    /* 1.25rem * 1.5 */
+}
+
+.form {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    transform: skewY(-5deg) translateY(10%) scale(0.94);
+    transition:
+        box-shadow 350ms cubic-bezier(0.075, 0.82, 0.165, 1),
+        transform 350ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.form::before,
+.form::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    background-color: #e6e6e6;
+    width: 25%;
+    height: 100%;
+    transition:
+        background-color 350ms cubic-bezier(0.075, 0.82, 0.165, 1),
+        transform 350ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.form::before {
+    top: 0;
+    right: calc(100% - 1px);
+    transform-origin: 100% 100%;
+    transform: skewY(-35deg) scaleX(-1);
+    z-index: -1;
+}
+
+.form::after {
+    top: 0;
+    left: calc(100% - 1px);
+    transform-origin: 0 0;
+    transform: skewY(-35deg) scaleX(-1);
+    z-index: 2;
+}
+
+.form:hover,
+.form:focus-within {
+    transform: scale(1.0001);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+}
+
+.form:hover::before,
+.form:hover::after,
+.form:focus-within::before,
+.form:focus-within::after {
+    background-color: white;
+    transform: skewY(0);
+}
+
+.form-inner {
+    padding: 2rem;
+    background-color: white;
+    z-index: 1;
+}
+
+.form-inner>*+* {
+    margin-top: 2rem;
+}
+
+.input-wrapper:focus-within label {
+    color: hotpink;
+}
+
+.input-wrapper:focus-within .icon {
+    background-color: hotpink;
+}
+
+.input-wrapper:focus-within input {
+    border-color: hotpink;
+}
+
+.input-wrapper+.input-wrapper {
+    margin-top: 1.5rem;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group input {
+    border-radius: 0.25rem;
+    padding-left: calc(0.6667rem + 60px);
+    /* 1rem / 1.5 ≈ 0.6667rem */
+}
+
+.input-group .icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    pointer-events: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: mediumslateblue;
+    font-size: 0.7576rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.065rem;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: mediumslateblue;
+    height: 3rem;
+
+    width: 3rem;
+
+}
+
+.icon i {
+    padding-top: 5px;
+    padding-left: 5px;
+    width: 1.5em;
+    height: 1.5em;
+    color: white;
+    pointer-events: none;
+    user-select: none;
+    transition: transform 350ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+input {
+    flex: 1 1 0;
+    width: 100%;
+    outline: none;
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-family: 'Helvetica', sans-serif;
+    color: hotpink;
+    border: 2px solid mediumslateblue;
+}
+
+input:focus {
+    color: mediumslateblue;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-group>*+* {
+    margin-left: 0.6667rem;
+}
+
+.btn {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    outline: none;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.btn--primary {
+    font-size: 0.7576rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.065rem;
+    background-color: mediumslateblue;
+    border-color: mediumslateblue;
+    color: white;
+}
+
+.btn--primary:focus {
+    background-color: hotpink;
+    border-color: hotpink;
+}
+
+.btn--text {
+    font-size: 0.8333rem;
+    /* 1.25rem / 1.5 ≈ 0.8333rem */
+    padding: 0;
+}
