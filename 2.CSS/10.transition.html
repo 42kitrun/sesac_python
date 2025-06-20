@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .square {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transition-property: width, height;
+            /*속성들을 잘~ 골라야함*/
+            transition-duration: 2.5s;
+            /* 0.5초 */
+            transition-timing-function: ease;
+            /* ease-in, ease-out, ease-in-out */
+        }
+
+        .square:hover {
+            width: 150px;
+            height: 150px;
+        }
+
+        .button {
+            color: black;
+            transition-property: color;
+            transition-duration: 2.5s;
+            /* 0.5초 */
+            transition-timing-function: ease;
+            /* ease-in, ease-out, ease-in-out */
+        }
+
+        .button:hover {
+            color: red;
+        }
+
+        .image {
+            width: 200px;
+            height: 200px;
+
+        }
+
+        .image:hover {
+            transform: rotate(180deg);
+            transition-property: transform;
+            transition-duration: 2.5s;
+            transition-timing-function: ease-out;
+            /* ease-in, ease-out, ease-in-out */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="square"></div>
+    <br>
+    <button class="button">마우스를 올려보시오</button>
+    <br>
+    <img class="image" src="img/cat3.jpeg" />
+</body>
+
+</html>

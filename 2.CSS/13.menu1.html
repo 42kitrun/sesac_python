@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .container .item {
+            /*.container .item : children 하위 (뎁스 상곤없이) .container > .item : 바로 아래 children*/
+            float: left;
+            width: 100px;
+            text-align: center;
+            border-right: 1px solid black;
+        }
+
+        .container .item.last {
+            /* 띄어쓰기의 의미 주의  .containe .item.last : .item&.last*/
+            float: left;
+            width: 100px;
+            text-align: center;
+            border-right: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="item"> menu 1</div>
+        <div class="item"> menu 2</div>
+        <div class="item"> menu 3</div>
+        <div class="item"> menu 4</div>
+        <div class="item last"> login</div>
+    </div>
+</body>
+
+</html>
