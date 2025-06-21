@@ -12,14 +12,21 @@
     <form class="container">
         <p class="txtheader">Have an account?</p>
         <input class="username" type="text" placeholder="Username" />
-        <input class="password" type="password" placeholder="Password" />
+        <div class="pw-group">
+            <input class="password" type="password" placeholder="Password" />
+            <i class="fa-solid fa-eye"></i>
+        </div>
         <input class="signin" type="submit" value="SIGN IN" />
-        <div>
-            <span class="rememberme"></span>
-            <span clsss="forgotpw">
+        <div class="login-option">
+            <label class="rememberme">
+                <input type="checkbox" />
+                <span class="checkbox"></span>
+                Rememeber me
+            </label>
+            <span class="forgotpw">Forgot Password</span>
         </div>
 
-        <p>-- Or Sing In with --</p>
+        <p class="txtsigninwith">-- Or Sign In with --</p>
         <div class="btnwrapper">
             <button class="btnFb">Facebook</button>
             <button class="btnTw">Twitter</button>

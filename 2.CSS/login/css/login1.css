@@ -128,8 +128,7 @@ h2 {
     top: 0;
     left: 0;
     height: 100%;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
+    border-radius: 6px;
     pointer-events: none;
 }
 
