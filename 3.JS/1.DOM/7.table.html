@@ -83,8 +83,7 @@
             let cells = document.getElementsByTagName('td');
             let index = 0;
             for (let cell of cells) {
-                cell.style.backgroundColor = index % 2 === 0 ? 'lightblue' : '';
-                index++;
+                cell.style.backgroundColor = index++ % 2 === 0 ? 'lightblue' : '';
             }
         }
 
