@@ -46,7 +46,11 @@
             // 복수형인것들(Elements)은 하나 이상일수 있으니, 리스트(배열)에 담겨서 온다
 
             let cells = document.getElementsByTagName('td');
-            // console.log(cells);
+            // 시작전 리셋
+            for (let cell of cells) {
+                cell.style.backgroundColor = '';
+            }
+            // console.log(cells[1].style.backgroundColor);
 
             // cells.style.backgroundColor = 'lightblue';
             // 전체 배열을 한번에 적용할 수 없음
@@ -77,17 +81,18 @@
 
         function changeEvenCellColor() {
             let cells = document.getElementsByTagName('td');
-
-            for (let i = 0; i < cells.length; i = i + 2) {
-                cells[i].style.backgroundColor = 'lightblue';
+            let index = 0;
+            for (let cell of cells) {
+                cell.style.backgroundColor = index % 2 === 0 ? 'lightblue' : '';
+                index++;
             }
         }
 
-        function changeEvenCellColor() {
+        function changeOddCellColor() {
             let cells = document.getElementsByTagName('td');
-
-            for (let i = 1; i < cells.length; i = i + 2) {
-                cells[i].style.backgroundColor = 'lightblue';
+            let index = 0;
+            for (let cell of cells) {
+                cell.style.backgroundColor = index++ % 2 === 1 ? 'lightblue' : '';
             }
         }
     </script>
