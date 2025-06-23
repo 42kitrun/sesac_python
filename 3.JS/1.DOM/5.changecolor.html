@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="changeColor()">배경색 변경하기</button>
+    <button onclick="changeColor2()">배경색 변경하기2</button>
+    <button onclick="changeColor4()">배경색 랜덤 변경하기</button>
+    <script>
+        function changeColor() {
+            if (document.body.style.backgroundColor != 'red') {
+
+                document.body.style.backgroundColor = 'red';
+            } else {
+                document.body.style.backgroundColor = 'white';
+            }
+        }
+
+        let currentIndex = 0;
+        function changeColor2() {
+            const colors = ['red', 'green', 'blue', "yellow", 'orange', 'purple'];
+            // 내 코드
+            // if (document.body.style.backgroundColor == false) {
+            //     document.body.style.backgroundColor = 'red';
+            // }
+            // else if (document.body.style.backgroundColor == 'red') {
+            //     document.body.style.backgroundColor = 'green';
+            // } else if (document.body.style.backgroundColor == 'green') {
+            //     document.body.style.backgroundColor = 'blue';
+            // } else if (document.body.style.backgroundColor == 'blue') {
+            //     document.body.style.backgroundColor = 'red';
+            // } else{
+
+            // }
+            let colorIndex = currentIndex % colors.length;
+            document.body.style.backgroundColor = colors[colorIndex];
+            currentIndex++;
+        }
+
+        function changeColor3() { //선생님 코드
+            const colors = ['red', 'green', 'blue', "yellow", 'orange', 'purple'];
+            document.body.style.backgroundColor = colors[currentIndex];
+            currentIndex = (currentIndex++) % colors.length
+        }
+
+        // 숙제 랜덤 배경
+        function changeColor4() {
+            console.log()
+        }
+    </script>
+</body>
+
+</html>

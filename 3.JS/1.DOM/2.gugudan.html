@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>구구단</h1>
+    <input type="number" placeholder="단 입력 (예: 2)" />
+    <button>출력하기</button>
+    <hr>
+
+    <Script>
+        console.log('구구단 출력');
+        document.write("Hello, World<br>");
+        for (let m = 2; m <= 9; m++) {
+            document.write(`<h3>--- ${m}단 ---</h3>`);
+            for (let i = 1; i <= 9; i++) {
+                document.write(`${m} x ${i} = ${m * i}<br>`);
+            }
+        }
+        document.write("</p>");
+    </Script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        /* 여기는 css */
+    </style>
+</head>
+
+<body>
+    <h1>
+        <!-- 여기는 HTML -->
+        헬로우 월드
+    </h1>
+    <button style="color:red" onclick="sayHello()">헬로우</button>
+    <button style="color:blue" onclick="sayGoodbye()">굳바이</button>
+    <script>
+        // 여기는 JS영역
+        function sayHello() {
+            console.log("hello world");
+        }
+        function sayGoodbye() {
+            document.write("<h1>Goodbye console</h1>");
+            for (let i = 0; i < 5; i++) {
+                //document.write("<h" + i + ">Goodbye console</h" + i + ">");
+                document.write(`<h${i}>Goodbye console</h${i}>`);//백틱 ` 문자 포맷팅 ${} ` 사용법
+            }
+        }
+    </script>
+</body>
+
+</html>

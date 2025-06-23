@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <select id='fruitSelector' onchange="fruitDisplay()">
+        <option value="apple">사과</option>
+        <option value="banana">바나나</option>
+        <option value="orange">오렌지</option>
+        <option value="pineapple">파인애플</option>
+        <option value="kiwi">키위</option>
+    </select>
+    <div id="fruitResult"><!-- 빈 공간 --></div>
+    <script>
+        function fruitDisplay() {
+            let fruit = document.getElementById('fruitSelector').value;
+            let result = document.getElementById('fruitResult');
+
+            // 이 switch/case는 언제나 if/else로 대체는 가능함.
+            // 하지만, 가독성이 좋게 하기 위해서 생겨난 문법.
+            // case
+            switch (fruit) {
+                case "apple":
+                case "APPLE":
+                    result.innerText = '이것은 사과입니다.'
+                    break;
+                case "banana":
+                case "BANANA":
+                    result.innerText = '이것은 바나나입니다.'
+                    break;
+                case "orange":
+                case "ORANGE":
+                    result.innerText = '이것은 오렌지입니다.'
+                    break;
+                case "pineapple":
+                case "PINEAPPLE":
+                    result.innerText = '이것은 파인애플입니다.'
+                    break;
+
+            }
+
+        }
+    </script>
+</body>
+
+</html>
