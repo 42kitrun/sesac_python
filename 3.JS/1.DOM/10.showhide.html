@@ -10,21 +10,34 @@
             height: 200px;
             background-color: lightblue;
             margin-top: 20px;
-            /* display: none;  css로 안보이게 하기 */
+            display: none;
+            /* css로 안보이게 하기 */
         }
     </style>
 </head>
 
 <body>
-    <button onclick="showhideDiv()">숨겨진 영역 보여주기</button>
-    <div id="myDiv" style="display: block;">이것이 바로 숨겨진 DIV 입니다.</div>
+    <button onclick="showhideDiv3()">숨겨진 영역 보여주기</button>
+    <div id="myDiv">이것이 바로 숨겨진 DIV 입니다.</div>
     <!-- 초기값은 여기서 설정하기 -->
 
     <script>
         function showhideDiv() {
             // const divElem = document.getElementById('myDiv');
             const divElem = document.querySelector('#myDiv');
-            // console.log(divElem);
+            console.log('현재속성:', divElem.style.display);
+
+            if (divElem.style.display === 'none') {
+                divElem.style.display = 'block';
+            } else {
+                divElem.style.display = 'none';
+            }
+        }
+
+        function showhideDiv2() {
+            // const divElem = document.getElementById('myDiv');
+            const divElem = document.querySelector('#myDiv');
+            // console.log('현재속성:', divElem.style.display);
 
             // console.log(divElem.style.display);
 
@@ -38,12 +51,11 @@
             }
         }
 
-        function showhideDiv2() {
+        function showhideDiv3() {
             const divElem = document.querySelector('#myDiv');
-            // 브라우저에게 렌더링이 다 끝난 시점의 스타일을 알려달라고 요청한다.
-            const divElemStyle = window.getComputedStyle(divElem).display;
+            const divElemStyle = window.getComputedStyle(divElem).display; // 브라우저에게 랜더링이 다 끝난 시점의 스타일을 알려달라고 요청한다.
 
-            console.log('최종 렌더링된 디자인 : ', divElemStyle);
+            console.log('최종랜더링된디자인: ', divElemStyle);
             if (divElemStyle === 'none') {
                 divElem.style.display = 'block';
             } else {

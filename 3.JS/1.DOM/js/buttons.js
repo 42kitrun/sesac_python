@@ -26,5 +26,6 @@ function number_dec() {
     // let af_number = Number(bf_number) - 1;
     // console.log(af_number);
     // result.textContent = af_number;
+    // document.getElementById('result').textContent -= 1; 선생님 코드
     document.getElementById('result').textContent--;
 }

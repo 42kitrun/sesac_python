@@ -5,6 +5,7 @@ open.onclick = () => {
 }
 
 function showModal() {
+    // 모달창 껍데기(div) 만들기
     const modalWrapper = document.createElement('div');
     modalWrapper.className = 'modal-wrapper';
 
@@ -21,17 +22,18 @@ function showModal() {
             </div>
         </div>
     `;
-}
 
-document.body.appendChild(modalWrapper);
+    // body에다가 위에 만든 모달창 껍데기를 붙이기
+    document.body.appendChild(modalWrapper);
 
-// 닫기버튼 이벤트 추가
-// const close = document.getElementById('close');
-// close.onclick = () => {
-//     modalWrapper.remove();
-// }
+    // 닫기버튼 이벤트 추가
+    // const close = document.getElementById('close');
+    // close.onclick = () => {
+    //     modalWrapper.remove();
+    // }
 
-// JS는 짧고 간결하게 짜려는 다양한 문법과 기법들이 있음...
-document.getElementById('close').onclick = () => {
-    modalWrapper.remove();
+    // JS는 짧고 간결하게 짜려는 다양한 문법과 기법들이 있음...
+    document.getElementById('close').onclick = () => {
+        modalWrapper.remove();
+    }
 }
