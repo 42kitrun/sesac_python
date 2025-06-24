@@ -6,51 +6,73 @@
     <script src='js/calculator.js' defer></script>
     <title>Calculator</title>
     <style>
-        body {}
-
-        body>div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4열 */
+            gap: 10px;
+            /* 버튼 사이 여백 */
+            width: 600px;
+            /* 그리드 전체 너비 */
+            margin: 60px auto;
+            /* 가운데 정렬 */
         }
 
-
-
-        .button-wrapper {
-            display: grid;
-            grid: repeat(4, 60px) / auto-flow 80px;
+        .calculator input {
+            grid-column: span 4;
+            padding: 20px;
+            font-size: 25px;
+            text-align: right;
         }
 
-        .button-wrapper {
-            display: grid;
-            grid: repeat(4, 60px) / auto-flow 80px;
+        .calculator input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .calculator button {
+            padding: 20px;
+            font-size: 29px;
+            cursor: pointer;
+        }
+
+        .calculator button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .calculator button:active {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .calculator button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
         }
     </style>
 </head>
 
 <body>
-    <div>
+    <div class="calculator">
         <input type="text" readonly id="display" />
-        <div class="button-wrapper">
-            <button>+</button>
-            <button>7</button>
-            <button>4</button>
-            <button>1</button>
-            <button>-</button>
-            <button>8</button>
-            <button>5</button>
-            <button>2</button>
-            <button>*</button>
-            <button>9</button>
-            <button>6</button>
-            <button>3</button>
-            <button>/</button>
-            <button>=</button>
-            <button>C</button>
-            <button>0</button>
-        </div>
-
+        <button onclick="appendSymbol(this.textContent)">+</button>
+        <button onclick="appendSymbol(this.textContent)">-</button>
+        <button onclick="appendSymbol(this.textContent)">*</button>
+        <button onclick="appendSymbol(this.textContent)">/</button>
+        <button onclick="appendNumber(this.textContent)">7</button>
+        <button onclick="appendNumber(this.textContent)">8</button>
+        <button onclick="appendNumber(this.textContent)">9</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendNumber(this.textContent)">4</button>
+        <button onclick="appendNumber(this.textContent)">5</button>
+        <button onclick="appendNumber(this.textContent)">6</button>
+        <button onclick="clearInput()">C</button>
+        <button onclick="appendNumber(this.textContent)">1</button>
+        <button onclick="appendNumber(this.textContent)">2</button>
+        <button onclick="appendNumber(this.textContent)">3</button>
+        <button onclick="appendNumber(this.textContent)">0</button>
 </body>
 
 </html>

@@ -83,6 +83,7 @@
             let cells = document.getElementsByTagName('td');
             let index = 0;
             for (let cell of cells) {
+                //삼항 조건 연산자(ternary operator)
                 cell.style.backgroundColor = index++ % 2 === 0 ? 'lightblue' : '';
             }
         }
