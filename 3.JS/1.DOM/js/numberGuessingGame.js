@@ -10,7 +10,8 @@ function guessNumber() {
     // 이상값 입력시 경고문 팝업 및 함수종료
     if (inputNum < 1 || inputNum > 100 || inputNum % 1 != 0) {
         alert('1보다 크고 100보다 작은 자연수를 입력하세요');
-        return;// 함수 종료
+        document.getElementById('inputNum').value = ''; // 입력값을 지움
+        return;
     }
 
     const newHistory = document.createElement('li');
@@ -18,11 +19,12 @@ function guessNumber() {
     displayHistory.appendChild(newHistory);
 
     if (inputNum > Answer) {
-        feedBack.textContent = 'Too High';
-        newHistory.textContent += ` <---- Too High`;
+        feedBack.textContent = degree;
+        newHistory.textContent += ` <---- ${degree}`;
     } else if (inputNum < Answer) {
-        feedBack.textContent = 'Too Low';
-        newHistory.textContent += ` <---- Too Low`;
+        let degree = (Answer - inputNum) > 33 ? 'Too Low' : 'Low(less than 33)'
+        feedBack.textContent = degree;
+        newHistory.textContent += ` <---- ${degree}`;
     } else {
         newHistory.textContent += ` <---- Correct!`;
         feedBack.textContent = 'Correct! 다시 시작하시려면 새로고침(F5)를 눌러주세요';
