@@ -1,5 +1,6 @@
 
-const Answer = Math.round(Math.random() * 100) + 1;
+const Answer = Math.round(Math.random() * 99) + 1;
+// 0 ~ 99에서 1을 더해 1 ~ 100까지의 범위임
 console.log('Answer', Answer);
 
 document.getElementById('inputNum').addEventListener('keydown', function (event) {
@@ -10,12 +11,12 @@ document.getElementById('inputNum').addEventListener('keydown', function (event)
 
 function guessNumber() {
     const inputNum = Number(document.getElementById('inputNum').value);
-    const displayHistory = document.querySelector('ul');
+    const displayHistory = document.querySelector('ol');
     const feedBack = document.getElementById('feedBack');
 
     // 이상값 입력시 경고문 팝업 및 함수종료
     if (inputNum < 1 || inputNum > 100 || inputNum % 1 != 0) {
-        alert('1보다 크고 100보다 작은 자연수를 입력하세요');
+        alert('1이상 100이하 자연수를 입력하세요');
         document.getElementById('inputNum').value = ''; // 입력값을 지움
         return;
     }
