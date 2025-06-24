@@ -25,10 +25,11 @@ function guessNumber() {
     displayHistory.appendChild(newHistory);
 
     if (inputNum > Answer) {
+        const degree = (inputNum - Answer) >= 33 ? 'Too High' : 'High(less than 33)'
         feedBack.textContent = degree;
         newHistory.textContent += ` <---- ${degree}`;
     } else if (inputNum < Answer) {
-        let degree = (Answer - inputNum) > 33 ? 'Too Low' : 'Low(less than 33)'
+        const degree = (Answer - inputNum) >= 33 ? 'Too Low' : 'Low(less than 33)'
         feedBack.textContent = degree;
         newHistory.textContent += ` <---- ${degree}`;
     } else {
