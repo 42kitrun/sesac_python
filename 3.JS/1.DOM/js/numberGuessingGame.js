@@ -2,6 +2,12 @@
 const Answer = Math.round(Math.random() * 100) + 1;
 console.log('Answer', Answer);
 
+document.getElementById('inputNum').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        guessNumber();
+    }
+});
+
 function guessNumber() {
     const inputNum = Number(document.getElementById('inputNum').value);
     const displayHistory = document.querySelector('ul');
