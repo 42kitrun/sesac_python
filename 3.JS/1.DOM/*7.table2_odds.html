@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>셀 1</td>
+            <td>셀 2</td>
+            <td>셀 3</td>
+        </tr>
+        <tr>
+            <td>셀 4</td>
+            <td>셀 5</td>
+            <td>셀 6</td>
+        </tr>
+        <tr>
+            <td>셀 7</td>
+            <td>셀 8</td>
+            <td>셀 9</td>
+        </tr>
+    </table>
+    <button onclick="changeOddCellColor()">색 색상 홀수만 변경하기</button>
+    <script>
+        // DOM 가져오는건 const로
+        const cells = document.getElementsByTagName('td');
+
+        function changeOddCellColor1() {
+            for (let i = 0; i < cells.length; i++) {
+                if (i % 2 == 0) {// 2로 나눠서 나머지가 0인 값들을 짝수라고 부른다.
+                    // 근데, 지금 0,2,4 이 짝수 셀에 실제로 홀수 글자 "셀1, 셀2, 셀5"가 들어있다
+                    cells[i].style.backgroundColor = 'lightgreen';
+                }
+            }
+        }
+
+        function changeOddCellColor2() {
+            // foreach에 첫번째 인자는 해당 리스트의 멤버
+            // foreach에 인자를 2개 넣으면 첫번째는 리스트의 멤버, 두번째는 리스트이 인덱스
+            // 근데 하필 우리의 cells가 list(Array)가 아니라서, 실제로는 HTMLCollection 이라서,
+            // Array로 변환을 해줘야지만 forEach가 가능함.
+
+            // Array.from(cells).forEach(function(cell, index){
+            Array.from(cells).forEach((c, i) => {
+                if (i % 2 === 0) {
+                    cells[i].style.backgroundColor = 'lightgreen';
+                }
+
+            });
+        }
+
+        function changeOddCellColor3() {
+            // for ... of 문법
+            let index = 0;
+            for (const c of cells) {
+                if (index % 2 === 0) {
+                    c.style.backgroundColor = 'lightgreen';
+                }
+                console.log(`인덱스 : ${index}: 해당요소: ${c}`);
+                // index = index + 1;
+                // index += 1;
+                index++;
+            }
+        }
+
+        function changeOddCellColor4() {
+            // CSS 셀렉터 스타일로 요소를 가져오기 위한 함수가...
+            // querySelector - 가장 먼저 매치되는 하나
+            // 
+            const oddCells = document.querySelectorAll('td:nth-child(odd)');
+            oddCells.forEach(c => {
+                c.style.backgroundColor = 'lightgreen';
+            });
+        }
+
+        function changeOddCellColor5() {
+            let i = 0;
+            while (i < cells.length) {
+                c.style.backgroundColor = 'lightgreen';
+
+            }
+        }
+
+        function changeOddCellColor6() {
+            // 위의 5번을 응용해서 1번에 적용한 기법
+            for (let i = 0; i < cells.length; i += 2) {
+                cells[i].style.backgroundColor = 'lightgreen';
+            }
+        }
+
+    </script>
+</body>
+
+</html>
