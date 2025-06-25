@@ -18,17 +18,39 @@
         const canvas = document.getElementById('myCanvas');
         const context = canvas.getContext('2d');// 그림을 그릴 공간에 접근하는 포인터
 
-        let x = 100; // 팩맨의 x 좌표
-        let y = 100; // 팩맨의 y 좌표
+        let x = 30; // 팩맨의 x 좌표
+        let y = 30; // 팩맨의 y 좌표
+        let xDirection = 1; // 팩맨의 x 방향
+        let yDirection = 1; // 팩맨의 y 방향
+        let speed = 0.5; // 팩맨의 이동 속도
+        const radius = 30; // 팩맨의 크기
 
         // 2. 팩맨그리기
         function drawPacman() {
+            // 팩맨의 좌표 설정
+            if (x < radius) {
+                x = radius;
+                y = y;
+            } else if (x > canvas.width - radius) {
+                x = canvas.width - radius;
+                y = y;
+            } else if (y < radius) {
+                x = x;
+                y = radius;
+            } else if (x > canvas.height - radius) {
+                x = x;
+                y = canvas.height - radius;
+            } else {
+                x = x + speed * xDirection;
+                y = y + speed * yDirection;
+            };
+
             context.fillStyle = "yellow"; // 노란색
             context.beginPath(); // 새로운 경로 시작
             context.moveTo(x, y); // 팩맨 시작점
             const startAngle = 0.2 * Math.PI; // 대충 40도 전후
             const endAngle = 1.8 * Math.PI; // 대충 320도 전후
-            context.arc(x, y, 30, startAngle, endAngle); // 팩맨
+            context.arc(x, y, radius, startAngle, endAngle); // 팩맨
             context.fill(); // 채우기
             context.closePath(); // 경로 닫기
         }
@@ -38,18 +60,32 @@
 
             drawPacman(); // 팩맨 그리기
 
-            requestAnimationFrame(draw); // 애니메이션을 계속 반복
+            requestAnimationFrame(animate); // 애니메이션을 계속 반복
         }
 
         // 미션. 이벤트를 등록해서 X,Y 좌표를 변경하고 애니메이션을 시작하세요.
         //1. 키 누를때마다 해당 방향으로 X,Y 좌표를 내가 정한 사이즈만큼 (10) 이동한다
-        //2. 키를 누를때마다 해당 방향ㅇ로 연속적으로 이동한다
-        document.addEventListener('keydown', handleKeyDown);
-
-        function handleKeyDown(event) {
-            y = y + 10;
-            x = x + 20;
-        }
+        //2. 키를 누를때마다 해당 방향으로 연속적으로 이동한다
+        document.addEventListener('keydown', function (e) {
+            switch (e.key) {
+                case 'ArrowUp':
+                    console.log('위쪽 방향키');
+                    yDirection = -1;
+                    break;
+                case 'ArrowDown':
+                    console.log('아래쪽 방향키');
+                    yDirection = 1;
+                    break;
+                case 'ArrowLeft':
+                    console.log('왼쪽 방향키');
+                    xDirection = -1;
+                    break;
+                case 'ArrowRight':
+                    console.log('오른쪽 방향키');
+                    xDirection = 1;
+                    break;
+            }
+        });
 
         animate(); // 애니메이션 시작
     </script>
