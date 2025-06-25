@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>브라우저 정보</h1>
+    <div>User Agent: <span id="userAgent"></span></div>
+    <div>Language: <span id="Language"></span></div>
+    <div>onlineStatus: <span id="onlineStatus"></span></div>
+    <button id="getLocation">위치 정보 가져오기</button>
+    <script>
+        // 브라우저의 User Agent 정보를 가져와서 표시
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+
+        // 브라우저의 언어 정보를 가져와서 표시
+        document.getElementById('Language').textContent = navigator.language;
+
+        // 브라우저의 온라인 상태를 가져와서 표시
+        document.getElementById('onlineStatus').textContent = navigator.onLine;
+
+        // 위치 정보 가져오기 버튼 클릭 시 실행되는 이벤트
+        document.getElementById('getLocation').addEventListener('click', () => {
+            // 위치 정보 API를 사용하여 현재 위치를 가져옵니다.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const { latitude, longitude } = position.coords;
+                    document.getElementById('location').textContent = `위도: ${latitude}, 경도: ${longitude}`;
+
+                })
+            }
+        });
+
+    </script>
+</body>
+
+</html>

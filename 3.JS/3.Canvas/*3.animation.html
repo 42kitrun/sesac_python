@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="400px" height="300px"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');// 그림을 그릴 공간에 접근하는 포인터
+
+        let x = 50; // 사각형의 x 좌표
+        let direction = 1;
+        let speed = 5; // 사각형의 이동 속도
+
+        function draw() {
+            context.clearRect(0, 0, canvas.width, canvas.height); // 이전 프레임 전체 지우기
+
+            context.fillStyle = "red"; // 배경색
+            context.fillRect(50, 50, 50, 50);
+            x = x + speed * direction;
+
+            if (x == canvas.width - 50) { // x 좌표가 캔버스 너비를 넘어가지 않도록 조건문 추가
+                direction = -1; // 방향을 반대로 바꿈
+            } else if (x <= 50) { // x 좌표가 50 이하
+                direction = 1; // 방향을 반대로 바꿈    
+            }
+
+            requestAnimationFrame(draw); // 애니메이션을 계속 반복
+        }
+
+        draw(); // 애니메이션 시작
+    </script>
+</body>
+
+</html>

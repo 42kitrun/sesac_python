@@ -14,13 +14,24 @@
             height: 100px;
             background-color: #ffcc00;
 
-            display: flex;
+            display: block;
             align-items: center;
             justify-content: center;
             cursor: pointer;
         }
 
-        .drag_drop1 .dropZone {
+        .dropZone {
+            width: 300px;
+            height: 300px;
+            border: 2px dashed #cccc;
+            background-color: #f0f0f0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drag_drop1 .dropZone:not(:empty) {
             width: 300px;
             height: 300px;
             border: 2px dashed #cccc;
@@ -33,28 +44,21 @@
             gap: 0px
         }
 
-        .drag_drop2 .dropZone {
+        .drag_drop2 .dropZone:not(:empty) {
+            width: max-content;
+            min-width: 230px;
             height: 300px;
             border: 2px dashed #cccc;
             background-color: #f0f0f0;
 
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
 
+            padding-right: 70px;
+
         }
 
-        .drag_drop1 .dropZone:empty,
-        .drag_drop1 .dropZone:empty {
-            width: 300px;
-            height: 300px;
-            border: 2px dashed #cccc;
-            background-color: #f0f0f0;
-
-            display: flex;
-            align-items: center;
-            justify-content: center
-        }
 
         .drag_drop1 {
             display: flex;
@@ -83,6 +87,33 @@
             align-items: flex-start;
             justify-content: center;
         }
+
+        .drag_drop3 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            /* 쌓임 맥락 생성 */
+        }
+
+        .drag_drop3 .dropZone {
+            width: 200px;
+            height: 200px;
+            align-self: center;
+            /* flex 자식 정렬 */
+            z-index: 1;
+            position: relative;
+            /* z-index 적용 위해 */
+        }
+
+        .drag_drop3 .dragItem {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
     </style>
 </head>
 
@@ -104,6 +135,13 @@
                 <div class="dragItem" draggable="true" style="background-color: cyan;">Drag me</div>
                 <div class="dragItem" draggable="true" style="background-color: #D18CF8;">Drag me</div>
             </span>
+            <div class="dropZone">여기에 드롭하시오</div>
+        </div>
+        <hr>
+        <div class="drag_drop3">
+            <div class="dropZone">여기에 드롭하시오
+                <div class="dragItem" draggable="true">Drag me</div>
+            </div>
             <div class="dropZone">여기에 드롭하시오</div>
         </div>
     </body>

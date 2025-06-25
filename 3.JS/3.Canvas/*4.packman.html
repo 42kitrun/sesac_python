@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="400px" height="300px"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');// 그림을 그릴 공간에 접근하는 포인터
+
+        let x = 100; // 팩맨의 x 좌표
+        let y = 100; // 팩맨의 y 좌표
+
+        // 2. 팩맨그리기
+        function drawPacman() {
+            context.fillStyle = "yellow"; // 노란색
+            context.beginPath(); // 새로운 경로 시작
+            context.moveTo(100, 100); // 팩맨 시작점
+            const startAngle = 0.2 * Math.PI; // 대충 40도 전후
+            const endAngle = 1.8 * Math.PI; // 대충 320도 전후
+            context.arc(100, 100, 50, startAngle, endAngle); // 팩맨
+            context.fill(); // 채우기
+            context.closePath(); // 경로 닫기
+        }
+
+        function animate() {
+            context.clearRect(0, 0, canvas.width, canvas.height); // 이전 프레임 전체 지우기
+            drawPacman(); // 팩맨 그리기
+            requestAnimationFrame(draw); // 애니메이션을 계속 반복
+        }
+
+        // 미션. 이벤트를 등록해서 X,Y 좌표를 변경하고 애니메이션을 시작하세요.
+        //1. 키 누를때마다 해당 방향으로 X,Y 좌표를 내가 정한 사이즈만큼 (10) 이동한다
+        //2. 키를 누를때마다 해당 방향ㅇ로 연속적으로 이동한다
+        document.addEventListener('keydown', handleKeyDown);
+
+        function handleKeyDown(event) {
+        }
+            }
+        context.clearRect(0, 0, canvas.width, canvas.height); // 이전 프레임 전체 지우기
+        drawPacman(); // 팩맨 그리기
+        }
+
+        animate(); // 애니메이션 시작
+    </script>
+</body>
+
+</html>

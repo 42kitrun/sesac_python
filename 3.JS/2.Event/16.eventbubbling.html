@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #grandparent {
+            background-color: lightgrey;
+            padding: 50px;
+        }
+
+        #parent {
+            background-color: lightblue;
+            padding: 50px;
+        }
+
+        #child {
+            background-color: lightgreen;
+            padding: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="grandparent">
+        조상
+        <div id="parent">
+            부모
+            <div id="child">
+                자식
+            </div>
+        </div>
+        <script>
+            const grandparent = document.getElementById('grandparent');
+            const parent = document.getElementById('parent');
+            const child = document.getElementById('child');
+
+            // 이벤트 버블링: 자식 요소에서 발생한 이벤트가 부모 요소로 전파되는 현상
+            // 예를 들어, 자식 요소에서 클릭 이벤트가 발생하면 부모 요소와 조상 요소로 전파되어
+            // 각각의 클릭 이벤트 리스너가 실행됩니다.
+            // 계층 구조에 맞게... 내가 포함된 나를 포함한 부모로, 또 그 부모로 이벤트가 전달되는 현상을?? 이벤트 버블링(event bubbling)이라고 부름
+            // 조상 요소에 클릭 이벤트 리스너 추가
+            grandparent.addEventListener('click', function () {
+                alert('grandparent clicked');
+            });
+            // 부모 요소에 클릭 이벤트 리스너 추가
+            parent.addEventListener('click', function (event) {
+                alert('parent clicked');
+                event.stopPropagation(); // 이벤트 내가 해결했으니, 더이상 전파하지마..
+            });
+            // 자식 요소에 클릭 이벤트 리스너 추가      
+            child.addEventListener('click', function (event) {
+                alert('child clicked');
+                event.stopPropagation(); // 이벤트 내가 해결했으니, 더이상 전파하지마..
+            });
+        </script>
+</body>
+
+</html>
