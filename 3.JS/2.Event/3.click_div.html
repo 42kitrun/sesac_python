@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #myDiv {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            cursor: pointer;
+            /* 마우스 커서가 포인터로 변경 */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myDiv">
+        클릭하세요
+</body>
+<script>
+    // click 이벤트는 mousedown과 mouseup이 모두 발생했을 때 발생
+    // document.getElementById('myDiv').addEventListener('click', () => {
+    //     console.log('Div영역 클릭');
+    // });
+
+    // mousedown 이벤트는 마우스 버튼이 눌렸을 때 발생
+    // document.getElementById('myDiv').addEventListener('mousedown', () => {
+    //     console.log('Div영역 클릭');
+    // });
+
+    // mouseup 이벤트는 마우스 버튼이 떼어졌을 때 발생
+    // document.getElementById('myDiv').addEventListener('mouseup', () => {
+    //     console.log('Div영역 클릭');
+    // });
+
+
+    document.getElementById('myDiv').addEventListener('mouseup', (event) => {
+        console.log('Div영역 클릭 : ', event.button);
+        // 3button mouse 버튼 정보
+        // 0: 왼쪽 버튼, 1: 마우스휠, 2: 오른쪽 버튼
+
+        switch (event.button) {
+            case 0:
+                console.log('좌클릭 이벤트 발생함');
+                break;
+            case 1:
+                console.log('중간(휠) 버튼 이벤트 클릭됨');
+                break;
+            case 2:
+                console.log('우클릭 이벤트 발생함');
+                break;
+            default:
+                console.log('그외버튼 아몰랑');
+        }
+    });
+
+    document.getElementById('myDiv').addEventListener('dblclick', (event) => {
+        console.log('Div영역 클릭 : ', event.button);
+
+    }
+    );
+</script>
+
+</html>

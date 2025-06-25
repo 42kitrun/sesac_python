@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #dragItem {
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc00;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            /* 드래그 아이템과 드롭 영역 사이의 여백 */
+        }
+
+        #dropZone {
+            width: 300px;
+            height: 300px;
+            border: 2px dashed #cccc;
+            background-color: #f0f0f0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="dragItem" draggable="true">드래그하시오</div>
+    <div id="dropZone">여기에 드롭하시오</div>
+
+    <script>
+        const dragItem = document.getElementById('dragItem');
+        const dropZone = document.getElementById('dropZone');
+
+        dragItem.addEventListener('dragstart', function () {
+            console.log('드래그 시작됨');
+        });
+
+        dropZone.addEventListener('dragover', function (event) {
+            // 기본 동작을 막아야 드롭이 가능함
+            event.preventDefault();
+            console.log('여기에 뭔가 올라옴');
+        });
+
+        dropZone.addEventListener('drop', function () {
+            console.log('여기에 놨음');
+            dropZone.appendChild(dragItem);
+            // 위에 DOM을 잡아다가 여기 아래에 넣어줌
+        });
+    </script>
+</body>
+
+</html>

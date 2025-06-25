@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <script src='js/calculator.js' defer></script>
+    <link rel="icon" href="data:,"> <!-- 파비콘 제거 -->
+
     <title>Calculator</title>
     <style>
         .calculator {
@@ -25,9 +27,8 @@
             text-align: right;
         }
 
-        .calculator input:focus {
-            outline: none;
-            border-color: #007bff;
+        .calculator input::placeholder {
+            color: black;
         }
 
         .calculator button {
@@ -39,17 +40,6 @@
         .calculator button:hover {
             background-color: #007bff;
             color: white;
-        }
-
-        .calculator button:active {
-            background-color: #0056b3;
-            color: white;
-        }
-
-        .calculator button:disabled {
-            background-color: #ccc;
-            color: #666;
-            cursor: not-allowed;
         }
     </style>
 </head>

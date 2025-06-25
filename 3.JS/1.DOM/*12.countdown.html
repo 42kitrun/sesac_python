@@ -13,6 +13,8 @@
     <p id='timerDisplay'><!--  카운팅을 표시할 곳--></p>
 
     <script>
+        let time; // <-- undefined로 초기화
+
         function startTimer() {
             const timeInputValue = document.getElementById('timeInput').value;
             const timerDisplay = document.getElementById('timerDisplay');

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #myDiv {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            cursor: pointer;
+            /* 마우스 커서가 포인터로 변경 */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myDiv">
+</body>
+<script>
+    const myDiv = document.getElementById('myDiv');
+
+    myDiv.addEventListener('mouseover', function () {
+        console.log('마우스가 올라갔음');
+        // myDiv.style.backgroundColor = 'lightgreen'
+        this.style.backgroundColor = 'lightgreen';
+        // this는 이벤트가 발생한 요소를 가리킴
+
+    });
+
+    myDiv.addEventListener('mouseout', () => { // (화살표 함수는) ES6 = 2015년도에 등장
+        console.log('마우스가 나갔음');
+        myDiv.style.backgroundColor = 'lightblue';
+        //this.style.backgroundColor = 'lightblue'; 안됨
+    });
+
+    myDiv.addEventListener('mousemove', (ev) => {
+        console.log(`마우스가 움직임 X=${ev.clientX}, Y=${ev.clientY}`);
+    });
+</script>
+
+</html>
