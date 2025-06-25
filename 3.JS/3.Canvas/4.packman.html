@@ -18,32 +18,41 @@
         const canvas = document.getElementById('myCanvas');
         const context = canvas.getContext('2d');// 그림을 그릴 공간에 접근하는 포인터
 
-        let x = 30; // 팩맨의 x 좌표
-        let y = 30; // 팩맨의 y 좌표
+        let x = 30; // 팩맨의 시작 x 좌표
+        let y = 30; // 팩맨의 시작 y 좌표
         let xDirection = 1; // 팩맨의 x 방향
         let yDirection = 1; // 팩맨의 y 방향
-        let speed = 0.5; // 팩맨의 이동 속도
+        let speed = 5; // 팩맨의 이동 속도
         const radius = 30; // 팩맨의 크기
 
         // 2. 팩맨그리기
         function drawPacman() {
             // 팩맨의 좌표 설정
-            if (x < radius) {
-                x = radius;
-                y = y;
-            } else if (x > canvas.width - radius) {
-                x = canvas.width - radius;
-                y = y;
-            } else if (y < radius) {
-                x = x;
-                y = radius;
-            } else if (x > canvas.height - radius) {
-                x = x;
-                y = canvas.height - radius;
-            } else {
-                x = x + speed * xDirection;
-                y = y + speed * yDirection;
-            };
+            x += speed * xDirection;
+            y += speed * yDirection;
+
+            x = Math.max(radius, Math.min(x, canvas.width - radius));
+            y = Math.max(radius, Math.min(y, canvas.height - radius));
+
+            // 경계에 닿았는지 확인 : 방향키를 누르면 다시 움직임
+            if (x <= radius || x >= canvas.width - radius) {
+                xDirection = 0;
+                yDirection = 0;
+
+            }
+            if (y <= radius || y >= canvas.height - radius) {
+                xDirection = 0;
+                yDirection = 0;
+            }
+
+            // 경계를 넘지 않을 때만 이동 : 방향키를 눌러도 다시 움직이지 않음
+            // if (newX >= radius && newX <= canvas.width - radius) {
+            //     x = newX;
+            // }
+            // if (newY >= radius && newY <= canvas.height - radius) {
+            //     y = newY;
+            // }
+
 
             context.fillStyle = "yellow"; // 노란색
             context.beginPath(); // 새로운 경로 시작
