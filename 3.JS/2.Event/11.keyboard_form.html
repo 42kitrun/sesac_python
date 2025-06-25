@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="myForm" action="/submit" method="post">
+        <textarea id="myTextarea" rows="10" cols="30"></textarea>
+        <br>
+        <button type="submit">제출</button>
+    </form>
+    <script>
+        document.getElementById('myTextarea').addEventListener('keydown', function (e) {
+            // 특정 키를 눌렀을 때의 동작 예시
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault(); // Enter 키의 기본 동작(줄바꿈)을 막음
+                console.log('컨트롤 엔터 감지');
+                document.getElementById('myForm').submit(); // 폼 제출
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- initial-scale=1.0  -->
+</head>
+
+<body>
+    <h3>창 사이즈를 변경해 보시오</h3>
+    <script>
+        // 창 사이즈가 변경될 때마다 실행되는 이벤트
+        window.addEventListener('resize', function () {
+            console.log('창 사이즈가 바뀌는 중');
+            // 현재 창의 너비와 높이를 출력
+            const iwidth = window.innerWidth; // 스크롤바 제외한 안쪽 영역
+            const owidth = window.outerWidth; // 스크롤바 포함한 바깥쪽 영역
+
+            const iheight = window.innerHeight; // 스크롤바 제외한 안쪽 영역
+            const oheight = window.outerHeight; // 스크롤바 포함한 바깥쪽 영역
+
+            const screenWidth = screen.width; // 화면의 너비
+            const screenHeight = screen.height; // 화면의 높이
+
+            console.log(`화면 크기: ${screenWidth} x ${screenHeight}`);
+            console.log(`안쪽크기: ${iwidth} x ${iheight}, 바깥쪽크기: ${owidth} x ${oheight}`);
+        });
+
+        // 창이 로드될 때 실행되는 이벤트
+        window.addEventListener('load', function () {
+            console.log('창이 로드됨');
+            console.log(`초기 창 크기: ${window.innerWidth} x ${window.innerHeight}`);
+        });
+    </script>
+
+</body>
