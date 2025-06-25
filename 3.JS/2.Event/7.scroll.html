@@ -6,8 +6,8 @@
     <title>Document</title>
     <style>
         #context {
-            height: 3000px;
-            background-color: linear-gradient(to bottom, lightblue, lightgreen);
+            height: 2000px;
+            background: linear-gradient(to bottom, blue 0%, red 100%)
         }
     </style>
 </head>
@@ -15,15 +15,16 @@
 <body>
     <div id="context"></div>
     <script>
-        window.addEventListener('scroll', function (e) {
+        window.addEventListener('scroll', function () {
             console.log('페이지 스크롤됨');
 
             // const scrollPosition = window.pageYOffset; // Y축 스크롤 위치
             // const scrollPosition = document.documentElement.scrollTop; // Y축 스크롤 위치
+
+            // 실무적으로는 이거거나 저거거나 할때 || <-- or 를 통해서 가져옴
+            // 이때 왼쪽에 있는것이 먼저 할당됨.
             const scrollPosition = window.pageYOffset || document.documentElement.scrollTop; // Y축 스크롤 위치
-            // 실무적으로는 이거거나 저거거나 할때 || <-- or를 통해서 가져옴
-            // 이때 왼쪽에 있는 것이 먼저 할당됨.
-            console.log(`guswo 스크롤qk 위치: ${scrollPosition}`);
+            console.log(`현재 스크롤바 위치: ${scrollPosition}`);
         });
     </script>
 </body>

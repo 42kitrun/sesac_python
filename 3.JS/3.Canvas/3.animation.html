@@ -20,19 +20,19 @@
 
         let x = 50; // 사각형의 x 좌표
         let direction = 1;
-        let speed = 5; // 사각형의 이동 속도
+        let speed = 3; // 사각형의 이동 속도
 
         function draw() {
             context.clearRect(0, 0, canvas.width, canvas.height); // 이전 프레임 전체 지우기
 
             context.fillStyle = "red"; // 배경색
-            context.fillRect(50, 50, 50, 50);
+            context.fillRect(x, 50, 50, 50);
             x = x + speed * direction;
 
-            if (x == canvas.width - 50) { // x 좌표가 캔버스 너비를 넘어가지 않도록 조건문 추가
-                direction = -1; // 방향을 반대로 바꿈
-            } else if (x <= 50) { // x 좌표가 50 이하
-                direction = 1; // 방향을 반대로 바꿈    
+            if (x == canvas.width - 50) {
+                direction = -1;
+            } else if (x == 0) {
+                direction = 1;
             }
 
             requestAnimationFrame(draw); // 애니메이션을 계속 반복
