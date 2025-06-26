@@ -7,6 +7,7 @@
     <title>Document</title>
     <style>
         body {
+            background-color: #F0F0F0;
             height: 100vh;
             margin: 0;
             display: flex;
@@ -16,11 +17,28 @@
         }
 
         .border {
-            width: 700px;
+            height: 350px;
+            width: 600px;
             background-color: white;
             border: 1px solid white;
-            border-radius: 6px;
+            border-radius: 40px;
             box-shadow: 0px 0px 20px 3px grey;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #displayTimer {
+            height: 170px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 100px;
+            padding: 0px;
+            margin: 0px;
         }
 
         button {
@@ -38,7 +56,7 @@
 
 <body>
     <div class="border">
-        <div id="display"><!-- 초시계 화면 --></div>
+        <div id="displayTimer"><!-- 초시계 화면 --></div>
         <div class="btnGrp">
             <button id="start">Start</button>
             <button id="stop">Stop</button>
@@ -46,7 +64,58 @@
         </div>
     </div>
     <script>
-        const display = document.getElementById('display');
+        const display = document.getElementById('displayTimer');
+        const startBtn = document.getElementById('start');
+        const stopBtn = document.getElementById('stop');
+        const resetBtn = document.getElementById('reset');
+
+        let time = 0;
+        let timerId;
+
+        display.textContent = displayTime(time);
+        startBtn.disabled = false;// 버튼 비활성화 하기
+        stopBtn.disabled = true;// 버튼 비활성화 하기
+
+        startBtn.addEventListener('click', startTimer);
+        stopBtn.addEventListener('click', stopTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        function displayTime(timeValue) {
+            const ms = String(timeValue % 100).padStart(2, '0');
+            const s = Math.floor(timeValue / 100);
+            const second = String(s % 60).padStart(2, '0');
+            const minute = String(Math.floor(s / 60)).padStart(2, '0');
+
+            return `${minute}:${second}.${ms}`
+
+        }
+
+        function startTimer() {
+            timerId = setInterval(countup, 10);// 10ms 즉, 0.01초
+            startBtn.disabled = true;// 버튼 비활성화 하기
+            stopBtn.disabled = false;// 버튼 비활성화 하기
+        }
+        function stopTimer() {
+            clearInterval(timerId);
+            display.textContent = displayTime(time);
+            startBtn.disabled = false;// 버튼 비활성화 하기
+            stopBtn.disabled = true;// 버튼 비활성화 하기
+
+        }
+        function resetTimer() {
+            clearInterval(timerId);
+            time = 0;
+            display.textContent = displayTime(time);
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
+
+        function countup() {
+            time++;
+            display.textContent = displayTime(time);
+        }
+
+
 
     </script>
 </body>
