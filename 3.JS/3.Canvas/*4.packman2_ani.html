@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        canvas {
+            border: 1px solid white;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="400px" height="300px"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');// 그림을 그릴 공간에 접근하는 포인터
+
+        //팩맨 모양제어
+        const radius = 30; // 팩맨의 크기
+
+        // 움직임제어
+        let x = 200; // 팩맨의 시작 x 좌표
+        let y = 200; // 팩맨의 시작 y 좌표
+
+        let directionX = 0; // 팩맨의 x 방향
+        let directionY = 0; // 팩맨의 y 방향
+        let moveSpeed = 5; // 팩맨의 이동 속도
+
+        // 입모양 제어
+        let startAngle = 0.2 * Math.PI; // 36도
+        let endAngle = 1.8 * Math.PI; // 324도
+        // let startAngle = 1.2 * Math.PI; // 36도
+        // let endAngle = 0.8 * Math.PI; // 324도
+
+
+        let mouthDirection = 1;
+        const mouthSpeed = 0.01;
+
+        // 2. 팩맨그리기
+        function drawPacman() {
+
+            context.fillStyle = "yellow"; // 노란색
+            context.beginPath(); // 새로운 경로 시작
+            context.moveTo(x, y); // 팩맨 시작점
+            context.arc(x, y, radius, startAngle, endAngle); // 팩맨
+            context.fill(); // 채우기
+            context.closePath(); // 경로 닫기
+
+        }
+
+        function updateAngles() {
+
+            if (startAngle >= 0.5) {
+                mouthDirection = -1;
+            } else if (startAngle <= 0.1) {
+                mouthDirection = 1;
+            }
+
+            startAngle += mouthSpeed * mouthDirection;
+            endAngle -= mouthSpeed * mouthDirection;;
+        }
+
+        function movePacman() {
+            // 팩맨의 좌표 설정
+            //계속 움직임
+            x += moveSpeed * directionX;
+            y += moveSpeed * directionY;
+
+            // 한칸씩 움직임
+
+
+            x = Math.max(radius, Math.min(x, canvas.width - radius));
+            y = Math.max(radius, Math.min(y, canvas.height - radius));
+
+            // 경계에 닿았는지 확인 : 방향키를 누르면 다시 움직임
+            if (x <= radius || x >= canvas.width - radius) {
+                directionX = 0;
+                directionY = 0;
+
+            }
+            if (y <= radius || y >= canvas.height - radius) {
+                directionX = 0;
+                directionY = 0;
+            }
+
+            // 경계를 넘지 않을 때만 이동 : 방향키를 눌러도 다시 움직이지 않음
+            // if (newX >= radius && newX <= canvas.width - radius) {
+            //     x = newX;
+            // }
+            // if (newY >= radius && newY <= canvas.height - radius) {
+            //     y = newY;
+            // }
+        }
+
+        function drawFood() {
+            //나중에는 랜덤 위치에 음식을 생성한다.
+            //화면 안에 있는 음식 갯수가 0이 되었을떄
+            //for문으로 해서 3개를 그린다
+
+            context.beginPath(); // 새로운 경로 시작
+            context.moveTo(100, 300); // 팩맨 시작점
+            context.arc(100, 300, 1, 0, 2 * Math.PI); // 팩맨
+            context.fill(); // 채우기
+            context.closePath(); // 경로 닫기
+
+        }
+
+        function animate() {
+            context.clearRect(0, 0, canvas.width, canvas.height); // 이전 프레임 전체 지우기
+
+            drawPacman(); // 팩맨 그리기
+            drawFood(); // 먹이 그리기
+            updateAngles(); //팩맨의 입설정
+            movePacman();
+            checkPacmanFoodPosition();
+            requestAnimationFrame(animate); // 애니메이션을 계속 반복
+        }
+
+        // 미션. 이벤트를 등록해서 X,Y 좌표를 변경하고 애니메이션을 시작하세요.
+        //1. 키 누를때마다 해당 방향으로 X,Y 좌표를 내가 정한 사이즈만큼 (10) 이동한다
+        //2. 키를 누를때마다 해당 방향으로 연속적으로 이동한다
+        document.addEventListener('keydown', function (e) {
+            //console.log('현재 눌린 키 : ',e.key)
+
+            switch (e.key) {
+                case 'ArrowUp':
+                    console.log('위쪽 방향키');
+                    directionX = 0;
+                    directionY = -1;
+                    break;
+                case 'ArrowDown':
+                    console.log('아래쪽 방향키');
+                    directionX = 0;
+                    directionY = 1;
+                    break;
+                case 'ArrowLeft':
+                    console.log('왼쪽 방향키');
+                    directionX = -1;
+                    directionY = 0;
+                    break;
+                case 'ArrowRight':
+                    console.log('오른쪽 방향키');
+                    directionX = 1;
+                    directionY = 0;
+                    break;
+            }
+        });
+
+        animate(); // 애니메이션 시작
+    </script>
+</body>
+
+</html>
