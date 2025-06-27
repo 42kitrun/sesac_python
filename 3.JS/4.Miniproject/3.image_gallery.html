@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #rawPicture {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 50px;
+            margin-top: 30px;
+        }
+
+        #rawPicture>img {
+            scale: 1.2;
+        }
+
+        .imgFrame {
+            width: 250px;
+            height: 250px;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .imgGroup {
+            object-fit: cover;
+            position: relative;
+            left: 0px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            transition-property: left;
+            /*속성들을 잘~ 골라야함*/
+            transition-duration: 2.5s;
+            /* 0.5초 */
+            transition-timing-function: ease;
+            /* ease-in, ease-out, ease-in-out */
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        label>img {
+            height: 200px;
+            width: 250px;
+        }
+
+        .btnGroup {
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+
+        button {
+            box-sizing: border-box;
+            height: 40px;
+            width: 100px;
+            padding: 10px;
+            font-size: 20px;
+            border: 1px solid #ccc;
+            vertical-align: top;
+            margin: 0px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image Gallery</h1>
+    <div id='rawPicture'>아래 이미지를 클릭하면 원본사진을 보실수 있습니다<br />👇👇👇👇👇👇👇👇👇👇</div>
+    <div class="imgFrame">
+        <div class="imgGroup">
+            <label>
+                <img src="img/cat1.jpeg" alt="고양이 사진1" />
+                cat1.jpeg
+            </label>
+            <label>
+                <img src="img/cat2.jpeg" alt="고양이 사진2" />
+                cat2.jpeg
+            </label>
+            <label>
+                <img src="img/cat3.jpeg" alt="고양이 사진3" />
+                cat3.jpeg
+            </label>
+        </div>
+    </div>
+    <div class="btnGroup">
+        <button id="prev">Previous</button>
+        <button id="next">Next</button>
+    </div>
+    <script>
+        const imgGroup = document.querySelector('.imgGroup');
+        const imgs = document.querySelectorAll('img')
+        const btnPrev = document.getElementById('prev');
+        const btnNext = document.getElementById('next');
+        imgGroup.style.left = '0px'
+
+        btnPrev.addEventListener('click', function () {
+            let leftValue = Number(imgGroup.style.left.slice(0, -2));
+            if (leftValue > 240) return;
+            imgGroup.style.left = `${leftValue + 250}px`;
+        });
+
+        btnNext.addEventListener('click', function () {
+            let leftValue = Number(imgGroup.style.left.slice(0, -2));
+            if (leftValue < -240) return;
+            imgGroup.style.left = `${leftValue - 250}px`;
+        });
+
+        imgs.forEach(function (img) {
+            img.addEventListener('click', function () {
+                const rawPicture = document.getElementById('rawPicture');
+                if (rawPicture.querySelectorAll('img').length > 0) {
+                    rawPicture.removeChild(rawPicture.querySelector('img'));
+                }
+
+                const rawImg = document.createElement('img');
+                rawImg.setAttribute('src', img.getAttribute('src'));
+                rawImg.setAttribute('alt', img.getAttribute('alt'));
+
+                rawPicture.insertBefore(rawImg, rawPicture.firstChild);
+            })
+        })
+
+
+    </script>
+
+</body>
+
+</html>

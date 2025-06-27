@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Stop Watch</title>
     <style>
         body {
             background-color: #F0F0F0;
@@ -103,6 +103,10 @@
 
         }
         function resetTimer() {
+            // timerId는 clearInterval로 멈추기만 하면 됩니다.
+            // clearInterval(timerId);로 멈추고 
+            // time값을 0에서 다시 setInterval(countup, 10);로 countup하는 스탑워치입니다.
+            // 중요한 것은 time 값을 0으로 초기화하는 것!
             clearInterval(timerId);
             time = 0;
             display.textContent = displayTime(time);
