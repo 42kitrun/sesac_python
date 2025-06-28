@@ -31,14 +31,14 @@ print(user1)
 # print= 'hello, print'
 # for = 5
 
-print(user1.keys()) # 모든 키
-print(user1.values()) # 모든 값만
-print(user1.items()) # 키-값 쌍으로 출력
+print(user1.keys())   # 모든 키
+print(user1.values())  # 모든 값만
+print(user1.items())  # 키-값 쌍으로 출력
 
 user_items = user1.items()
 useritem_list = list(user_items)
 print(useritem_list)
-print(user_items[1])
+print(useritem_list[1])
 
 # 리스트와, 튜플과, 딕셔너리를 구분할줄 알고, 자유롭게 다룰줄 알면 됨...
 # [], (), {}
