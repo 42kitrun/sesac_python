@@ -9,12 +9,12 @@ print(type(z))
 # print(y.upper()) # 각각의 변수 타입은 클래스로 만들어져 있고, 그 안에 있는 함수를 통해서 세부 클래스의 함수들이 동작한다.
 # print(x.upper())
 
-print(isinstance(x, int))  # x는 int로 만들어진거야?
-print(isinstance(y, int))  # y는 int로 만들어진거야??
-print(isinstance(y, str))  # y는 str로 만들어진거야??
+print(isinstance(x, int))  # x는 int로 만들어진거야? True
+print(isinstance(y, int))  # y는 int로 만들어진거야?? False
+print(isinstance(y, str))  # y는 str로 만들어진거야?? True
 
-print(isinstance(x, (int, float))) # x는 int나 float로 만들어진거야?
-print(isinstance(y, (str, list))) # x는 int나 float로 만들어진거야?
+print(isinstance(x, (int, float))) # x는 int나 float로 만들어진거야? True
+print(isinstance(y, (str, list))) # x는 int나 float로 만들어진거야? True
 
 print('-' * 10)
 
