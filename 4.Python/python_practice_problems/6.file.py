@@ -31,9 +31,19 @@ with open('4.Python/python_practice_problems/postcard.txt','r') as f:
 # 글자가 안 이어져. 내가 이겼다!<끝>
 # 모르겠다. 내가 졌어.<끝>
 # 아까 했던 말이야. 내가 이겼어!<끝>
-
 history = set()
 words = []
+doum = {'냑':'약','략':'약','냥':'양','량':'양','녀':'여','려':'여'
+        ,'녁':'역','력':'역','년':'연','련':'연','녈':'열','렬':'열'
+        ,'념':'염','렴':'염','녕':'영','령':'영','녜':'예','례':'예'
+        ,'뇨':'요','료':'요','뉴':'유','류':'유','뉵':'육','륙':'육'
+        ,'니':'이','리':'이','라':'나','락':'낙','란':'난','란':'난'
+        ,'랄':'날','람':'남','랍':'납','랑':'낭','래':'내','랭':'냉'
+        ,'렵':'엽','로':'노','록':'녹','론':'논','롱':'농','뢰':'뇌'
+        ,'룡':'용','루':'누','륜':'윤','률':'율','륭':'융','륵':'늑'
+        ,'름':'늠','릉':'능','린':'인','림':'임','립':'입'
+        ,}
+
 with open('4.Python/python_practice_problems/korean_words.txt','r') as f:
     words = list(map(lambda x : x.strip(),f.readlines()))
 
@@ -53,8 +63,10 @@ def words_game():
         if input_word == '졌어':
             print('내가 이겼어!<끝>')
             return
+        elif  doum[word[-1]] == input_word[0]:
+            pass
         elif input_word in history:
-            print('아까 했던 말이야. 내가 이겼자동어!<끝>')
+            print('아까 했던 말이야. 내가 이겼어!<끝>')
             return
         elif not input_word.startswith(word[-1]):
             print(f'글자가 안 이어져. 내가 이겼어!<끝>')
@@ -106,8 +118,11 @@ def en_quiz():
 
 ## 6.3.1 연습 문제: 애국가
 with open('4.Python/python_practice_problems/out.txt','w',) as f:
-    writer = f.write()
+    for num in range(1,5):
+        with open(f'4.Python/python_practice_problems/korean_national_anthem_{num}.txt','r', encoding='cp949') as song:
+            f.write(f'korean_national_anthem_{num}.txt\n')
+            f.write('-'*28+'\n')
+            f.write(song.read()+'\n\n')
 
 
-with open('4.Python/python_practice_problems/ko_en.txt','r', encoding='cp949') as f:
-    sentence = list(map(lambda x : x.strip(),f.readlines()))
+
