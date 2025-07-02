@@ -34,4 +34,4 @@ class ItemGenerator:
           , (UUID('d1ba8153-b7fd-4cc3-93e8-b4b2f033d727'), 'Hand-Drip', '파나마 호세 게이샤(Panama Jose Geisha)', '10000')]
         '''
 
-print(ItemGenerator().generate_item())        
+# print(ItemGenerator().generate_item())        
