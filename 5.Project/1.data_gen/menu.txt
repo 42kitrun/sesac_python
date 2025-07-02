@@ -1,0 +1,55 @@
+Hand-Drip,코스타리카 엘 세드로(Costa Rica C.O.E Winner El Cedro),12000
+Hand-Drip,파나마 호세 게이샤(Panama Jose Geisha),10000
+Hand-Drip,에티오피아 구지 함벨라 내추럴(Ethiopia Guji Hambela Natural),6000
+Hand-Drip,에티오피아 시다모 하마쇼(Ethiopia Sidamo Hamasho),6000
+Hand-Drip,르완다 저스틴(Rwanda Justin),6000
+Hand-Drip,과테말라 아우렐리오II(Guatemala Aurelioll),6000
+Hand-Drip,온두라스 마리&모이(Honduras Mary&Moi),6000
+Hand-Drip,페루 코프밤(Peru Coopbam),6000
+Hand-Drip,브라질 실비오(Bratil Silvio),5500
+Hand-Drip,강릉 블렌드(Gangneung Blend),6000
+Hand-Drip,윈터 솔스티스 블렌드(Winter Solstice Blend),6000
+Espresso Variation,아메리카노 어센틱(Americano Authentic),5500
+Espresso Variation,카페라테(Caffè Latte),5500
+Espresso Variation,카푸치노(Cappuccino),5000
+Espresso Variation,에스프레소 마키아토(Espresso Macchiatto),5000
+Espresso Variation,에스프레소 더블(Espresso Double),5000
+House Beverage,하우스 주스 제주 감귤로 착즙한(Jeju Mandarin Juice),7000
+House Beverage,베네수엘라 초콜릿(Venezuelan Chocolate),6000
+House Beverage,우유(Milk),3000
+Tea,그릭 세이지(Greek Sage),5000
+Tea,카카오 티(Cacao Tea),5000
+Tea,실론 시나몬 티(Ceyion Cinnamon Tea),5000
+Tea,어센틱 허브티(Authentic Herbal Tea),5000
+Bakery,바타르(Batard),8000
+Bakery,검은깨 바타르(Black Sesame Batard),10000
+Bakery,통밀 100%(Whole Wheat 100%),10000
+Bakery,통밀 고다치즈 깜파뉴(Whole Wheat Gouda Cheese Campagne),13000
+Bakery,앉은뱅이밀 바게트(Traditional Baguette),4000
+Bakery,에멘탈 치즈 바게트(Emmental Cheese Baguette),5000
+Bakery,치아바타(Ciabatta),3000
+Bakery,치즈 치아바타(Cheese Ciabatta),4000
+Bakery,크루아상(Croissant),3800
+Bakery,뺑오쇼콜라(Pain au Chocolat),4200
+Bakery,팥앙금빵(Red Bean Bread),3500
+Bakery,오디 크림치즈(Mulberry Cream Cheese),7000
+Bakery,초코 브리오슈(Choco Brioche),8000
+Bakery,크루아상 샌드위치(Croissant Sandwich),8500
+Bakery,퀸 아망(Kouign-Amann),4500
+Desert,까눌레(Canelé),3800
+Desert,초콜릿 바(Chocolate Bar),4000
+Desert,판나코타(Panna Cotta),7000
+Desert,티라미수(Tiramisu),6000
+Desert,휘낭시에 트리오(Financier Trio),7000
+Desert,초코칩 쿠키(Choco Chip Cookie),3200
+Desert,흑임자 쿠키(Black Sesame Cookie),3200
+Desert,녹차 쿠키(Green Tea Cookie),3200
+Desert,레몬 치즈 케이크(Lemon Cheese Cake),6000
+Desert,아메리칸 피칸 파이(American Pecan Pie),6000
+Desert,프레시 레몬 케이크(Fresh Lemon Cake),4500
+Desert,로열 얼그레이 케이크(Royal Barl Grey Cake),4500
+Desert,피스타치오 & 유자 쿠키(Pistacchio & Yuja Cookie),3200
+Desert,플레인 마들렌(Plain Madeleine),3800
+Desert,라즈베리 마들렌(Raspberry Madeleine),4300
+Desert,유자 마들렌(Yujs Madeleine),4300
+Desert,커피 캐러멜 마들렌(Coffce Caramel Madeleine),4300

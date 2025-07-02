@@ -1,12 +1,11 @@
 from animal import Animal
 
 class Cat(Animal):
-    # def __init__(self, name): # 필요시(자식 클래스에서 따로 세팅값을 주고 싶으면) 활성화
+    # def __init__(self, name):
     #     super.__init__(name)
-    sound = "Meow"
         
-    # def speak(self) -> None:
-    #     print(f"{self._name} 는 Meow~ 라고 합니다")
+    def speak(self) -> None:
+        print(f"{self._name} 는 Meow~ 라고 합니다")
     
     def move(self) -> None:
         if self._energy > 0:

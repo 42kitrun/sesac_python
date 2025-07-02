@@ -1,28 +1,16 @@
 from animal import Animal
 
 class Dog(Animal):
-    sound = 'Woof'
-
-    def __init__(self,name):
-        super().__init__(name)
-        self._speak = 'Woof'
-        self._shrink_energy = 10
-
-        # 초중급까지는 잘 안씀
-    def __str__(self): # 이 객체를 사람들이 보기 좋게 표현하는 함수
-        return f'''Dog
-          name : {self._name}
-         speak : {self._speak}
-        energy : {self._energy}'''
-
+    sound = "Woof"
+    # def __init__(self, name): #필요시(자식 클래스에서 따로 세팅값을 주고 싶으면) 활성화
+    #     super.__init__(name)
+        
     # def speak(self) -> None:
-    #     print(self._speak)
-
-    def move(self,count=1):
-        if self._energy <= 0:
-            print('에너지가 없습니다. 움직일 수 없습니다')
-            return
+    #     print(f"{self._name} 는 Woof~ 라고 합니다")
+    
+    def move(self) -> None:
+        if self._energy > 0:
+            self._energy -= 10
+            print(f"{self._name} 은 걷고 있습니다. 잔여 에너지: {self._energy}")
         else:
-            print(f'{self._name}이 {count}번 움직입니다. 에너지가 {self._shrink_energy*count} 감소합니다.')
-            self._energy -= self._shrink_energy*count
-            print(f'{self._name}의 에너지가 {self._energy} 남았습니다.')
+            print(f"{self._name} 은 에너지가 다 소진되어 움직일수 없습니다.")

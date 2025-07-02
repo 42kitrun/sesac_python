@@ -1,21 +1,54 @@
+from generators.id_generator import IdGenerator
 from generators.name_generator import NameGenerator
 from generators.birthdate_generator import BirthdateGenerator
 from generators.gender_generator import GenderGenerator
 from generators.address_generator import AddressGenerator
 
+from datetime import datetime, date
+
+
+
 class UserGenerator:
     def __init__(self):
-        self.name_gen = NameGenerator('names.txt')
-        self.bday_gen = BirthdateGenerator()
+        self.__uuid_history = set()
+
+        self.id_gen = IdGenerator()
+        self.name_gen = NameGenerator('5.Project/1.data_gen/names.txt')
         self.gender_gen = GenderGenerator()
-        self.address_gen = AddressGenerator('cities.txt')
+        # self.age
+        self.bday_gen = BirthdateGenerator()
+        self.address_gen = AddressGenerator('5.Project/1.data_gen/address_data.txt')
+    
+    @property
+    def uuid_history(self):
+        return self.__uuid_history
         
-    def generate_user(self, count):
+    def calculate_age(self, bday:str) -> int:
+        '나이를 구하는 함수'
+        # int : 소수점 버림
+        return int((date.today() - datetime.strptime(bday, '%Y-%m-%d').date()).days/365.25) #지구가 태양을 한 바퀴 도는 공전 주기 대략 365.25
+        
+    def generate_user(self, count:int)->list:
         users = []
         for _ in range(count):
-            name = self.name_gen.generate_name()
-            bday = self.bday_gen.generate_birthdate()
+            id = self.id_gen.generate_id()  # uuid는 16바이트로 고정! if 문자열로 변환하면 일반적으로 32~36바이트(하이픈 포함)
+            while id in self.__uuid_history:# 무작위 생성이므로 중복 발생할 가능성 염두
+                id = self.id_gen.generate_id()
+            self.__uuid_history.add(id)
+            '''uuid로 보관하다가 사용시 문자열로 변환 안해도됨 :)
+               문자열 <-> uuid 객체로 변환 str(uuid) <-> uuid.UUID(uuid_str)
+            ''' 
+
             gender = self.gender_gen.generate_gender()
+            bday = self.bday_gen.generate_birthdate()
+            dic_name = self.name_gen.generate_name() # gender와 bday에 따른 작명
+            name = dic_name['sung'] + dic_name[f'{gender[0].lower()}_{bday[:3]}0']
+            age = self.calculate_age(bday) # bday에 따른 나이 계산
             address = self.address_gen.generate_address()
-            users.append((name, bday, gender, address))
+            users.append((id, name, gender, age, bday, address))
         return users
+        '''[(UUID('48827553-1399-4488-9c1c-a667f6255788'), '구도준', 'Male', 1, '2023-11-16', '서울특별시 담양군 신남안길187번길 231')
+          , (UUID('d1c52ffa-2b99-47e3-ae0a-d52012dd15fd'), '여서라', 'Female', 34, '1991-06-16', '경상남도 남양주시 선감로 196')]
+        '''
+
+# print(UserGenerator().generate_user(2))        

@@ -1,22 +1,23 @@
 class Person:
-    def __init__(self, name: str, age: int) -> None:
-        self._name: str = name
-        self._age: int = age
+    def __init__(self, name, age):
+        self._name = name
+        self._age = age
     
     @property
-    def name(self) -> str:
+    def name(self):
         return self._name
 
     @name.setter
-    def name(self, name: str):
+    def name(self, name):
         self._name = name
     
     @property
-    def age(self) -> int:
+    def age(self):
         return self._age
     
+    
     @age.setter
-    def age(self, age: int) -> None:
+    def age(self, age):
         if age >= 0:
             self._age = age
         else:

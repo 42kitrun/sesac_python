@@ -1,15 +1,22 @@
 import sys
+import csv
 from generators.user_generator import UserGenerator
 
 class DisplayData(UserGenerator):
+
     def print_console(self, count):
         data = self.generate_user(count)
-        for name, birthdate, gender, address in data:
-            print(f"Name: {name}\nBirthdate: {birthdate}\nGender: {gender}\nAddress: {address}\n")
+        for id, name, gender, age, bday, address in data:
+            print(f"id: {id} Name: {name} Gender: {gender} age: {age}  Birthdate: {bday}  Address: {address}")
 
     def print_csv(self, count):
         data = self.generate_user(count)
-        # data 를 가지고 csv에 저장한다
+        with open('5.Project/1.data_gen/user.csv', 'w') as file:
+            csv_writer = csv.writer(file)
+            
+            csv_writer.writerow(['Id', 'Name', 'Gender', 'Age', 'Birthdate', 'Address'])
+            csv_writer.writerows(data)
+            
         print(f"CSV 파일에 저장 완료")
 
 # 최종 실행
