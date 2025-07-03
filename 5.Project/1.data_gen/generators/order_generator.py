@@ -5,6 +5,7 @@ from random import randint
 
 class OrderGenerator:
     def __init__(self):
+        self.__header = ['Id','OrderAt','StoreId','UserId']
         self.id_gen = IdGenerator()
     
     def generate_order(self,count):

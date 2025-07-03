@@ -6,22 +6,15 @@ from order_item_generator import OrderItemGenerator
 
             
 def generate_data(_type, count):
-    data = []
-
-    if _type == 'user':
-        data = UserGenerator().generate_user(count)
-    elif _type == 'store':
-        data = StoreGenerator().generate_store(count)
-    elif _type == 'item':
-        data = ItemGenerator().generate_item(count) # default 값은 0이고 전체 메뉴를 가져온다
-    elif _type == 'order':
-        data = OrderGenerator().generate_order(count)
-    elif _type == 'orderitem':
-        data = OrderItemGenerator().generate_order_items(count)
-    else:
-        raise Exception('유효하지 않은 유형입니다. \n user / store / item / order / orderitem 중에서 첫번째 인자를 입력하세요')
+    gens = {
+        'user' : UserGenerator().generate_user(count)
+        ,'store' : StoreGenerator().generate_store(count)
+        ,'item' : ItemGenerator().generate_item(count) # default 값은 0이고 전체 메뉴를 가져온다
+        ,'order':OrderGenerator().generate_order(count)
+        ,'orderitem':OrderItemGenerator().generate_order_items(count)
+    }
     
-    return data
+    return gens[_type]
 
 
 if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)

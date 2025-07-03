@@ -4,11 +4,12 @@ from address_generator import AddressGenerator
 
 class StoreGenerator:
     def __init__(self):
+        self.__header = ['Id','Name','Type','Address']
         self.id_gen = IdGenerator()
         self.store_name_gen = StoreNameGenerator('5.Project/1.data_gen/store_names.txt')
         self.address_gen = AddressGenerator('5.Project/1.data_gen/address_data.txt')
 
-    def generate_store(self, count:int)->list:
+    def generate_store(self, count:int)->tuple:
         stores = []
         for _ in range(count):
             id = self.id_gen.generate_id()
@@ -17,7 +18,7 @@ class StoreGenerator:
             address = self.address_gen.generate_address()
             stores.append((id, name, brand, address))
 
-        return stores
+        return self.__header, stores
         '''[(UUID('02e54da6-c36c-4242-ac90-0868ef5df9b1'), '팀홀튼 동여의도3호점', '팀홀튼', '전북특별자치도 기장군 여원로 158')
           , (UUID('9803e939-66a7-45d9-ab02-b7af3d3d0951'), '카페드롭탑 판교3호점', '카페드롭탑', '경상북도 완주군 현풍동로20길 96')]
         '''

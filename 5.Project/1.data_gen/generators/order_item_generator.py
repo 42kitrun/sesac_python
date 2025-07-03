@@ -3,6 +3,7 @@ from id_handler import select_id
 
 class OrderItemGenerator:
     def __init__(self):
+        self.__header = ['Id','OrderId','ItemId']
         self.id_gen = IdGenerator()
 
     def generate_order_items( self, count):
@@ -20,7 +21,7 @@ class OrderItemGenerator:
 
             order_items.extend(order_grp)
 
-        return order_items[:count]
+        return self.__header, order_items[:count]
         '''[(UUID('65e08b44-7a6c-45df-abf4-74334537b50e'), 'f8d2e618-ab11-439f-a321-b0593f7f70ec', 'ceb93608-e31c-4a16-826f-c516eff557a5')
           , (UUID('cc66dad7-be24-449c-87b9-5b30bc0d1e8b'), 'f8d2e618-ab11-439f-a321-b0593f7f70ec', '1e30afde-8841-49c3-9a31-f82575da956b')
           , (UUID('d6b23d1f-3f10-4dbd-8ea2-a372792c0bcc'), 'f8d2e618-ab11-439f-a321-b0593f7f70ec', 'a7e7b713-f7d0-410e-9017-ff5a2101a71f')

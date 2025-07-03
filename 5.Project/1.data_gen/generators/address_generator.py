@@ -11,7 +11,7 @@ class AddressGenerator:
         with open(self.__file_path, 'r', encoding='utf-8') as file:
             l_area, m_area, s_area = self.check_address([line.strip().split(',') for line in file.readlines()])
 
-        return f'{l_area} {m_area} {s_area} {random.randint(1, 350)}'
+        return f'''{l_area} {m_area} {s_area} {random.randint(1, 350)}    좌표 [북위: {random.randint(33,43)}° {random.randint(0,59):02d}'{random.randint(0,59):02d}" 동경: {random.randint(124,131)}° {random.randint(0,59):02d}'{random.randint(0,59):02d}"]'''
     
     def check_address(self, array):
         l,m,s= array
