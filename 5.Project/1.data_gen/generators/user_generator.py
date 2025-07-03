@@ -1,8 +1,8 @@
-from generators.id_generator import IdGenerator
-from generators.name_generator import NameGenerator
-from generators.birthdate_generator import BirthdateGenerator
-from generators.gender_generator import GenderGenerator
-from generators.address_generator import AddressGenerator
+from id_generator import IdGenerator
+from name_generator import NameGenerator
+from birthdate_generator import BirthdateGenerator
+from gender_generator import GenderGenerator
+from address_generator import AddressGenerator
 
 from datetime import datetime, date
 
@@ -51,4 +51,5 @@ class UserGenerator:
           , (UUID('d1c52ffa-2b99-47e3-ae0a-d52012dd15fd'), '여서라', 'Female', 34, '1991-06-16', '경상남도 남양주시 선감로 196')]
         '''
 
-# print(UserGenerator().generate_user(2))        
+if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
+    print(UserGenerator().generate_user(2))        
