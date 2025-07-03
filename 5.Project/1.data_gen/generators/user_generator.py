@@ -6,22 +6,14 @@ from generators.address_generator import AddressGenerator
 
 from datetime import datetime, date
 
-
-
-class UserGenerator:
+class UserGenerator():
     def __init__(self):
-        self.__uuid_history = set()
-
         self.id_gen = IdGenerator()
         self.name_gen = NameGenerator('5.Project/1.data_gen/names.txt')
         self.gender_gen = GenderGenerator()
         # self.age
         self.bday_gen = BirthdateGenerator()
         self.address_gen = AddressGenerator('5.Project/1.data_gen/address_data.txt')
-    
-    @property
-    def uuid_history(self):
-        return self.__uuid_history
         
     def calculate_age(self, bday:str) -> int:
         '나이를 구하는 함수'
@@ -31,14 +23,8 @@ class UserGenerator:
     def generate_user(self, count:int)->list:
         users = []
         for _ in range(count):
-            id = self.id_gen.generate_id()  # uuid는 16바이트로 고정! if 문자열로 변환하면 일반적으로 32~36바이트(하이픈 포함)
-            while id in self.__uuid_history:# 무작위 생성이므로 중복 발생할 가능성 염두
-                id = self.id_gen.generate_id()
-            self.__uuid_history.add(id)
-            '''uuid로 보관하다가 사용시 문자열로 변환 안해도됨 :)
-               문자열 <-> uuid 객체로 변환 str(uuid) <-> uuid.UUID(uuid_str)
-            ''' 
-
+            id = self.id_gen.generate_id()
+            'uuid는 16바이트로 고정! if 문자열로 변환하면 일반적으로 32~36바이트(하이픈 포함)'
             gender = self.gender_gen.generate_gender()
             bday = self.bday_gen.generate_birthdate()
             dic_name = self.name_gen.generate_name() # gender와 bday에 따른 작명
@@ -51,4 +37,6 @@ class UserGenerator:
           , (UUID('d1c52ffa-2b99-47e3-ae0a-d52012dd15fd'), '여서라', 'Female', 34, '1991-06-16', '경상남도 남양주시 선감로 196')]
         '''
 
-# print(UserGenerator().generate_user(2))        
+## 주의 : 클래스를 정의하는 파일을 수행시 모든 값은 default 값으로 초기화 된다.
+if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
+    print(UserGenerator().generate_user(2))

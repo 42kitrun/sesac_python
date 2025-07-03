@@ -11,3 +11,6 @@ with open(file_path,'r', newline = '') as file:
         data.append(row)
 
 print(data)
+'''[{'Name': 'John', 'Age': '25', 'City': 'Seoul'}
+  , {'Name': 'Jane', 'Age': '30', 'City': 'Busan'}
+  , {'Name': 'Bob' , 'Age': '35', 'City': 'Jeju'}]'''

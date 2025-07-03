@@ -31,4 +31,6 @@ class StoreGenerator:
           , (UUID('9803e939-66a7-45d9-ab02-b7af3d3d0951'), '카페드롭탑 판교3호점', '카페드롭탑', '경상북도 완주군 현풍동로20길 96')]
         '''
 
-# print(StoreGenerator().generate_user(2))        
+## 주의 : 클래스를 정의하는 파일을 수행시 모든 값은 default 값으로 초기화 된다.
+if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
+    print(StoreGenerator().generate_store(2))        

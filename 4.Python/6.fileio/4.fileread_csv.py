@@ -11,3 +11,8 @@ with open(file_path,'r', newline = '') as file:
         data.append(row)
 
 print(data)
+'''[['Name', 'Age', 'City']
+  , ['John', '25', 'Seoul']
+  , ['Jane', '30', 'Busan']
+  , ['Bob' , '35', 'Jeju']]
+'''

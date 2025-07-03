@@ -5,13 +5,7 @@ import csv
 class OrderGenerator:
     def __init__(self):
         self.__header = ['Id','OrderAt','StoreId','UserId']
-        self.__uuid_history = set()
-
         self.id_gen = IdGenerator()
-    
-    @property
-    def uuid_history(self):
-        return self.__uuid_history
     
     def find_user_info(self, user_id):
         # bbc5ee4e-592d-4eed-85a1-79baf7c398e6,경예주,Female,34,1991-04-14,대구광역시 구로구 수밭서길 215
@@ -39,13 +33,9 @@ class OrderGenerator:
                        , user_id='bbc5ee4e-592d-4eed-85a1-79baf7c398e6'\
                         ,store_id='8569d76f-cfb2-472d-a235-525ac7d5a8ec'):
         # 가장 먼저 유효한 거래인지 확인! 누가 어디에서 결재했는지
-        user_info = self.find_user_info(user_id)
-        store_info = self.find_store_info(store_id)
-
         id = self.id_gen.generate_id()  # uuid는 16바이트로 고정! if 문자열로 변환하면 일반적으로 32~36바이트(하이픈 포함)
-        while id in self.__uuid_history:# 무작위 생성이므로 중복 발생할 가능성 염두
-            id = self.id_gen.generate_id()
-        self.__uuid_history.add(id)
+        store_info = self.find_store_info(store_id)
+        user_info = self.find_user_info(user_id)
 
         return (id, datetime.now().strftime('%Y-%m-%d %H:%M:%S'), store_info[0], user_info[0])
         '''[(UUID('134a067b-6409-4fc1-a557-327f6387be4c'), '2025-07-02 17:22:55', '8569d76f-cfb2-472d-a235-525ac7d5a8ec', 'bbc5ee4e-592d-4eed-85a1-79baf7c398e6')]
@@ -53,10 +43,10 @@ class OrderGenerator:
 
     def save_order(self):
         order = self.generate_order()
-        with open(f'5.Project/1.data_gen/order.csv', 'r+') as csvfile:# a+ 읽기 쓰기 가능
+        with open(f'5.Project/1.data_gen/order.csv', 'r+') as csvfile:# r+ 읽기 쓰기 가능
             csv_writer = csv.writer(csvfile)
-            
-            if not csvfile.read(2):
+
+            if not csvfile.read(2): # 앞 두글자가 없으면 비어있는 파일로 판단
                 csv_writer.writerow(self.__header)
 
             csv_writer.writerow(order)
@@ -64,4 +54,6 @@ class OrderGenerator:
         print('주문정보를 저장했습니다')
         return order
 
-print(OrderGenerator().save_order())        
+## 주의 : 클래스를 정의하는 파일을 수행시 모든 값은 default 값으로 초기화 된다.
+if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
+    print(OrderGenerator().save_order())            
