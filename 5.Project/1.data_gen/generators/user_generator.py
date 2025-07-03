@@ -46,6 +46,7 @@ class UserGenerator:
             age = self.calculate_age(bday) # bday에 따른 나이 계산
             address = self.address_gen.generate_address()
             users.append((id, name, gender, age, bday, address))
+            
         return users
         '''[(UUID('48827553-1399-4488-9c1c-a667f6255788'), '구도준', 'Male', 1, '2023-11-16', '서울특별시 담양군 신남안길187번길 231')
           , (UUID('d1c52ffa-2b99-47e3-ae0a-d52012dd15fd'), '여서라', 'Female', 34, '1991-06-16', '경상남도 남양주시 선감로 196')]

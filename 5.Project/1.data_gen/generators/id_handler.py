@@ -1,12 +1,11 @@
-from user_generator import UserGenerator
-from store_generator import StoreGenerator
-from item_generator import ItemGenerator
-
 from random import choice, randint
 import csv
 
 def select_id(_type:str):
-    with open(f'5.Project/1.data_gen/{_type}.csv', 'r') as csvfile:
+    if _type == 'orderitem': type_path = 'item'
+    else: type_path = _type
+
+    with open(f'5.Project/1.data_gen/{type_path}.csv', 'r') as csvfile:
         # 파일 내용 불러오기
         csv_reader = csv.DictReader(csvfile)
         csv_list = list(csv_reader)
@@ -26,23 +25,9 @@ def verify_id_info(_type, id) -> tuple:
         print(f'유효하지 않은 id : {id}')
         return id,datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'','' # 유효하지 않은 id, 유효하지 않음을 확인한 시각
 '''             
-def generate_data(_type, count):
-    data = []
-
-    if _type == 'user':
-        data = UserGenerator().generate_user(count)
-    elif _type == 'store':
-        data = StoreGenerator().generate_store(count)
-    elif _type == 'item':
-        data = ItemGenerator().generate_item(count) # default 값은 0이고 전체 메뉴를 가져온다
-    else:
-        raise Exception('유효하지 않은 유형입니다. \n user / store / item 중에서 첫번째 인자를 입력하세요')
-    
-    return data
-
 
 if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
-    print(generate_data('user',2))
+    print(select_id('orderitem'))
 
 ## orderitem
 '''

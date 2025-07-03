@@ -1,6 +1,5 @@
-from output import DisplayData
 from id_generator import IdGenerator
-from solver import select_id
+from id_handler import select_id
 
 class OrderItemGenerator:
     def __init__(self):
@@ -8,9 +7,11 @@ class OrderItemGenerator:
 
     def generate_order_items( self, count):
         order_items = []
+        num_data = 0
 
-        for _ in range(count):
-            items_id_list = select_id('orderitem')
+        while num_data <= count:
+            items_id_list = select_id('orderitem') # 1 ~ 8개 랜덤
+            num_data += len(items_id_list)
             order_grp = list(zip(
                                  [self.id_gen.generate_id() for _ in range(len(items_id_list))] # orderitem_id
                                 ,[select_id('order')]* len(items_id_list) # order_id
@@ -19,8 +20,7 @@ class OrderItemGenerator:
 
             order_items.extend(order_grp)
 
-        DisplayData().save_csv('orderitem',order_items) # csv에 저장
-        return order_items
+        return order_items[:count]
         '''[(UUID('65e08b44-7a6c-45df-abf4-74334537b50e'), 'f8d2e618-ab11-439f-a321-b0593f7f70ec', 'ceb93608-e31c-4a16-826f-c516eff557a5')
           , (UUID('cc66dad7-be24-449c-87b9-5b30bc0d1e8b'), 'f8d2e618-ab11-439f-a321-b0593f7f70ec', '1e30afde-8841-49c3-9a31-f82575da956b')
           , (UUID('d6b23d1f-3f10-4dbd-8ea2-a372792c0bcc'), 'f8d2e618-ab11-439f-a321-b0593f7f70ec', 'a7e7b713-f7d0-410e-9017-ff5a2101a71f')

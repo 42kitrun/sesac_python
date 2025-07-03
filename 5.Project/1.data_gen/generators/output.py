@@ -1,4 +1,4 @@
-from solver import generate_data
+from data_generator import generate_data
 import sys
 import csv
 
@@ -28,7 +28,7 @@ class DisplayData():
                 print(f"{head}: {content}")
             print()
 
-    def save_csv(self,_type, data): # *args : 가변인자
+    def save_csv(self,_type, data):
         if _type not in ['user','store','item','order','orderitem']:
             raise Exception('user/store/item/order/orderitem 만 생성 가능합니다.')
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     _type = ''
     num_data = ''
     display = ''
-    input_info = "아래와 같이 공백으로 간격을 두어 입력하세요\n user 10_000 csv\n[user/store/item] [데이터 갯수] [console/csv] "
+    input_info = "아래와 같이 공백으로 간격을 두어 입력하세요\n user 10_000 csv\n[user/store/item/order/orderitem] [데이터 갯수] [console/csv] "
 
     argv_len = len(sys.argv)
     if argv_len  == 1: 

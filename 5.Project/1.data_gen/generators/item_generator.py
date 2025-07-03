@@ -19,6 +19,7 @@ class ItemGenerator:
             id = self.id_gen.generate_id() # 대량 생산하지 않으므로 중복체크 안함
             _type, name, unit_price = item_list[i]
             items.append((id, _type, name, unit_price))
+            
         return items
         '''[(UUID('090d6ff8-2fc9-4b5b-86f5-bc0f810b8171'), 'Hand-Drip', '코스타리카 엘 세드로(Costa Rica C.O.E Winner El Cedro)', '12000')
           , (UUID('d1ba8153-b7fd-4cc3-93e8-b4b2f033d727'), 'Hand-Drip', '파나마 호세 게이샤(Panama Jose Geisha)', '10000')]
