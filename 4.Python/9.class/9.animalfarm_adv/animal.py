@@ -22,7 +22,7 @@ class Animal(ABC):
         else:
             return "..."
     
-    @abstractmethod
+    @abstractmethod # 상속받은 객체들이 꼭 가져야할 메소드
     def move(self) -> None:
         pass
 

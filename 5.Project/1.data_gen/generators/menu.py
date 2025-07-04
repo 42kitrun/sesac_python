@@ -13,7 +13,8 @@ class MenuGenerator:
                 season_menu += [['SeasonDesert',f'{random.choice(flavor)} {random.choice(kind)}',random.randint(50,80)*100]]
             return season_menu
 
-    def generate_menu(self,count, idea_path = '5.Project/1.data_gen/season_menu.txt'):
+    # 전체 메뉴 생성
+    def generate(self,count, idea_path = '5.Project/1.data_gen/season_menu.txt'):
         '''기존 메뉴 + 시즌 메뉴 count개 추가, 시즌 메뉴 파일의 path와 함께 입력'''
         self.__new_desert = count
         menu = []

@@ -1,6 +1,6 @@
 import random
 
 class GenderGenerator:
-    def generate_gender(self):
+    def generate(self):
         return random.choice(['Male', 'Female'])
     

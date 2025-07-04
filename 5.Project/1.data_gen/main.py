@@ -1,11 +1,7 @@
-from data_generator import generate_data
+from generators.data_generator import generate_data
 import pandas as pd
 import os, sys
 import csv
-
-import os
-
-
 
 class DisplayData():
     def __init__(self):
@@ -23,10 +19,26 @@ class DisplayData():
         self.__header, data = generate_data(_type, count)
 
         # 데이터 출력
-        {'console':self.print_console(_type,data)
-         ,'csv':self.save_csv(_type,data)
-         ,'excel':self.save_excel(_type,data)}[display]
+        if display == 'console':
+            self.print_console(_type,data)
+        elif display == 'csv':
+            self.save_csv(_type,data)
+        else:
+            self.save_excel(_type,data)
+        
+        '''
+        이 메소드에서는 되는데
+        data_generator.generate_data(_type, count)
+        왜 이 경우는 다같이 실행할까....ㅠㅠ
+        dis = {'console':self.print_console(_type,data)
+        ,'csv':self.save_csv(_type,data)
+        ,'excel':self.save_excel(_type,data)
+        }
+        
+        return dis[display]
+        '''
 
+    # Console 출력
     def print_console(self,_type, data):
 
         print( _type, ' 데이터 ',len(data), '개 목록')
@@ -34,28 +46,30 @@ class DisplayData():
             for head, content in zip(self.__header,row):
                 print(f"{head}: {content}")
             print()
-        print(f"{_type} 출력 완료")
+        print(f"{_type} {display} 출력 완료")
  
-
+    # csv 파일 저장
     def save_csv(self,_type, data):
-        path = f'5.Project/1.data_gen/{_type}1.csv'
+        path = f'5.Project/1.data_gen/output/{_type}.csv'
         
         # with open r+ 모드는 파일이 존재하지 않으면 에러
         if not os.path.exists(path):
-            with open(path, 'a') as csvfile:
-                csv_writer = csv.writer(csvfile)
+            with open(path, 'w') as csvfile:
+                pass
         # 내용 쓰기
-        with open(path, 'r+') as csvfile:
+        with open(path, 'r+', encoding='utf-8') as csvfile:
+            csv_reader = csv.reader(csvfile)
             csv_writer = csv.writer(csvfile)
-            if not csvfile.read(2): # 앞에 두글자가 없으면 비어있는 파일로 판단하여 헤더 추가
+            if not len(list(csv_reader)): # 앞에 두글자가 없으면 비어있는 파일로 판단하여 헤더 추가
                 csv_writer.writerow(self.__header)
             csv_writer.writerows(data)
         print(f"{_type}.csv 파일에 {_type} 저장 완료")
 
+    # excel 파일 저장
     def save_excel(self,_type, data):
         df = pd.DataFrame(data, columns=self.__header)
         df.head()
-        df.to_excel(f'5.Project/1.data_gen/{_type}.xlsx', index=False)
+        df.to_excel(f'5.Project/1.data_gen/output/{_type}.xlsx', index=False)
         print(f"{_type}.excel 파일에 {_type} 저장 완료")
 
 

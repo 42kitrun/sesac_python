@@ -1,9 +1,9 @@
-from id_generator import IdGenerator
-from name_generator import NameGenerator
-from birthdate_generator import BirthdateGenerator
-from gender_generator import GenderGenerator
-from address_generator import AddressGenerator
-from phone_num_generator import PhonenumGenerator
+from id import IdGenerator
+from name import NameGenerator
+from birthdate import BirthdateGenerator
+from gender import GenderGenerator
+from address import AddressGenerator
+from phone_num import PhonenumGenerator
 
 from datetime import datetime, date
 
@@ -11,6 +11,15 @@ from datetime import datetime, date
 
 class UserGenerator:
     def __init__(self):
+        self.id_map = {
+            'Id': IdGenerator()
+            , 'Name': NameGenerator('5.Project/1.data_gen/names.txt')
+            , 'Gender': GenderGenerator()
+            , 'Birthdate' : BirthdateGenerator()
+            , 'Address_GPSCoord' : AddressGenerator('5.Project/1.data_gen/address_data.txt')
+            ,'Phone_number' : PhonenumGenerator()
+        }
+        '''
         self.__header = ['Id', 'Name', 'Gender', 'Age', 'Birthdate', 'Address_GPSCoord','Phone_number']
         self.id_gen = IdGenerator()
         self.name_gen = NameGenerator('5.Project/1.data_gen/names.txt')
@@ -19,7 +28,8 @@ class UserGenerator:
         self.bday_gen = BirthdateGenerator()
         self.address_gen = AddressGenerator('5.Project/1.data_gen/address_data.txt')
         self.phone_gen = PhonenumGenerator()
-        
+        '''
+
     def calculate_age(self, bday:str) -> int:
         '나이를 구하는 함수'
         # int : 소수점 버림
@@ -27,6 +37,10 @@ class UserGenerator:
         
     def generate_user(self, count:int)->tuple:
         users = []
+  
+            
+
+        '''
         for _ in range(count):
             id = self.id_gen.generate_id()
             gender = self.gender_gen.generate_gender()
@@ -36,7 +50,7 @@ class UserGenerator:
             age = self.calculate_age(bday) # bday에 따른 나이 계산
             address = self.address_gen.generate_address()
             phone_num = self.phone_gen.generate_phone_num()
-
+        '''
             users.append((id, name, gender, age, bday, address, phone_num))
             
         return (self.__header,users)

@@ -1,4 +1,4 @@
-from id_generator import IdGenerator
+from id import IdGenerator
 from id_handler import select_id
 
 class OrderItemGenerator:
@@ -6,7 +6,7 @@ class OrderItemGenerator:
         self.__header = ['Id','OrderId','ItemId']
         self.id_gen = IdGenerator()
 
-    def generate_order_items( self, count):
+    def generate_order_items( self, count) -> tuple:
         order_items = []
         num_data = 0
 
@@ -14,7 +14,7 @@ class OrderItemGenerator:
             items_id_list = select_id('orderitem') # 1 ~ 8개 랜덤
             num_data += len(items_id_list)
             order_grp = list(zip(
-                                 [self.id_gen.generate_id() for _ in range(len(items_id_list))] # orderitem_id
+                                 [self.id_gen.generate() for _ in range(len(items_id_list))] # orderitem_id
                                 ,[select_id('order')]* len(items_id_list) # order_id
                                 ,items_id_list # item_it
                         ))

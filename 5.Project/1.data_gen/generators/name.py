@@ -7,7 +7,7 @@ class NameGenerator:
     def __init__(self, file_path):
         self.__file_path = file_path
 
-    def generate_name(self)->dict:
+    def generate(self)->dict:
         dic_name = dict()
         with open(self.__file_path, 'r', encoding='utf-8') as file:
             data = file.readlines()

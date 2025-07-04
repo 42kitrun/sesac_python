@@ -1,7 +1,7 @@
 import random
 
 class BirthdateGenerator:
-    def generate_birthdate(self):
+    def generate(self):
         year = random.randint(1960, 2024)
         month = random.randint(1, 12)
         day = random.randint(1, 28)

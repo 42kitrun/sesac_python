@@ -1,4 +1,4 @@
-from id_generator import IdGenerator
+from id import IdGenerator
 from id_handler import select_id
 
 from random import randint
@@ -8,12 +8,12 @@ class OrderGenerator:
         self.__header = ['Id','OrderAt','StoreId','UserId']
         self.id_gen = IdGenerator()
     
-    def generate_order(self,count):
+    def generate_order(self,count) -> tuple:
         data = []
 
         for _ in range(count):
             # order_id 생성
-            id = self.id_gen.generate_id()  # 주문 1번당 id 1개 생성 여러 주문을 한번에 생성하지 않음
+            id = self.id_gen.generate()  # 주문 1번당 id 1개 생성 여러 주문을 한번에 생성하지 않음
             user_id = select_id('user')
             store_id = select_id('store')
 
