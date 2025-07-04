@@ -19,7 +19,7 @@ class OrderGenerator:
 
             data.append((id,f'{randint(2000,2025)}-{randint(1,12):02d}-{randint(1,28):02d} {randint(7,21):02d}:{randint(0,59):02d}:{randint(0,59):02d}' , store_id, user_id))
 
-        return data
+        return self.__header, data
         '''[(UUID('134a067b-6409-4fc1-a557-327f6387be4c'), '2025-07-02 17:22:55', '8569d76f-cfb2-472d-a235-525ac7d5a8ec', 'bbc5ee4e-592d-4eed-85a1-79baf7c398e6')]
         '''
 

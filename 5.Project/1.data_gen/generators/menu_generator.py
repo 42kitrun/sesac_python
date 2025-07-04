@@ -14,10 +14,12 @@ class MenuGenerator:
             return season_menu
 
     def generate_menu(self,count, idea_path = '5.Project/1.data_gen/season_menu.txt'):
+        '''기존 메뉴 + 시즌 메뉴 count개 추가, 시즌 메뉴 파일의 path와 함께 입력'''
+        self.__new_desert = count
         menu = []
         with open(self.__main_menu_file_path, 'r', encoding='utf-8') as file:
             menu = [line.strip().split(',') for line in file.readlines()]
-            menu+= self.generate_season_menu(count,idea_path)
+            menu+= self.generate_season_menu(self.__new_desert ,idea_path)
             return menu
 
 ## 주의 : 클래스를 정의하는 파일을 수행시 모든 값은 default 값으로 초기화 된다.
