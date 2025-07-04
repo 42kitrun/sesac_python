@@ -17,6 +17,7 @@ class MenuGenerator:
         '''기존 메뉴 + 시즌 메뉴 count개 추가, 시즌 메뉴 파일의 path와 함께 입력'''
         self.__new_desert = count
         menu = []
+        # 기존 메뉴(main_menu)는 테라로사 메뉴 활용
         with open(self.__main_menu_file_path, 'r', encoding='utf-8') as file:
             menu = [line.strip().split(',') for line in file.readlines()]
             menu+= self.generate_season_menu(self.__new_desert ,idea_path)

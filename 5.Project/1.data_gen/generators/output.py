@@ -28,13 +28,17 @@ class DisplayData():
          ,'excel':self.save_excel(_type,data)}[display]
 
     def print_console(self,_type, data):
+
+        print( _type, ' 데이터 ',len(data), '개 목록')
         for row in data:
             for head, content in zip(self.__header,row):
                 print(f"{head}: {content}")
             print()
+        print(f"{_type} 출력 완료")
+ 
 
     def save_csv(self,_type, data):
-        path = f'5.Project/1.data_gen/{_type}.csv'
+        path = f'5.Project/1.data_gen/{_type}1.csv'
         
         # with open r+ 모드는 파일이 존재하지 않으면 에러
         if not os.path.exists(path):

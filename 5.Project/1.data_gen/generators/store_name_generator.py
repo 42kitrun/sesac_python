@@ -5,6 +5,7 @@ class StoreNameGenerator:
         self.__file_path = file_path
 
     def generate_store_name(self):
+        # 기초데이터는 지하철 역명(공공데이터)과 스타벅스 지점명(위키) 활용
         with open(self.__file_path, 'r', encoding='utf-8') as file:
             b,l,t = [line.strip().split(',') for line in file.readlines()]
 

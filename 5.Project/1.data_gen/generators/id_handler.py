@@ -2,12 +2,14 @@ from random import choice, randint
 import csv
 
 def select_id(_type:str):
+    '''  item  : item 한 개씩 id 생성시
+       orderit : orderitem에서 주문에 해당하는 여러개의 items 구매'''
     if _type == 'orderitem': type_path = 'item'
     else: type_path = _type
 
-    with open(f'5.Project/1.data_gen/{type_path}.csv', 'r') as csvfile:
+    with open(f'5.Project/1.data_gen/{type_path}.csv', 'r',encoding='utf-8') as csvfile:
         # 파일 내용 불러오기
-        csv_reader = csv.DictReader(csvfile)
+        csv_reader = csv.DictReader(csvfile) # DictReader로 컬럼 순서가 바뀌어도 값을 가져오는데 문제 없음
         csv_list = list(csv_reader)
 
         # 유형에 따라 id 불러오기
@@ -27,7 +29,7 @@ def verify_id_info(_type, id) -> tuple:
 '''             
 
 if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
-    print(select_id('orderitem'))
+    print(select_id('user'))
 
 ## orderitem
 '''

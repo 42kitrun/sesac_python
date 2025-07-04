@@ -8,6 +8,7 @@ class AddressGenerator:
         self.__file_path = file_path
 
     def generate_address(self):
+        # 기초데이터로 특정월의 변경된 도로명주소(공공데이터)를 활용
         with open(self.__file_path, 'r', encoding='utf-8') as file:
             l_area, m_area, s_area = self.check_address([line.strip().split(',') for line in file.readlines()])
 
