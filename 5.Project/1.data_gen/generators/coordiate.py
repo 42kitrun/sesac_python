@@ -2,4 +2,4 @@ import random
 
 class CoordGenerator:
     def generate(self):
-        return f'''Lat: {random.randint(33,43)}° {random.randint(0,59):02d}'{random.randint(0,59):02d}" Lng: {random.randint(124,131)}° {random.randint(0,59):02d}'{random.randint(0,59):02d}"]'''
+        return f'Lat: {random.uniform(33.0000, 43.9999):.4f}° Lng: {random.uniform(124.0000, 131.9999):.4f}°'

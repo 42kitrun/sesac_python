@@ -19,6 +19,14 @@ class DisplayData():
         self.__header, data = generate_data(_type, count)
 
         # 데이터 출력
+
+        return {
+            'console': lambda: self.print_console(_type, data),
+            'csv': lambda: self.save_csv(_type, data),
+            'excel': lambda: self.save_excel(_type, data)
+        }[display]()
+
+        '''
         if display == 'console':
             self.print_console(_type,data)
         elif display == 'csv':
@@ -26,16 +34,16 @@ class DisplayData():
         else:
             self.save_excel(_type,data)
         
-        '''
+        
         이 메소드에서는 되는데
         data_generator.generate_data(_type, count)
         왜 이 경우는 다같이 실행할까....ㅠㅠ
-        dis = {'console':self.print_console(_type,data)
+        > 딕셔너리는 값을 정의할때, 모든 값이 미리 실행되기 떄문이다
+        > 함수 객체로 감싸면 해당 key에서만 함수호출
+        return {'console':self.print_console(_type,data)
         ,'csv':self.save_csv(_type,data)
         ,'excel':self.save_excel(_type,data)
-        }
-        
-        return dis[display]
+        }[display]
         '''
 
     # Console 출력

@@ -7,7 +7,7 @@ def select_id(_type:str):
     if _type == 'orderitem': type_path = 'item'
     else: type_path = _type
 
-    with open(f'5.Project/1.data_gen/{type_path}.csv', 'r',encoding='utf-8') as csvfile:
+    with open(f'5.Project/1.data_gen/output/{type_path}.csv', 'r',encoding='utf-8') as csvfile:
         # 파일 내용 불러오기
         csv_reader = csv.DictReader(csvfile) # DictReader로 컬럼 순서가 바뀌어도 값을 가져오는데 문제 없음
         csv_list = list(csv_reader)

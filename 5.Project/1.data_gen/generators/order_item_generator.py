@@ -1,12 +1,15 @@
-from id import IdGenerator
-from id_handler import select_id
+from generators.generator import GenerateData
+from generators.id import IdGenerator
+from generators.id_handler import select_id
 
 class OrderItemGenerator:
     def __init__(self):
         self.__header = ['Id','OrderId','ItemId']
-        self.id_gen = IdGenerator()
+        self.generator_map = {
+            'Id': IdGenerator()
+        }
 
-    def generate_order_items( self, count) -> tuple:
+    def generate( self, count) -> tuple:
         order_items = []
         num_data = 0
 
@@ -14,7 +17,7 @@ class OrderItemGenerator:
             items_id_list = select_id('orderitem') # 1 ~ 8개 랜덤
             num_data += len(items_id_list)
             order_grp = list(zip(
-                                 [self.id_gen.generate() for _ in range(len(items_id_list))] # orderitem_id
+                                 [GenerateData(self.generator_map['Id'])() for _ in range(len(items_id_list))] # orderitem_id
                                 ,[select_id('order')]* len(items_id_list) # order_id
                                 ,items_id_list # item_it
                         ))
@@ -29,4 +32,4 @@ class OrderItemGenerator:
         '''
 ## 주의 : 클래스를 정의하는 파일을 수행시 모든 값은 default 값으로 초기화 된다.
 if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
-    print(OrderItemGenerator().generate_order_items(2))
+    print(GenerateData(OrderItemGenerator(),2)())
