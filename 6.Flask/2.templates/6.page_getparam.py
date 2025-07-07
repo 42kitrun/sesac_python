@@ -38,8 +38,6 @@ def index():
     else:
         page = None
         filtered_users = None
-        previous_page=None
-        next_page=None
     
     return render_template('users.html', users=filtered_users, page=page, prev_page = previous_page, next_page=next_page)
 

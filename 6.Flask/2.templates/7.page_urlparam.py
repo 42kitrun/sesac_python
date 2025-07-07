@@ -18,15 +18,11 @@ def index():
 
 @app.route('/pages/<int:page>')
 def users_pages(page):
-    print('page',page)
     max_page = ceil(len(users)/10)
     page_num = lambda: page if  page <= max_page else None
-    # status_num = lambda: 200 if page_num is not None else 404
     filtered_users = [user for user in users if ceil(user['id']/10) == int(page)]
     previous_page= lambda: page -1 if 0 < page-1 < max_page else None
     next_page=lambda: page +1 if  page+1 <= max_page else None
-
-    print(previous_page(),page_num(), next_page())
     return render_template('users.html', users=filtered_users, page=page_num(), prev_page = previous_page(), next_page=next_page())
 
 if __name__ == "__main__":
