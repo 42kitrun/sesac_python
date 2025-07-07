@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li{
+            font-size: 20px;
+        }
+        a{
+            font-size: 40px;
+        }
+        a:hover{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    {%- if page == 'all' -%}<h1>All Users</h1>{% elif page %}<h1>PAGE {{page}}</h1>{% else %}{% endif %}
+    <!-- 이쁘게 사용자를 출력한다 -->
+     {% for u in users %}
+     <ul>
+        <li>{{ u }}</li>
+     </ul>
+     {% endfor %}
+    <span>{%- if prev_page -%}<a href="{{ prev_page }}">Previous |</a>{% endif %}{%- if next_page -%}<a href="{{ next_page }}">| Next</a>{% endif %}</span>
+</body>
+</html>

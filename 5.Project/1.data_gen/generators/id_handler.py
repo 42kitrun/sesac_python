@@ -1,9 +1,10 @@
 from random import choice, randint
 import csv
 
+'''     여기서 매번 읽고 샘플링하는 것이 아니라 초기에 모두 불러서 거기서 비복원 추출하는 것이 성능에 좋을 것같다.
 def select_id(_type:str):
-    '''  item  : item 한 개씩 id 생성시
-       orderit : orderitem에서 주문에 해당하는 여러개의 items 구매'''
+       item  : item 한 개씩 id 생성시
+       orderit : orderitem에서 주문에 해당하는 여러개의 items 구매
     if _type == 'orderitem': type_path = 'item'
     else: type_path = _type
 
@@ -19,6 +20,8 @@ def select_id(_type:str):
             return [choice(csv_list)["Id"] for _ in range(randint(1,8))]
         else: raise Exception('유효하지 않은 유형입니다. [user / store / item / order / orderitem]')
 '''
+
+'''
 def verify_id_info(_type, id) -> tuple:
         with open(f'5.Project/1.data_gen/{_type}.csv', 'r') as file:
             csv_reader = csv.DictReader(file)
@@ -29,8 +32,8 @@ def verify_id_info(_type, id) -> tuple:
 '''             
 
 if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
-    print(select_id('user'))
-
+    #print(select_id('user'))
+    pass
 ## orderitem
 '''
 Id,OrderAt,StoreId,UserId
