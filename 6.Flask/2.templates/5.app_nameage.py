@@ -24,8 +24,7 @@ def home():
     
     print(f"이름: {name}, 나이: {age}")
     filtered_users = users
-    
-    # 아래는 한줄짜리 pythonic 한 스타일 코드...
+
     # 0 0 0
     # 0 0 1
     # 0 1 0

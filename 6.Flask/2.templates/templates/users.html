@@ -21,7 +21,7 @@
     <!-- 이쁘게 사용자를 출력한다 -->
      {% for u in users %}
      <ul>
-        <li>{{ u }}</li>
+        <li>{{ u.id }} - {{ u.name }} ({{ u.age }}세, {{ u.phone }})</li>
      </ul>
      {% endfor %}
     <span>{%- if prev_page -%}<a href="{{ prev_page }}">Previous |</a>{% endif %}{%- if next_page -%}<a href="{{ next_page }}">| Next</a>{% endif %}</span>

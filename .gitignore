@@ -4,3 +4,7 @@
 # python 컴파일된 결과 파일
 __pycache__/
 *.pyc
+
+# 업로드한 데이터파일
+# 하위에 있는 uploads의 파일들은 제외하고 폴더만
+**/uploads/* 
