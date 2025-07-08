@@ -60,16 +60,12 @@ class DisplayData():
     def save_csv(self,_type, data):
         path = f'5.Project/1.data_gen/output/{_type}.csv'
         
-        # with open r+ 모드는 파일이 존재하지 않으면 에러
-        if not os.path.exists(path):
-            with open(path, 'w') as csvfile:
-                pass
+
         # 내용 쓰기
-        with open(path, 'r+', encoding='utf-8') as csvfile:
-            csv_reader = csv.reader(csvfile)
+        # 덮어쓰기 모드
+        with open(path, 'w', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
-            if not len(list(csv_reader)): # 앞에 두글자가 없으면 비어있는 파일로 판단하여 헤더 추가
-                csv_writer.writerow(self.__header)
+            csv_writer.writerow(self.__header)
             csv_writer.writerows(data)
         print(f"{_type}.csv 파일에 {_type} 저장 완료")
 

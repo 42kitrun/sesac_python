@@ -8,12 +8,12 @@ from generators.order_item_generator import OrderItemGenerator
 def generate_data(_type, count) -> tuple:
     # ' 콜론과 , 콤마 정확하게 확인하기
     return {
-             'user':GenerateData(UserGenerator(),count)()
-            ,'store':GenerateData(StoreGenerator(),count)()
-            ,'item':GenerateData(ItemGenerator(),count)() # default 값은 0이고 전체 메뉴를 가져온다
-            ,'order':GenerateData(OrderGenerator(),count)()
-            ,'orderitem':GenerateData(OrderItemGenerator(),count)()
-    }[_type]
+             'user':lambda:GenerateData(UserGenerator(),count)()
+            ,'store':lambda:GenerateData(StoreGenerator(),count)()
+            ,'item':lambda:GenerateData(ItemGenerator(),count)() # default 값은 0이고 전체 메뉴를 가져온다
+            ,'order':lambda:GenerateData(OrderGenerator(),count)()
+            ,'orderitem':lambda:GenerateData(OrderItemGenerator(),count)()
+    }[_type]()
 
 f'''
     data = ()

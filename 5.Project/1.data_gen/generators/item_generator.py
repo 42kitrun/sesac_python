@@ -1,3 +1,6 @@
+import sys
+
+sys.path.append('5.Project/1.data_gen')
 from generators.generator import GenerateData
 from generators.id import IdGenerator
 from generators.menu import MenuGenerator
@@ -8,12 +11,12 @@ class ItemGenerator:
         self.generator_map = {
             'Id': IdGenerator(),
             'Item':GenerateData(MenuGenerator('5.Project/1.data_gen/data/season_menu.txt'),10)()
-        } # 기존 메뉴 + 시즌 메뉴 10개 추가
+        } # 기존 메뉴 55개 + 시즌 메뉴 10개 추가
         
 
     def generate(self, count:int=0)->tuple:
         items = []
-        if count == 0: # 따로 count 안쓰면 다가져옴
+        if count == 0 or count > 64: # 따로 count 안쓰면 다가져옴
             item_list = self.generator_map['Item']
             count = len(item_list)
         else:
@@ -30,4 +33,4 @@ class ItemGenerator:
         '''
 ## 주의 : 클래스를 정의하는 파일을 수행시 모든 값은 default 값으로 초기화 된다.
 if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
-    print(GenerateData(ItemGenerator(),0)())        
+    print(GenerateData(ItemGenerator(),0)()[1])
