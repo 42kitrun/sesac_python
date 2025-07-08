@@ -25,7 +25,9 @@ def index():
         
     elif pages in '1023456789' and int(pages) <= max_page:
         page = int(pages)
-        filtered_users = [user for user in users if ceil(user['id']/10) == page]
+        # filtered_users = [user for user in users if ceil(user['id']/10) == int(page)] # 매번 전체 id를 계산해야하니 성능이 안좋음
+    # start_user, end_user를 계산해서 slicing 하는 방향으로 다시
+        filtered_users = users[(page-1)*10 : page*10]
         if 0 < page-1 < max_page:
             previous_page = f'?pages={page -1}'
         else:

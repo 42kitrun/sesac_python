@@ -1,24 +1,39 @@
+import sys
+sys.path.append('5.Project/1.data_gen')
 from generators.generator import GenerateData
 from generators.id import IdGenerator
-from generators.id_handler import select_id
-
-from random import randint
+from csv import DictReader
+from random import randint, choices, choice
 
 class OrderGenerator:
     def __init__(self):
         self.__header = ['Id','OrderAt','StoreId','UserId']
+        self.id_map = {'user':[], 'store':[]}
         self.generator_map = {
             'Id': IdGenerator()
         }
     
+    def load_id(self, _type, count:int):
+        with open(f'5.Project/1.data_gen/output/{_type}.csv', 'r',encoding='utf-8') as csvfile:
+            # 파일 내용 불러오기
+            # DictReader로 컬럼 순서가 바뀌어도 값을 가져오는데 문제 없음, fieldnames로 일부 컬럼만 가져올 수 있음
+            csv_list = list(map(lambda x : x['Id'], DictReader(csvfile,fieldnames=['Id'])))
+            if len(csv_list) > count :
+                return choices(csv_list[1:], k=count) # 전체 id 중에서 복원 추출로 count 만큼 추출
+            else:
+                return csv_list[1:] # 생성하려는 수가 storeid나 userid 보다 크면 헤더를 제외한 모든 데이터셋
+
     def generate(self,count) -> tuple:
         data = []
+
+        self.id_map['user'] = self.load_id('user',count)
+        self.id_map['store'] = self.load_id('store',count)
 
         for _ in range(count):
             # order_id 생성
             id = GenerateData(self.generator_map['Id'])()  # 주문 1번당 id 1개 생성 여러 주문을 한번에 생성하지 않음
-            user_id = select_id('user')
-            store_id = select_id('store')
+            user_id = choice(self.id_map['user'])
+            store_id = choice(self.id_map['store'])
 
             data.append((id,f'{randint(2000,2025)}-{randint(1,12):02d}-{randint(1,28):02d} {randint(7,21):02d}:{randint(0,59):02d}:{randint(0,59):02d}' , store_id, user_id))
 

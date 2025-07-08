@@ -1,3 +1,6 @@
+import sys
+
+sys.path.append('5.Project/1.data_gen')
 from generators.generator import GenerateData
 from generators.id import IdGenerator
 from generators.name import NameGenerator
