@@ -1,69 +1,78 @@
-from flask import Flask, jsonify, url_for, render_template, request,redirect
+from flask import Flask, jsonify, redirect, url_for, render_template, request
 import os
 
 app = Flask(__name__)
 
-# UPLOAD_FOLDER = '5.Project/2.pixabay/4.frontend_admin_template/static/img'
-ALLOWED_FILE_EXT = {'png', 'jpg', 'jpeg', 'gif'}
-# os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
+# 글로벌 변수
 images = [
-    {"filename":"cat.jpeg", "keywords": ["cat", "pet", "cute"]},
-    {"filename":"cat2.jpeg", "keywords": ["cat", "kitty", "cute"]},
-    {"filename":"cat3.jpeg", "keywords": ["dog", "pet", "park"]},
-    {"filename":"starbucks.png", "keywords": ["coffee", "logo", "starbucks"]}
+    {"filename":"cat1.jpg", "keywords": ["cat", "animal", "cute"]},
+    {"filename":"cat2.jpg", "keywords": ["cat", "pet", "cute"]},
+    {"filename":"cat3.jpg", "keywords": ["cat", "kitty", "cute"]},
+    {"filename":"dog1.jpg", "keywords": ["dog", "pet", "park"]},
+    {"filename":"panda1.jpg", "keywords": ["panda", "zoo", "bear"]}
 ]
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_FILE_EXT
-
-@app.route('/admin', methods=['GET','POST'])
-def admin():
-    if request.files:
-        print(request.form) 
-        file = request.files['file']
-
-        if file.filename == '' or file.filename is None:
-            return '파일이 올바르게 전송되지 않았습니다.'
-
-        images.append(
-            {
-                'filename':file.filename,
-                "keywords":request.form['keywords'].split(',')
-            }
-        )
-        if allowed_file(file.filename):
-            # 파일 저장하기 - 현재폴더의 uploads 안에 받은 파일명으로 저장하기
-            filepath = os.path.join( 'static','img', file.filename)
-            file.save(filepath)
-            # filename : file.filename, keyword : 
-            print( '파일 업로드에 성공하였습니다.')
-        else:
-            print( '허용되지 않는 파일입니다.')
-
-    results = [
-    {
-        "filename": item["filename"],
-        "keywords": ', '.join(item["keywords"]),
-        "img": url_for('static', filename=f'img/{item["filename"]}')
-    }
-    for item in images
-    ]
-
-    return render_template("admin.html", results=results)
+@app.route('/')
+def index():
+    query = request.args.get("q", "").lower()
+    results = []
     
+    for item in images:
+        # pythonic하게 한줄로...
+        if any(query in keyword for keyword in item["keywords"]):
+            image_url = url_for('static', filename=f'img/{item["filename"]}')
+            results.append(image_url)
+    
+    return render_template("index.html", query=query, results=results)
+
+@app.route('/admin')
+def admin():
+    return render_template("admin.html", images=images)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files.get('image')
+    keywords = request.form.get('keywords')
+    print(keywords)
+    
+    if file:
+        filename = file.filename
+        filepath = os.path.join('static', 'img', filename)
+        file.save(filepath)
+        images.append({'filename': filename, "keywords": keywords.lower().split(',')})
+    
+    return redirect(url_for('admin'))
+
+@app.route('/update/<filename>', methods=['POST'])
+def update_keywords(filename):
+    new_keywords = request.form.get('keywords')
+    for i in images:
+        if i["filename"] == filename:
+            i["keywords"] = [word.strip() for word in new_keywords.lower().split(',') if len(word.strip())]
+            break
+        
+    return redirect(url_for('admin'))
+
 @app.route('/delete/<filename>')
-def delete_file(filename):
-    filepath = os.path.join('./','static','img', filename)
-    print(filepath,os.path.exists(filepath))
+def delete_image(filename):
+    print('삭제할파일: ', filename)
+    global images   # 우리의 글로벌 변수를 읽어갈때는 문제가 없음. 단, 수정할꺼면 global로 설정해줘야지만, 해당 변수안의 내용을 수정할 수 있음.
+    
+    # 삭제할거 빼고 나머지를 다시 채움
+    images = [
+        img 
+        for img in images 
+        if img["filename"] != filename
+    ]
+    
+    # 실제로 이미지를 지울거면??
+    filepath = os.path.join('static', 'img', filename)
     if os.path.exists(filepath):
-        os.remove(filepath)
-        images.remove([file for file in images if filename in filepath and file.get('filename') == filename][0])
-        # return '파일 삭제가 완료되었습니다.'
-        return redirect(url_for('admin'))
-    else:
-        return '해당 파일은 존재하지 않습니다.'
+        # os.remove(filepath)
+        print(f'{filepath} 지웠다고 치자...')
+    
+    return redirect(url_for('admin'))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=7890)
+    app.run(debug=True)
     

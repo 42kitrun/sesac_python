@@ -5,41 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .error{
+        .error {
             color: red;
+        }
+        .success {
+            color: green;
         }
     </style>
 </head>
 <body>
     <button id="load">로드</button>
-    <div id="result"><!-- 응답온거넣을곳 --></div>
+    <div id="result"><!--응답온거넣을곳--></div>
 
     <script>
         const loadBtn = document.getElementById('load')
         const resultDiv = document.getElementById('result');
-        loadBtn.addEventListener('click', ()=>{
+
+        loadBtn.addEventListener('click', () => {
             console.log('버튼클릭');
             fetch('http://127.0.0.1:5000/data')
+                // Response 라는 개체 하나를 받은것.
                 .then(response => {
-                    
-                    if(!response.ok){
+                    // 헤더처리하는곳
+                    // console.log('응답받았음: 응답코드는?', response.status, response.ok)
+                    if (!response.ok) {
                         throw new Error('통신중 오류가 발생했습니다.')
                     }
-                    // console.log('응답받았음: 응답코드는?', response.status, response.ok)
-                    // console.log(response)
                     // reponse.json() reponse.text() reponse.blob() 은
                     // response.body.(...)중 본문내용만 파싱하는 함수
+                    console.log("GPT가말한바디있나확인중:", response.body)
+                    return response.json()  // 바디를 파싱하는곳 (body 만 파싱했음)
                 })
                 .then(data => {
-                    resultDiv.classList.add('success');
-                    console.log(data);
-                    resultDiv.innerHTML = data.greeting
+                    // 바디만 받아온 이후..
+                    console.log(data)
+                    if (data.result === 'success') {
+                        resultDiv.classList.add('success');
+                        resultDiv.innerHTML = data.message
+                    } else {
+                        resultDiv.classList.add('error');
+                        resultDiv.innerHTML = data.message
+                    }
                 })
                 .catch(error => {
-                    resultDiv.classList.add('error')
+                    resultDiv.classList.add('error');
                     resultDiv.innerHTML = "통신중 오류가 발생했습니다."
                 })
-            console.log('fetch이후');
+            console.log('fetch이후')
         })
     </script>
 </body>

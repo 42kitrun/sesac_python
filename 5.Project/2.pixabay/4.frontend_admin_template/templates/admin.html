@@ -4,47 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        table,td,th{
-            box-sizing: border-box;
-            width: 80vw;
-            border:2px solid black;
-            border-collapse : collapse;
-            text-align: center;
-        }
-        th{
-            font-size: 20px;
-        }
-    </style>
 </head>
 <body>
     <h1>이미지 업로드</h1>
-        <form action="/admin" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="text" name="keywords" placeholder="예) cat, animal">
-            <button type="submit">업로드</button>
-        </form>
+    <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <input type="text" name="keywords" size=30 placeholder="예) cat, dog, pet, ... (콤마로 구분하시오)">
+        <input type="submit" value="업로드">
+    </form>
+
     <h2>이미지 목록</h2>
-    <div>
-        <table>
-            <th><strong>미리보기</strong></th>
-            <th><strong>파일명</strong></th>
-            <th><strong>키워드</strong></th>
-            <th><strong>삭제</strong></th>
-            {% for file in results %}
-            <tr>
-                <td><img src="{{ file.img }}"></td>
-                <td>{{ file.filename }}</td>
-                <td>
-                    <form action="/admin" method="POST">
-                        <input type="text" name="keyword" placeholder="예) cat, animal" value ="{{ file.keywords }}">
-                        <button type="submit">수정</button>
-                    </form>
-                </td>
-                <td><a href="/delete/{{ file.filename }}" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a></td>
-            </tr> 
-            {% endfor %}
-        </table>
-    </div>
+    <table border="1">
+        <tr>
+            <th>미리보기</th>
+            <th>파일명</th>
+            <th>키워드</th>
+            <th>삭제</th>
+        </tr>
+        {% for i in images %}
+        <tr>
+            <td><img src="{{ url_for('static', filename='img/' + i.filename) }}" width="200"></td>
+            <td>{{ i.filename }}</td>
+            <td>
+                <form action="{{ url_for('update_keywords', filename=i.filename )}}" method="POST">
+                    <input type="text" name="keywords" value="{{ i.keywords | join(', ') }}">
+                    <button type="submit">수정</button>
+                </form>
+            </td>
+            <td><a href="{{ url_for('delete_image', filename=i.filename) }}" onclick="return confirm('정말 삭제하시겠습니다?')">삭제</a></td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

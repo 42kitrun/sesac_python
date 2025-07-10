@@ -11,16 +11,14 @@
     <div id="result"></div>
 
     <script>
-        document.getElementById('load').addEventListener('click',()=>{
+        document.getElementById('load').addEventListener('click', () => {
             console.log('버튼 클릭');
-            //외부에 요청하겠어.. xhr이라는 기술로 xml-http-request라는 방식으로 복잡하게 요청했음.
-            // jquery -> ajax (비동기 요청) 이제 더이상 안씀(jquery의 ajax)
-            // fetch(요청한다) 라는게 생겨났음
+            // 외부에 요청하겠어.. xhr 이라는 기술로 xml-http-request 라는 방식으로 복잡하게 요청했음.
+            // jquery -> ajax 
+            // fetch 라는게 생겨났음. 
             // fetch('http://127.0.0.1:5000/data')
-            fetch('http://127.0.0.1:5000/api/search?q=dog')
-            // tab을 하나 들여쓰기 해서 어떤 fetch에 종속된건지 표시함
+            fetch('http://localhost:5000/api/search?q=dog')
                 .then(response => {
-                    console.log('일단 응답왔음');
                     if (!response.ok) {
                         throw new Error("네트워크 오류??");
                     }
@@ -33,7 +31,6 @@
                 .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
                     console.error('오류가 났음: ', error);
                 });
-            console.log("fetch 요청 이후");
         })
     </script>
 </body>
