@@ -35,7 +35,7 @@ def upload():
     keywords = request.form.get('keywords')
     print(keywords)
     
-    if file:
+    if file and keywords:
         filename = file.filename
         filepath = os.path.join('static', 'img', filename)
         file.save(filepath)
@@ -47,7 +47,7 @@ def upload():
 def update_keywords(filename):
     new_keywords = request.form.get('keywords')
     for i in images:
-        if i["filename"] == filename:
+        if i["filename"] == filename and new_keywords:
             i["keywords"] = [word.strip() for word in new_keywords.lower().split(',') if len(word.strip())]
             break
         

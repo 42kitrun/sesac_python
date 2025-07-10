@@ -25,7 +25,7 @@
                 method: 'PUT',
                 body: JSON.stringify(updateData),
                 headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-            })
+            })    // 옵셔널 한거지만, 나의 바디 포멧과 언어 등을 넣어 주는것이 좋음
                 .then(response => response.json())
                 .then(json => document.getElementById('result').innerText = JSON.stringify(json, null, 4));
         });

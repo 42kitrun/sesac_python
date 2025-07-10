@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,td,th{
+            box-sizing: border-box;
+            width: 80vw;
+            border:2px solid black;
+            border-collapse : collapse;
+            text-align: center;
+        }
+        th{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지 업로드 REST API</h1>
+        <form action="/api/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="text" name="keywords" placeholder="예) cat, animal">
+            <button type="submit">업로드</button>
+        </form>
+    <h2>이미지 목록</h2>
+    <div>
+        <table id='imgTable'>
+            <th><strong>미리보기</strong></th>
+            <th><strong>파일명</strong></th>
+            <th><strong>키워드</strong></th>
+            <th><strong>삭제</strong></th>
+            <!--
+            사진 데이터 한 줄
+            -->
+        </table>
+    </div>
+
+    <script>
+        const imgTable = document.getElementById('imgTable')
+
+        document.addEventListener('DOMContentLoaded', function () {
+        fetch('http://127.0.0.1:7890/api/admin') // 주고 받을때는 문자열을 주고 받는다
+                .then(response => response.json()) // 변수 => 결과값
+                .then((files) => {
+                    console.log(files)
+                    for(file in files){
+                        console.log(files[file],files[file]['img'],files[file]['filename'], files[file]['keywords']);
+                        imgTable.innerHTML += `
+            <tr>
+                <td><img src="${files[file]['img']}"></td>
+                <td>${files[file]['filename']}</td>
+                <td>
+                    <form action="/update/${files[file]['filename']}"" method="POST">
+                        <input type="text" name="keyword" placeholder="예) cat, animal" value ="${files[file]['keywords']}">
+                        <button id="updateBtn">수정</button>
+                    </form>
+                </td>
+                <td><a href="/delete/${files[file]['filename']}" onclick="deleteFile(${files[file]['filename']})">삭제</a></td>
+            </tr> `
+                    }
+                });
+            })
+
+        function deleteFile(filename) {
+            fetch(`http://127.0.0.1:7890/delete/${filename}`, { method: 'DELETE' })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('통신중 오류가 발생했습니다.')
+                    }
+                    window.location.href = 'http://127.0.0.1:7890/api/admin';
+                })
+        } 
+   
+    </script>
+    </body>
+</html>

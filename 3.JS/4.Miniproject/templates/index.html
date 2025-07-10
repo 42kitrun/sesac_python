@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <title>To-do List</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+        }
+
+        .inputGroup {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        #userInput,
+        #addTodo {
+            box-sizing: border-box;
+            height: 40px;
+            padding: 10px;
+            font-size: 20px;
+            border: 1px solid #ccc;
+            vertical-align: top;
+        }
+
+        #userInput {
+            width: 250px;
+        }
+
+        #addTodo {
+            width: 60px;
+        }
+
+        #todoList {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        label {
+            display: flex;
+            flex-direction: row;
+            font-size: 19px;
+        }
+
+        input[type='checkbox'] {
+            transform: scale(1.5);
+        }
+
+        input[type='checkbox']:checked + span {
+            text-decoration: line-through;
+        }
+
+        .newTodo,
+        input[type='checkbox'] {
+            display: inline;
+            cursor: pointer;
+            margin: 0px 10px;
+        }
+
+        i {
+            font-size: 17px;
+            margin-left: 9px;
+            color: lightcoral;
+        }
+
+        button{
+
+            background:none;
+            border:none; 
+            padding:0;
+        }
+
+        label form {
+            display: inline-block;
+            margin: 0;
+        }
+        .done{
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-do List</h1>
+    <form action='/' method = 'POST' class="inputGroup">
+            <input type="text" name='todo' id="userInput" placeholder="New to-do" />
+            <button type ='submit' id="addTodo">Add</button>
+    </form>
+
+        <div id="todoList">
+            {% for todo in todos %}
+            <label class="newTodo">
+                <input type="checkbox">
+                <span>{{ todo.todo }}</span>
+                <form action="{{ url_for('delete', todo=todo['todo']) }}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                    <button type="submit" >
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </label>
+            {% endfor %}
+        </div>
+</body>
+</html>
