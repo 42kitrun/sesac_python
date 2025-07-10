@@ -6,15 +6,20 @@ app = Flask(__name__)
 CORS(app)  # 나의 서버에 누구든지 와서 정보를 요청할수 있음.
 
 images = [
-    {"filename":"cat.jpeg", "keywords": ["cat", "pet", "cute"]},
-    {"filename":"cat2.jpeg", "keywords": ["cat", "kitty", "cute"]},
-    {"filename":"cat3.jpeg", "keywords": ["dog", "pet", "park"]},
-    {"filename":"starbucks.png", "keywords": ["coffee", "logo", "starbucks"]}
+    {"filename":"cat1.jpg", "keywords": ["cat", "animal", "cute"]},
+    {"filename":"cat2.jpg", "keywords": ["cat", "pet", "cute"]},
+    {"filename":"cat3.jpg", "keywords": ["cat", "kitty", "cute"]},
+    {"filename":"dog1.jpg", "keywords": ["dog", "pet", "park"]},
+    {"filename":"panda1.jpg", "keywords": ["panda", "zoo", "bear"]}
 ]
 
-@app.route('/api/admin')
+@app.route('/')
+def index():
+    return send_from_directory(app.static_folder or "static", "index.html")
+
+@app.route('/api/search')
 def search():
-    query = request.file
+    query = request.args.get("q", "").lower()
     results = []
     
     for item in images:

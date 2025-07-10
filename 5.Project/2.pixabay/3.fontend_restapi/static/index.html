@@ -6,37 +6,16 @@
     <title>마이 픽사베이</title>
 </head>
 <body>
-    <h1>이미지 업로드</h1>
-        <form action="/admin" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="text" name="keywords" placeholder="예) cat, animal">
-            <button type="submit">업로드</button>
-        </form>
-    <h2>이미지 목록</h2>
-    <div>
-        <table>
-            <th><strong>미리보기</strong></th>
-            <th><strong>파일명</strong></th>
-            <th><strong>키워드</strong></th>
-            <th><strong>삭제</strong></th>
-            {% for file in results %}
-            <tr>
-                <td><img src="{{ file.img }}"></td>
-                <td>{{ file.filename }}</td>
-                <td>
-                    <form action="/admin" method="POST" id="sendFile">
-                        <input type="text" name="keyword" placeholder="예) cat, animal" value ="{{ file.keywords }}">
-                        <button type="submit">수정</button>
-                    </form>
-                </td>
-                <td><a href="/delete/{{ file.filename }}" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a></td>
-            </tr> 
-            {% endfor %}
-        </table>
-    </div>
+    <h1>이미지 검색</h1>
+    <form action="/search" method="GET" id="searchForm">
+        <input type="text" name="q" id="query" placeholder="예) cat, dog, pet" required>
+        <button type="submit">검색</button>
+    </form>
+
+    <div id="results"><!-- 결과 이미지를 채울 공간 --></div>
 
     <script>
-        document.getElementById('sendFile').addEventListener("submit", (e) => {
+        document.getElementById('searchForm').addEventListener("submit", (e) => {
             e.preventDefault(); // 원래 하던 폼 전송후 리프래쉬 막기
             const query = document.getElementById('query').value;
 

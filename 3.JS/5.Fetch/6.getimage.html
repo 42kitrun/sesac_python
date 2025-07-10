@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+
+        }
+    </style>
+</head>
+<body>
+    <!--
+        미션1. 버튼과 결과를 출력할 빈 공간을 만든다
+        미션2. 버튼을 클릭하면 아래 사이트에 이미지 요청을 한다
+              https://dog.ceo/api/breeds
+        미션3. 
+    -->
+    <h1>Random Dog Breed Image</h1>
+    <div>
+        <label for="mainBreeds">Choose a main breed: </label>
+        <select id="breedsList" name="mainBreeds"><!-- list--></select>
+        
+        <label for="subBreeds">Choose a sub-breed: </label>
+        <select id="subBreedsList" name="subBreeds"><!-- list--></select>
+        
+        <button id="loadBreedsList">Fetch Image</button>
+    </div>
+    
+    <div id="randomImg"></div>
+
+<script>
+    const breedsList = document.getElementById('breedsList');
+    const subBreedsList = document.getElementById('subBreedsList');
+    let breedValue = '';
+    let subBreedList=[];
+
+    // 시작할때 main 목록 불러오기
+    document.addEventListener('DOMContentLoaded', function () {
+    breedsList.innerHTML += `<option value="select">select breed</option>`
+    subBreedsList.innerHTML = `<option value="None">None</option>`
+    fetch('https://dog.ceo/api/breeds/list/all') // 주고 받을때는 문자열을 주고 받는다
+            .then(response => response.json()) // 변수 => 결과값
+            .then((data) => {
+                for( breed in data.message){
+                    breedsList.innerHTML += `<option value="${breed}">${breed}</option>`
+                }
+            });
+        })
+    
+    breedsList.addEventListener('change',(e)=>{
+        breedValue = breedsList.value;
+        fetch('https://dog.ceo/api/breeds/list/all') // 주고 받을때는 문자열을 주고 받는다
+        .then(response => response.json()) // 변수 => 결과값
+        .then((data) => {
+            subBreedList = data.message[breedValue]
+            if (subBreedList.length > 0){
+                subBreedsList.innerHTML ='';
+                for( subBreed in subBreedList ){
+                        subBreedsList.innerHTML += `<option value="${subBreedList[subBreed]}">${subBreedList[subBreed]}</option>`
+                    }
+                }
+            else{
+                subBreedsList.innerHTML = `<option value="None">None</option>`;
+            }
+            });
+    })
+    
+    subBreedsList.addEventListener('change',(e)=>{
+        breedValue = subBreedsList.value;
+    })
+
+    document.getElementById('loadBreedsList').addEventListener('click',()=>{
+        fetch(`https://dog.ceo/api/breed/${breedValue}/images/random`) // 주고 받을때는 문자열을 주고 받는다
+            .then(response => response.json()) // 변수 => 결과값
+            .then((data) => {
+                document.getElementById('randomImg').innerHTML = `<img src="${data.message}">`
+                // console.log(data.message);
+            })
+    })
+    
+</script>
+</body>
+</html>

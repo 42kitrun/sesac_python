@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} 기본 타이틀 {% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <!-- 하드 코딩은 유연한 대응이 어렵다...
+        <a href="/">Home</a>
+        <a href="/user">User</a>
+        <a href="/admin">Admin</a> -->
+        <!-- 동적 코딩이 유연해서 더 좋다 -->
+        <a href="{{ url_for('index')}}">Home</a>
+        <a href="{{ url_for('user.user_page')}}">User</a>
+        <a href="{{ url_for('admin.admin_page')}}">Admin</a>
+    </nav>
+    <hr>
+    {% block content %} 기본 본문 {% endblock %}
+</body>
+</html>
