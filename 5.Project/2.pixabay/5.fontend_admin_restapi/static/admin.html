@@ -38,41 +38,62 @@
     </div>
 
     <script>
-        const imgTable = document.getElementById('imgTable')
+        const imgTable = document.getElementById('imgTable');
+        const deleteBtn = document.getElementsByClassName('deleteBtn');
 
-        document.addEventListener('DOMContentLoaded', function () {
-        fetch('http://127.0.0.1:7890/api/admin') // 주고 받을때는 문자열을 주고 받는다
-                .then(response => response.json()) // 변수 => 결과값
-                .then((files) => {
-                    console.log(files)
-                    for(file in files){
-                        console.log(files[file],files[file]['img'],files[file]['filename'], files[file]['keywords']);
-                        imgTable.innerHTML += `
-            <tr>
-                <td><img src="${files[file]['img']}"></td>
-                <td>${files[file]['filename']}</td>
-                <td>
-                    <form action="/update/${files[file]['filename']}"" method="POST">
-                        <input type="text" name="keyword" placeholder="예) cat, animal" value ="${files[file]['keywords']}">
-                        <button id="updateBtn">수정</button>
-                    </form>
-                </td>
-                <td><a href="/delete/${files[file]['filename']}" onclick="deleteFile(${files[file]['filename']})">삭제</a></td>
-            </tr> `
-                    }
-                });
+        url = 'http://127.0.0.1:7890'
+
+        function load() {
+            fetch(url + '/api/admin') // 주고 받을때는 문자열을 주고 받는다
+                    .then(response => {
+                        if(!response.ok){
+                        }
+                        
+                        return response.json()}) // 변수 => 결과값
+                    .then((files) => {
+                        console.log(files)
+                        imgTable.innerHTML=`<th><strong>미리보기</strong></th>
+            <th><strong>파일명</strong></th>
+            <th><strong>키워드</strong></th>
+            <th><strong>삭제</strong></th>`;
+                        for(file in files){
+                            console.log(files[file],files[file]['img'],files[file]['filename'], files[file]['keywords']);
+                            imgTable.innerHTML += `
+                <tr id="${files[file]['filename']}">
+                    <td><img src="${files[file]['img']}"></td>
+                    <td>${files[file]['filename']}</td>
+                    <td>
+                        <form action="/update/${files[file]['filename']}"" method="POST">
+                            <input type="text" name="keyword" placeholder="예) cat, animal" value ="${files[file]['keywords']}">
+                            <button id="updateBtn">수정</button>
+                        </form>
+                    </td>
+                    <td><a href="#" onclick="deleteFile(event)" class="deleteBtn">삭제</a></td>
+                </tr> `
+                        }
+                    });
+        }
+
+        function deleteFile(e) {
+            filename = e.target.parentElement.parentElement.id;
+            console.log(filename);
+            fetch(`http://127.0.0.1:7890/api/delete`, {
+                method: 'DELETE',
+                headers: { // 옵셔널 한거지만, 나의 바디 포멧과 언어 등을 넣어 주는것이 좋음
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(filename)
             })
-
-        function deleteFile(filename) {
-            fetch(`http://127.0.0.1:7890/delete/${filename}`, { method: 'DELETE' })
                 .then(res => {
                     if (!res.ok) {
                         throw new Error('통신중 오류가 발생했습니다.')
                     }
-                    window.location.href = 'http://127.0.0.1:7890/api/admin';
+                    load()
                 })
         } 
-   
+
+        document.addEventListener('DOMContentLoaded', load);
+
     </script>
     </body>
 </html>

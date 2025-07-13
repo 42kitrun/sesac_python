@@ -27,7 +27,7 @@ def admin():
         item['img'] = os.path.join('img',item['filename'])
         results.append(item)
     
-    return jsonify(results)  # 순수 BE개발자는 여기까지...
+    return jsonify(results) 
 
 @app.route('/api/upload', methods=['GET','POST'])
 def upload():
@@ -65,11 +65,17 @@ def update(filename):
     
     return redirect(url_for('admin'))
 
-@app.route('/delete/<filename>', methods=['GET','DELETE'])
-def delete(filename):
-    global images # 함수 안에서 전역 변수에 새 값을 할당하려면 global이 필요하다! 안 쓰면 함수 안에서만 동작하고, 밖에 images에 영향이 없다.
-    images = [file for file in images if file['filename'] != filename]
-    return jsonify({'result': 'ok'})
+@app.route('/api/delete', methods=['GET','POST','DELETE'])
+def delete():
+    if request.method in ['GET','POST','DELETE']:
+        print(request.method)
+        filename = request.get_json()
+        print(filename)
+        global images # 함수 안에서 전역 변수에 새 값을 할당하려면 global이 필요하다! 안 쓰면 함수 안에서만 동작하고, 밖에 images에 영향이 없다.
+        images = [file for file in images if file['filename'] != filename]
+        return jsonify({'result':'success'})
+    else:
+        return jsonify({'result':'fail'})
 
 if __name__ == "__main__":
     app.run(debug=True, port=7890)
