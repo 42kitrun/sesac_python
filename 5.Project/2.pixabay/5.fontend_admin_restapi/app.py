@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, url_for, request,redirect
+from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 import os
 # pip install flask-cors
@@ -29,45 +29,58 @@ def admin():
     
     return jsonify(results) 
 
-@app.route('/api/upload', methods=['GET','POST'])
+@app.route('/api/upload', methods=['POST'])
 def upload():
-    if request.files:
-        print(request.form) 
-        file = request.files['file']
+    print(request.files, request.form)
+    image = request.files['image']
+    filename = request.form['filename']
+    keywords =  request.form['keywords']
 
-        if file.filename == '' or file.filename is None:
-            return '파일이 올바르게 전송되지 않았습니다.'
+    print(image, filename, keywords)
+    
+    if request.method == 'POST' and request.files is not None:
+
+        if filename == '' or filename is None:
+            return abort(404)
 
         images.append(
             {
-                'filename':file.filename,
-                "keywords":request.form['keywords'].split(',')
+                'filename':filename,
+                "keywords":keywords.split(',')
             }
         )
-        if allowed_file(file.filename):
+        if allowed_file(filename):
             # 파일 저장하기 - 현재폴더의 uploads 안에 받은 파일명으로 저장하기
-            filepath = os.path.join( 'static','img', file.filename)
-            file.save(filepath)
+            filepath = os.path.join( 'static','img', filename)
+            os.makedirs(os.path.join( 'static','img'), exist_ok=True)  # 폴더가 없으면 생성
+            image.save(filepath)
             # filename : file.filename, keyword : 
             print( '파일 업로드에 성공하였습니다.')
+            return jsonify({'result':'success'})
         else:
             print( '허용되지 않는 파일입니다.')
+            jsonify({'result':'허용되지 않는 파일입니다.'})
 
-    return redirect(url_for('admin'))
+    return jsonify({'result':'fail'})
 
-@app.route('/api/update/<filename>', methods=['GET,''POST'])
-def update(filename):
-    keywords = request.form.get('keywords')
-    if request.method == 'POST' and keywords is not None:
-        for file in images: 
+@app.route('/api/update', methods=['PATCH'])# 일부 수정
+def update():
+    keywords = request.get_json()
+    print(keywords)
+    if request.method == 'PATCH' and keywords is not None:
+        filename = keywords['filename']
+        keyword = keywords['keywords'].split(',')
+        global images # 함수 안에서 전역 변수에 새 값을 할당하려면 global이 필요하다! 안 쓰면 함수 안에서만 동작하고, 밖에 images에 영향이 없다.
+        for file in images:
             if file['filename'] == filename:
-                file['keywords'] = keywords.split(',')
+                file['keywords'] = keyword
+                return jsonify({'result':'success'})
     
-    return redirect(url_for('admin'))
+    return jsonify({'result':'fail'})
 
-@app.route('/api/delete', methods=['GET','POST','DELETE'])
+@app.route('/api/delete', methods=['DELETE'])
 def delete():
-    if request.method in ['GET','POST','DELETE']:
+    if request.method in ['DELETE']:
         print(request.method)
         filename = request.get_json()
         print(filename)
