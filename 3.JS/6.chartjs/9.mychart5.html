@@ -1,0 +1,78 @@
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+const labels = ['1월','2월','3월','4월','5월','6월','7월'];
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Unfilled',
+      fill: false,
+      borderColor: 'rgb(255, 99, 132)',
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+      data: [70,60,50,40,30,20,10],
+    }, {
+      label: 'Dashed',
+      fill: false,
+     backgroundColor: 'rgba(255, 99, 132, 0)',
+    borderColor: 'rgb(54, 162, 235)',
+      borderDash: [5, 5],
+      data: [10,20,30,40,50,60,70],
+    }, {
+      label: 'Filled',
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    borderColor: 'rgb(54, 162, 235,0)',
+      data: [20,60,10,70,40,30,50],
+      fill: true,
+    }
+  ]
+};
+
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Pretty Line Chart'
+      },
+      legend:{
+        position:'bottom',
+      }
+    },
+    interaction: {
+      mode: 'index',
+      intersect: false
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Month',
+          align:'end',
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Value',
+          align:'end',
+        }
+      }
+    }
+  },
+};
+
+new Chart(ctx, config);
+  
+</script>
