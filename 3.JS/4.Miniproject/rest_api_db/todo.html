@@ -97,37 +97,23 @@
 
         function load() {
             todoList.innerHTML = '';
-            fetch(url + '/api/todo') // 주고 받을때는 문자열을 주고 받는다
-                    .then(response => {
-                        if(!response.ok){
+            fetch(url + '/api/todo')
+                .then(response => {
+                    if(!response.ok){
+                    }
+                    return response.json()
+                }) // 변수 => 결과값
+                .then((todos) => {
+                    for(todo in todos){        
+                        console.log(todos,todo, todos[todo]['todo']);
+                        todoList.innerHTML +=`
+                        <label clas="newTodo">
+                            <input type="checkbox" ${todos[todo]['status'] === 1 ? 'checked':''} />
+                            <span>${todos[todo]['todo']}</span>
+                            <i class="fa-solid fa-trash"></i>
+                        </label>`;
                         }
-                        return response.json()}) // 변수 => 결과값
-                    .then((todos) => {
-                        console.log(todos);
-                        for(todo in todos){
-                            console.log(todos[todo],todos[todo]['todo'],todos[todo]['status']);
-                            // 새로운 label 만들기
-                            const newTodoLabel = document.createElement('label');
-                            newTodoLabel.className = 'newTodo';
-                            // 체크박스
-                            const newTodoBox = document.createElement('input');
-                            newTodoBox.setAttribute('type', 'checkbox');
-                            // 체크박스를 체크된 상태로 만들기
-                            newTodoBox.checked = todos[todo]['status'] === 1 ? true :false ;
-                            newTodoLabel.appendChild(newTodoBox);
-                            // 추가한 할일
-                            const textSpan = document.createElement('span');
-                            textSpan.textContent = todos[todo]['todo'];
-                            newTodoLabel.appendChild(textSpan);
-                            // 삭제 이미지
-                            const deleteTodo = document.createElement('i');
-                            deleteTodo.className = 'fa-solid fa-trash';
-                            newTodoLabel.appendChild(deleteTodo);
-                                    
-                            todoList.appendChild(newTodoLabel);
-                            }
-                        
-                    });
+                });
         }
 
         // 할일 추가하기
@@ -144,13 +130,14 @@
             if (userInput.value.trim() === '') return;
 
             const todo = document.getElementById('userInput').value;
+            console.log(todo);
             const todoInfo = {
                 'todo':todo,
                 'status':0
             }
             console.log(todoInfo);
 
-           fetch(`http://127.0.0.1:7890/api/upload`, {
+           fetch(url + '/api/upload', {
                 method: 'POST',
                 headers: { // 옵셔널 한거지만, 나의 바디 포멧과 언어 등을 넣어 주는것이 좋음
                     'Content-Type': 'application/json; charset=UTF-8'
@@ -167,19 +154,21 @@
             userInput.value = '';// 할일 등록후, input 비우기
         }
 
-        // check box 상태변경시 post로 상태 변경반영
-        todoList.addEventListener('change', function (e) {
-            if (e.target && e.target.type === 'checkbox') {
+        // 할일목록 관리
+        todoList.addEventListener('click', function (e) {
+            // 클릭된 요소가 체크박스
+            // check box 상태변경시 post로 상태 변경반영
+            if (e.target.tagName === 'INPUT') {
                 const checkbox = e.target;
                 const status = checkbox.checked ? 1:0;
-                const todo = checkbox.parentElement.textContent; 
+                const todo = checkbox.parentElement.span.textContent; 
                 const todoInfo = {
                     'todo':todo,
                     'status':status
                 }
                 console.log(todoInfo);
 
-                fetch(`http://127.0.0.1:7890/api/update`, {
+                fetch(url + '/api/update', {
                      method: 'PATCH',
                      headers: { // 옵셔널 한거지만, 나의 바디 포멧과 언어 등을 넣어 주는것이 좋음
                          'Content-Type': 'application/json; charset=UTF-8'
@@ -192,17 +181,28 @@
                         }
                         load()
                     })
-            };
-        })
-
-        // 할일목록 관리
-        todoList.addEventListener('click', function (e) {
-            // 클릭된 요소가 체크박스
-            if (e.target.tagName === 'INPUT') {
             }// 클릭된 요소가 이미지
             else if (e.target.tagName === 'I') {
-                e.target.parentNode.remove(); // 해당 할일 삭제
-            }
+                const todo = e.target.parentElement.span.textContent; 
+                const todoInfo = {
+                    'todo':todo
+                }
+                console.log(todoInfo);
+
+                fetch(url + '/api/delete', {
+                     method: 'DELETE',
+                     headers: { // 옵셔널 한거지만, 나의 바디 포멧과 언어 등을 넣어 주는것이 좋음
+                         'Content-Type': 'application/json; charset=UTF-8'
+                     },
+                     body: JSON.stringify(todoInfo)
+                })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error('통신중 오류가 발생했습니다.')
+                        }
+              
+                    })
+            };
         });
     </script>
 </body>

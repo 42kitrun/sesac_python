@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-import os
 # pip install flask-cors
 
 app = Flask(__name__)
@@ -53,7 +52,7 @@ def delete():
         todoList = [todo for todo in todoList if todo['todo'] != getTodoList['todo']]
         return jsonify({'result':'success'})
     else:
-        return jsonify({'result':'fail'})
+        return jsonify({'result':'fail'},404)
 
 if __name__ == "__main__":
     app.run(debug=True, port=7890)

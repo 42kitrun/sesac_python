@@ -64,6 +64,10 @@
             margin: 0px 10px;
         }
 
+        input[type='checkbox']:checked + span{
+            text-decoration: line-through;
+        }
+
         i {
             font-size: 17px;
             margin-left: 9px;
@@ -108,8 +112,9 @@
             newTodoBox.setAttribute('type', 'checkbox');
             newTodoLabel.appendChild(newTodoBox);
             // 추가한 할일
-            const textNode = document.createTextNode(userInput.value);
-            newTodoLabel.appendChild(textNode);
+            const textSpan = document.createElement('span');
+            textSpan.textContent = userInput.value;
+            newTodoLabel.appendChild(textSpan);
             // 삭제 이미지
             const deleteTodo = document.createElement('i');
             deleteTodo.className = 'fa-solid fa-trash';
