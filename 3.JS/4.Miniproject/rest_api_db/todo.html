@@ -107,7 +107,7 @@
                     for(todo in todos){        
                         console.log(todos,todo, todos[todo]['todo']);
                         todoList.innerHTML +=`
-                        <label clas="newTodo">
+                        <label class="newTodo">
                             <input type="checkbox" ${todos[todo]['status'] === 1 ? 'checked':''} />
                             <span>${todos[todo]['todo']}</span>
                             <i class="fa-solid fa-trash"></i>
