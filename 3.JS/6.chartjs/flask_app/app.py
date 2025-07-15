@@ -1,4 +1,4 @@
-from flask import Flask, render_template,redirect
+from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
 
@@ -9,9 +9,10 @@ def index():
 @app.route('/api/data')
 def get_data():
     data = {
-        'labels':['1월','2월','3월','4월','5월','6월','7월']
-        'values': [100,90,80,70,60,50,40]
+        'labels': ['1월', '2월', '3월', '4월', '5월', '6월', '7월'],
+        'values': [100, 90, 80, 70, 60, 40, 50]
     }
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True, port=7890)

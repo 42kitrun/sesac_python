@@ -1,63 +1,50 @@
-<div>
-  <canvas id="myChart"></canvas>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        function fetchData() {
+            fetch('/api/data')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    drawChart(data.values)
+                })
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        function drawChart(revenue) {
+            console.log(revenue)
+            const ctx = document.getElementById('myChart');
+            const labels = ['1월', '2월', '3월', '4월', '5월', '6월', '7월'];
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'My First Dataset',
+                        data: revenue,
+                    },
+                ],
+            };
 
-<script>
-  function fetchData(){
-    fetch('/api/data')
-    .then(response => response.json())
-    .then(data =>{
-      console.log(data)
-        // drawChart(revenue)
-    })
-  }
-  
-  const ctx = document.getElementById('myChart');
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                },
+            };
 
-// config 설정을 만들어 넣는다.
+            new Chart(ctx, config);
+        }
 
-const labels = [1,2,3,4,5,6,7];
-const data = {
-  labels: labels,
-  datasets: [{
-    label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(201, 203, 207, 0.2)'
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)'
-    ],
-    borderWidth: 1
-  }]
-};
-
-const config = {
-  type: 'bar',
-  data: data,
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  },
-};
-
-new Chart(ctx, config);
-
-</script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+        });
+    </script>
+</body>
+</html>

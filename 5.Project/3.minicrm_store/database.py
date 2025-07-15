@@ -25,24 +25,32 @@ def get_stores(search_text=None):
 def get_stores():
     conn = get_connection()
     cursor = conn.cursor()
-
-    cursor.execute(f"SELECT * FROM stores")
-    
+    cursor.execute("SELECT * FROM stores")
     stores = cursor.fetchall()
     conn.close()
 
-    # 1-2 미션. 미션1-1을 안했다면?? 여기에서 튜플형의 데이터를 dict형으로 변환해서~
+    # 미션1-2. 미션1-1을 안했다면?? 여기에서 튜플형의 데이터를 dict형으로 변환해서 반납하고 싶으면??
+    # stores_dict = []
+    # for s in stores:
+    #     stores_dict.append({
+    #         'id': s[0],
+    #         'name': s[1],
+    #         'type': s[2],
+    #         'address': s[3]
+    #     })
+    # stores_dict = [{'id':s[0], 'name':s[1], 'type':s[2], 'address':s[3]} for s in stores]    
+    
     # return [{'id':store[0], 'name':store[1], 'type':store[2], 'address':store[3]} for store in stores]
-    return stores
+    return [dict(r) for r in stores]
 
 def get_stores_by_name(name):
     conn = get_connection()
     cursor = conn.cursor()
-
     cursor.execute(f"SELECT * FROM stores WHERE Name LIKE ?",(name,))
-    
+    # cursor.execute("SELECT * FROM stores WHERE Name LIKE ?", ('%' + name + '%', ))
     stores = cursor.fetchall()
     conn.close()
 
     # 1-2 미션. 미션1-1을 안했다면?? 여기에서 튜플형의 데이터를 dict형으로 변환해서~
+    # return [dict(r) for r in stores]
     return [{'id':store[0], 'name':store[1], 'type':store[2], 'address':store[3]} for store in stores]
