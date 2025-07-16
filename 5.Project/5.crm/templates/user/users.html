@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 조회 페이지</title>
+    <style>
+        table{
+            border : 1px solid transparent;
+            border-collapse: true ;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        여기는 네비게이션 // user // store // item // order // order_item
+    </nav>
+    <form>
+        <span> Name :</span>
+        <input type="text" name="name" />
+        <span> Gender :</span>
+        <select>
+            <option></option>
+            <option>Female</option>
+            <option>Male</option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </form>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Birthday</th>
+        </tr>
+        <!--  회원 조회 -->
+    </table>
+<script>
+    document.addEventListener('DOMContentLoaded', load);
+    const userTable = document.querySelector('table');
+
+    url = 'http://localhost:7890'
+
+    function load() {
+        userTable.innerHTML=`<tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Birthday</th>
+        </tr>`;
+        fetch(url + '/user/api/list',{ 
+		    method: 'GET',
+		    headers: { "Content-type": "application/json" } 
+		}) // 주고 받을때는 문자열을 주고 받는다
+            .then(response => {
+                if(!response.ok) throw new Error("네트워크 오류??");
+                return response.json() // 변수 => 결과값
+            }) 
+            .then((users) => {
+                console.log(users);
+                for (const user of users) {
+                    userTable.innerHTML += `
+                    <tr>
+                        <td><a href="#">${user.id}</a></td>
+                        <td>${user.name}</td>
+                        <td>${user.gender}</td>
+                        <td>${user.age}</td>
+                        <td>${user.birth_date}</td>
+                    </tr>`
+                }
+            })
+            .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
+                    console.error('오류가 났음: ', error);
+            });
+    }
+</script>
+</body>
+</html>

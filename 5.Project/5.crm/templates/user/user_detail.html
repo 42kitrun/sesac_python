@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 조회 페이지</title>
+</head>
+<body>
+    <nav>
+        여기는 네비게이션 // user // store // item // order // order_item
+    </nav>
+    <form>
+        <span> Name :</span>
+        <input type="text" name="name" />
+        <span> Gender :</span>
+        <select>
+            <option></option>
+            <option>Female</option>
+            <option>Male</option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </form>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Birthday</th>
+        </tr>
+        <!--  회원 조회 -->
+    </table>
+<script>
+    document.addEventListener('DOMContentLoaded', load);
+    const userTable = document.querySelector(table);
+
+    url = 'http://127.0.0.1:7890'
+
+    function load() {
+        userTable.innerHTML=`<tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Birthday</th>
+        </tr>`;
+        fetch(url + '/api/admin') // 주고 받을때는 문자열을 주고 받는다
+                .then(response => {
+                    if(!response.ok){
+                    }
+                    return response.json()}) // 변수 => 결과값
+                .then((users) => {
+                    for(users in users){
+                        imgTable.innerHTML += `
+            <tr id="${files[file]['filename']}">
+                <td><img src="${files[file]['img']}"></td>
+                <td>${files[file]['filename']}</td>
+                <td>
+                    <input type="text" id="keywordsInput"  placeholder="예) cat, animal" value ="${files[file]['keywords']}">
+                    <button onclick="updateKeywords(event)">수정</button>
+                </td>
+                <td><a href="#" onclick="deleteFile(event)" class="deleteBtn">삭제</a></td>
+            </tr> `
+                    }
+                });
+    }
+</script>
+</body>
+</html>
