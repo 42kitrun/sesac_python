@@ -16,10 +16,10 @@
         여기는 네비게이션 // user // store // item // order // order_item
     </nav>
     <form>
-        <span> Name :</span>
+        <label for="name"> Name :</label>
         <input type="text" name="name" />
-        <span> Gender :</span>
-        <select>
+        <label for="gender"> Gender :</label>
+        <select name="gender">
             <option></option>
             <option>Female</option>
             <option>Male</option>
@@ -28,11 +28,7 @@
     </form>
     <table>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th>Birthday</th>
+            <th><strong>회원 목록을 표시하고 있습니다 ...</strong></th>
         </tr>
         <!--  회원 조회 -->
     </table>
@@ -43,23 +39,24 @@
     url = 'http://localhost:7890'
 
     function load() {
-        userTable.innerHTML=`<tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th>Birthday</th>
-        </tr>`;
         fetch(url + '/user/api/list',{ 
 		    method: 'GET',
 		    headers: { "Content-type": "application/json" } 
 		}) // 주고 받을때는 문자열을 주고 받는다
             .then(response => {
+                
                 if(!response.ok) throw new Error("네트워크 오류??");
                 return response.json() // 변수 => 결과값
             }) 
             .then((users) => {
                 console.log(users);
+                userTable.innerHTML=`<tr>
+                                         <th>ID</th>
+                                         <th>Name</th>
+                                         <th>Gender</th>
+                                         <th>Age</th>
+                                         <th>Birthday</th>
+                                     </tr>`;
                 for (const user of users) {
                     userTable.innerHTML += `
                     <tr>
