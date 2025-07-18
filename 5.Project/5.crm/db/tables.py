@@ -1,4 +1,4 @@
-from db.crud import table_names
+from db.crud import table_names,Crud
 from abc import ABC
 
 class Tables(ABC):

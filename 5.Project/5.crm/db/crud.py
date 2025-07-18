@@ -1,10 +1,5 @@
 from db.oracle import *
 
-# cursor 결과를 dict로 변환
-def dict_r(cursor):
-    columns = [col[0].lower() for col in cursor.description]
-    return [dict(zip(columns, row)) for row in cursor.fetchall()]
-
 # 테이블 목록
 def table_names():
     with OracleConnection() as cursor:
@@ -37,24 +32,22 @@ class Crud(ABC):
     def execute(self, target):
         pass
 
+    # cursor 결과를 dict로 변환
+    def dict_r(self, cursor):
+        columns = [col[0].lower() for col in cursor.description]
+        return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
 class DataGet(Crud):
-    def __init__(self, *attrs, **kwargs):
+    def __init__(self, query, **kwargs):
+        super().__init__()
         self.list_cnt = 0
         self.start_rownum = 0
-
-        if attrs == ():
-            attrs = ('paging',)
-
-        if set(attrs) != set(kwargs):
-            raise ValueError(self.__repr__())
         
-        if 'paging' in attrs:
+        if kwargs: # 페이징 처리를 하겠다
             self.list_cnt = kwargs['paging'][0]
             self.start_rownum = kwargs['paging'][1]
-            attrs = [attr for attr in attrs if attr != 'paging']
 
-        self.col_names:tuple = tuple(attrs)
-        self.criteria:dict = kwargs
+        self.query:dict = query
 
     
     def __repr__(self):
@@ -68,33 +61,36 @@ class DataGet(Crud):
 
     def sql(self,table):
         columns = column_list(table)
-        print(columns)
         
         sql = f"SELECT * FROM  CRM.{table} WHERE 1=1" 
         
-        for attr in self.col_names:
-            if attr.upper() not in columns:
-                raise ValueError("존재하지 않는 컬럼(속성)입니다.")
-            sql += f" AND {attr} in {tuple(self.kwargs[attr])}" # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
+        if self.query:
+            for k, v in self.query.items():
+                if k == 'name':
+                    if '?' in v:
+                        v = v.replace('?',"_")
+                    if '*' in v:
+                        v = v.repalce('*','%')
+                    v = '%'+v+'%'
+                    sql += f" AND {k.upper()} like '{v}'" # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
+                if k == 'gender':
+                    sql += f" AND {k.upper()}  = '{v}' " # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
         
-        if self.start_rownum or self.list_cnt:
-            sql += " ORDER BY id"
-        if self.start_rownum:
-            sql += f' OFFSET {self.start_rownum} ROWS'
         if self.list_cnt:
-            sql += f' FETCH NEXT {self.list_cnt} ROWS ONLY'
+            sql += f' ORDER BY id OFFSET {self.start_rownum} ROWS FETCH NEXT {self.list_cnt} ROWS ONLY'
 
+        print(sql)
         return sql
     
     def execute(self, target):
-        if target.upper() not in Crud.tables:
+        if target.upper() not in self.tables:
             raise ValueError("존재하지 않는 테이블입니다.")
 
         sql = self.sql(target)
 
         with OracleConnection() as cursor:
             cursor.execute(sql)
-            rows = dict_r(cursor)
+            rows = self.dict_r(cursor)
             return rows
 
 

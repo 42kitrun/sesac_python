@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)  # 나의 서버에 누구든지 와서 정보를 요청할수 있음.
 
 
-def create_app():
+def create_app(): 
     OracleDBPool.init_pool()  # 커넥션 풀 초기화 (최초 1회만 실행) 커넥션 풀 싱글톤 클래스
 
     # 앱에다 블루프린트를 등록한다.
@@ -21,9 +21,9 @@ def create_app():
     # app.register_blueprint(item_bp, url_prefix = '/item')
     # app.register_blueprint(order_bp, url_prefix = '/order')
     # app.register_blueprint(order_item_bp, url_prefix = '/order_item')
-    
     return app
 
+print('인터넷이 안되면 oracle db와의 연결 때문에 안 올라옵니다')
 app = create_app()
 
 '''

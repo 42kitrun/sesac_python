@@ -6,72 +6,188 @@
     <title>사용자 조회 페이지</title>
     <style>
         table{
+            width: 100vw;
             border : 1px solid transparent;
             border-collapse: true ;
+            text-align: center;
+        }
+        
+        #query{
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            justify-content: space-around;
         }
     </style>
 </head>
 <body>
     <nav>
-        여기는 네비게이션 // user // store // item // order // order_item
+        <div>여기는 네비게이션 // user // store // item // order // order_item</div>
     </nav>
-    <form>
-        <label for="name"> Name :</label>
-        <input type="text" name="name" />
-        <label for="gender"> Gender :</label>
-        <select name="gender">
-            <option></option>
-            <option>Female</option>
-            <option>Male</option>
+    <br/>
+    <div id="query">
+        <div>
+            <label for="name"> Name :</label>
+            <input type="text" id="nameInput" name="name" />
+            <label for="gender"> Gender :</label>
+            <select name="gender" id="genderSelect">
+                <option></option>
+                <option>Female</option>
+                <option>Male</option>
+            </select>
+            <button id="submitBtn">Submit</button>
+        </div>
+
+        <select id ="listCount">
+            <option>전체보기</option>
+            <option>20개씩 보기</option>
+            <option>35개씩 보기</option>
+            <option>50개씩 보기</option>
         </select>
-        <input type="submit" value="Submit"/>
-    </form>
+    </div>
+    <br/>
     <table>
         <tr>
-            <th><strong>회원 목록을 표시하고 있습니다 ...</strong></th>
+            <th><strong>회원 목록을 요청하고 있습니다 ...</strong></th>
         </tr>
         <!--  회원 조회 -->
     </table>
+    <br/>
+    <div id="pageGroup"></div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', load);
     const userTable = document.querySelector('table');
+    const submitBtn = document.getElementById('submitBtn');
+    const paging = document.getElementById('listCount');
 
     url = 'http://localhost:7890'
+    
+    document.addEventListener('DOMContentLoaded', ()=>{
+        
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
 
-    function load() {
+        // 빈 값 제거
+        for (const [key, value] of params.entries()) {
+            if (!value || value.trim() == "" || value === undefined) {
+                console.log(`삭제됨: ${key}`);
+                params.delete(key);
+            }
+        }
+        /* params.forEach(...)는 내부적으로 순회(iteration) 중이기 때문에,
+            반복 중 params.delete()를 사용하면 컬렉션이 변경되어 제대로 삭제가 안 되는 경우가 있습니다.
+            이건 JS에서 forEach() 반복 중 컬렉션을 수정하는 전형적인 이슈입니다.
+            for...of는 내부적으로 params 객체를 복사한 이터레이터를 쓰기 때문에 더 안전하게 동작합니다
+            */
+
+        // select 박스
+        if (!params.get('listCount')) {
+            paging.value = '전체보기';
+        } else {
+            paging.value = `${params.get('listCount')}개씩 보기`;
+        }
+
+        console.log( params.get('name'), params.get('gender'),params.get('listCount'),paging.value, params.get('page'));        
+        
+        document.getElementById("nameInput").value = params.get('name');
+        document.getElementById("genderSelect").value = params.get('gender');
+
+        post(params);
+    });
+
+    submitBtn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        inputQuery(e)
+    });
+    document.getElementById("nameInput").addEventListener('keyup',(e)=>{
+        if (e.key === 'Enter') {
+        inputQuery(e);
+    }
+    });
+
+    paging.addEventListener('change', (e)=>{
+        const selectedPagingOption = e.target.value;
+        console.log(selectedPagingOption);
+        paging.value = selectedPagingOption;
+        sessionStorage.setItem('selectedPagingOption',selectedPagingOption);
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
+        params.set('listCount', selectedPagingOption.slice(0,2));
+        params.set('page', 1);
+        window.location.search = params.toString();
+    });
+
+    function post(params) {
         fetch(url + '/user/api/list',{ 
-		    method: 'GET',
-		    headers: { "Content-type": "application/json" } 
+		    method: 'POST',
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params.toString() 
+            
 		}) // 주고 받을때는 문자열을 주고 받는다
             .then(response => {
-                
                 if(!response.ok) throw new Error("네트워크 오류??");
+                userTable.innerHTML = `<tr>
+            <th><strong>회원 목록을 표시하고 있습니다 ...</strong></th>
+        </tr>`
                 return response.json() // 변수 => 결과값
             }) 
             .then((users) => {
-                console.log(users);
-                userTable.innerHTML=`<tr>
-                                         <th>ID</th>
-                                         <th>Name</th>
-                                         <th>Gender</th>
-                                         <th>Age</th>
-                                         <th>Birthday</th>
-                                     </tr>`;
+                if (!users || users.length === 0) {
+                    userTable.innerHTML = `
+                        <tr>
+                            <th><strong>회원을 찾을 수 없습니다</strong></th>
+                        </tr>`;
+                    return; // 이하 실행하지 않음
+                }
+                let html =`<tr>
+                               <th>행번호</th>
+                               <th>ID</th>
+                               <th>Name</th>
+                               <th>Gender</th>
+                               <th>Age</th>
+                               <th>Birthday</th>
+                           </tr>`;                 
+                let rowNum = 1;                     
                 for (const user of users) {
-                    userTable.innerHTML += `
+                    html += `
                     <tr>
+                        <td> ${rowNum} </td>
                         <td><a href="#">${user.id}</a></td>
                         <td>${user.name}</td>
                         <td>${user.gender}</td>
                         <td>${user.age}</td>
                         <td>${user.birth_date}</td>
                     </tr>`
+                    rowNum ++;
                 }
+                userTable.innerHTML = html;
             })
             .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
                     console.error('오류가 났음: ', error);
             });
     }
+
+    function inputQuery(e){
+        const name = document.getElementById('nameInput').value;
+        const gender = document.getElementById('genderSelect').value;
+
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
+        console.log(params.get('listCount'));
+        
+        if(name)params.set('name', name)
+        else params.delete('name');
+
+        if(gender)params.set('gender', gender)
+        else params.delete('gender');
+        
+        params.set('page',1);
+        console.log(params.get('gender'), params.get('name'));
+        
+        // 새 URL로 이동
+        window.location.search = params.toString();
+    }
+
 </script>
 </body>
 </html>
