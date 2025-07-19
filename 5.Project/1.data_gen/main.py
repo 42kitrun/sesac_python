@@ -58,7 +58,7 @@ class DisplayData():
  
     # csv 파일 저장
     def save_csv(self,_type, data):
-        path = f'5.Project/1.data_gen/output/{_type}.csv'
+        path = f'output/{_type}.csv'
         
 
         # 내용 쓰기
@@ -73,7 +73,7 @@ class DisplayData():
     def save_excel(self,_type, data):
         df = pd.DataFrame(data, columns=self.__header)
         df.head()
-        df.to_excel(f'5.Project/1.data_gen/output/{_type}.xlsx', index=False)
+        df.to_excel(f'output/{_type}.xlsx', index=False)
         print(f"{_type}.excel 파일에 {_type} 저장 완료")
 
 

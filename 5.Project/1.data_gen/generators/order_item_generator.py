@@ -14,7 +14,7 @@ class OrderItemGenerator:
         }
 
     def load_id(self, _type, count:int):
-        with open(f'5.Project/1.data_gen/output/{_type}.csv', 'r',encoding='utf-8') as csvfile:
+        with open(f'output/{_type}.csv', 'r',encoding='utf-8') as csvfile:
             # 파일 내용 불러오기
             # DictReader로 컬럼 순서가 바뀌어도 값을 가져오는데 문제 없음, fieldnames로 일부 컬럼만 가져올 수 있음
             csv_list = list(map(lambda x : x['Id'], DictReader(csvfile,fieldnames=['Id'])))

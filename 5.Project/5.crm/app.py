@@ -1,10 +1,10 @@
 from flask import Flask, jsonify
 from db.oracle import OracleDBPool
 from user.route import user_bp
-# from store.store_route import store_bp
-# from item.item_route import item_bp
-# from order.order_route import order_bp
-# from order_item.order_item_route import order_item_bp
+from store.route import store_bp
+from item.route import item_bp
+# from order.route import order_bp
+# from order_item.route import order_item_bp
 from flask_cors import CORS
 
 
@@ -17,8 +17,8 @@ def create_app():
 
     # 앱에다 블루프린트를 등록한다.
     app.register_blueprint(user_bp, url_prefix = '/user')
-    # app.register_blueprint(store_bp, url_prefix = '/store')
-    # app.register_blueprint(item_bp, url_prefix = '/item')
+    app.register_blueprint(store_bp, url_prefix = '/store')
+    app.register_blueprint(item_bp, url_prefix = '/item')
     # app.register_blueprint(order_bp, url_prefix = '/order')
     # app.register_blueprint(order_item_bp, url_prefix = '/order_item')
     return app

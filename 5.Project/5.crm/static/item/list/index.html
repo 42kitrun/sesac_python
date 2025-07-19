@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <title>사용자 조회 페이지</title>
+    <title>상품 조회 페이지</title>
     <style>
         nav{
             width: 100vw;
@@ -68,11 +68,16 @@
             <div>
                 <label for="name"> Name :</label>
                 <input type="text" id="nameInput" name="name" />
-                <label for="gender"> Gender :</label>
-                <select name="gender" id="genderSelect">
+                <label for="itemType"> Type :</label>
+                <select name="itemType" id="itemTypeSelect">
                     <option></option>
-                    <option>Female</option>
-                    <option>Male</option>
+                    <option>Desert</option>
+                    <option>Hand-Drip</option>
+                    <option>House Beverage</option>
+                    <option>Bakery</option>
+                    <option>SeasonDesert</option>
+                    <option>Espresso Variation</option>
+                    <option>Tea</option>
                 </select>
                 <button id="submitBtn">조회</button>
             </div>
@@ -87,9 +92,9 @@
         <br/>
         <table>
             <tr>
-                <th><strong>회원 목록을 요청하고 있습니다 ...</strong></th>
+                <th><strong>상품 목록을 요청하고 있습니다 ...</strong></th>
             </tr>
-            <!--  회원 조회 -->
+            <!--  가게 조회 -->
         </table>
         <br/>
         <div id="pageGroup">
@@ -105,7 +110,7 @@
     </footer>
 
 <script>
-    const userTable = document.querySelector('table');
+    const itemTable = document.querySelector('table');
     const submitBtn = document.getElementById('submitBtn');
     const paging = document.getElementById('listCount');
     const pageGroup = document.getElementById('pageGroup');
@@ -135,7 +140,7 @@
             for...of는 내부적으로 params 객체를 복사한 이터레이터를 쓰기 때문에 더 안전하게 동작합니다
             */
    
-        console.log( params.get('name'), params.get('gender'),params.get('listCount'),paging.value, params.get('page'));        
+        console.log( params.get('name'), params.get('itemType'),params.get('listCount'),paging.value, params.get('page'));        
                    
         // select 박스
         if (!params.get('listCount')) {
@@ -143,20 +148,19 @@
             params.delete('listCount');
             params.delete('page');
             pageGroup.style.display = "none";
+
         } else {
             paging.value = `${params.get('listCount')}개씩 보기`;
         }
         document.getElementById("nameInput").value = params.get('name');
-        document.getElementById("genderSelect").value = params.get('gender');
+        document.getElementById("itemTypeSelect").value = params.get('itemType');
         
-
         // 삼항연산자
         // document.getElementById('pages').textContent = params.get('page') ? params.get('page'):1;
         //  ? : 삼항 연산자는 falsy 값(0, '', null, undefined, false)도 걸러냅니다.
         // nullish 병합 연산자 (??)
         //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
         document.getElementById('pages').textContent = params.get('page') ?? 1;
-
         post(params);
     });
 
@@ -244,7 +248,7 @@
 // ------------------------------------------------------------------------
 
     function post(params) {
-        fetch(url + '/user/api/list',{ 
+        fetch(url + '/item/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 
@@ -252,8 +256,8 @@
 		}) // 주고 받을때는 문자열을 주고 받는다
             .then(response => {
                 if(!response.ok) throw new Error("네트워크 오류??");
-                userTable.innerHTML = `<tr>
-            <th><strong>회원 목록을 표시하고 있습니다 ...</strong></th>
+                itemTable.innerHTML = `<tr>
+            <th><strong>상품 목록을 표시하고 있습니다 ...</strong></th>
         </tr>`
                 return response.json() // 변수 => 결과값
             }) 
@@ -276,7 +280,7 @@
 
     function inputQuery(e){
         const name = document.getElementById('nameInput').value;
-        const gender = document.getElementById('genderSelect').value;
+        const itemType = document.getElementById('itemTypeSelect').value;
 
         // URL에서 쿼리 파라미터 읽어서 표시
         const params = new URLSearchParams(window.location.search);
@@ -284,8 +288,8 @@
         if(name)params.set('name', name)
         else params.delete('name');
 
-        if(gender)params.set('gender', gender)
-        else params.delete('gender');
+        if(itemType)params.set('itemType', itemType)
+        else params.delete('itemType');
         
         params.set('page',1);
         
@@ -299,6 +303,7 @@
         const listCount = pagingInfo.list_cnt;
         const thisPage = pagingInfo.this_page;
         const allPageCount = Math.ceil(allCount / listCount);
+        console.log('allCount',allCount,'listCount',listCount,'thisPage',thisPage,'allPageCount',allPageCount);
         //pagesCount : 하단에 보이고싶은 페이지 수
 
         //lastPageNum 갱신
@@ -320,6 +325,7 @@
         let pageHtml = ``;
         let pageNumArr = [];
         // 표시하고 싶은 페이지 수 보다 전체 페이지 수가 작은 경우
+        console.log('allPageCount',allPageCount,'pagesCount',pagesCount);
         if(allPageCount <= pagesCount){
             for (let n = 1; n <= allPageCount; n++){
                 if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
@@ -348,19 +354,18 @@
 
     function dataTableDisplay(dataset){
         if (!dataset || dataset.length === 0) {
-            userTable.innerHTML = `
+            itemTable.innerHTML = `
                 <tr>
-                    <th><strong>회원을 찾을 수 없습니다</strong></th>
+                    <th><strong>상품을 찾을 수 없습니다</strong></th>
                 </tr>`;
             return; // 이하 실행하지 않음
         }
         let html =`<tr>
                        <th>행번호</th>
                        <th>ID</th>
+                       <th>itemType</th>
                        <th>Name</th>
-                       <th>Gender</th>
-                       <th>Age</th>
-                       <th>Birthday</th>
+                       <th>unitPrice</th>
                    </tr>`;                 
         let rowNum = 1;                     
         for (const record of dataset) {
@@ -368,14 +373,13 @@
             <tr>
                 <td> ${rowNum} </td>
                 <td><a href="#">${record.id}</a></td>
+                <td>${record.item_type}</td>
                 <td>${record.name}</td>
-                <td>${record.gender}</td>
-                <td>${record.age}</td>
-                <td>${record.birth_date}</td>
+                <td>${record.unit_price}</td>
             </tr>`
             rowNum ++;
         }
-        userTable.innerHTML = html;
+        itemTable.innerHTML = html;
     }
 
 </script>

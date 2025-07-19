@@ -45,7 +45,7 @@ class DataGet(Crud):
         self.page = 1
         
         if kwargs: # 페이징 처리를 하겠다
-            print(kwargs)
+            print('페이징 처리 입력값',kwargs)
             self.list_cnt = kwargs['paging'][0]
             self.page = kwargs['paging'][1]
             self.start_rownum = (self.page-1)*self.list_cnt
@@ -76,7 +76,7 @@ class DataGet(Crud):
                         v = v.repalce('*','%')
                     v = '%'+v+'%'
                     sql += f" AND {k.upper()} like '{v}'" # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
-                if k == 'gender':
+                if k in ('gender', 'store_type', 'item_type'):
                     sql += f" AND {k.upper()}  = '{v}' " # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
         
         count_sql = sql.replace('*','count(*)')
@@ -84,8 +84,8 @@ class DataGet(Crud):
         if self.list_cnt:
             sql += f' ORDER BY id OFFSET {self.start_rownum} ROWS FETCH NEXT {self.list_cnt} ROWS ONLY'
 
-        print(sql)
-        print(count_sql)
+        print('sql 조회문',sql)
+        print('count_sql 조회문',count_sql)
         return sql,count_sql
     
     def execute(self, target):
@@ -104,6 +104,8 @@ class DataGet(Crud):
             cursor.execute(count_sql)
             count = cursor.fetchone()[0]
         
+        print('sql 조회 결과',rows[0])
+        print('count_sql 조회 결과', count)
         return {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
 
 

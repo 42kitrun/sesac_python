@@ -13,13 +13,6 @@ user_bp = Blueprint('user', __name__
 def user():
     return send_from_directory(user_bp.static_folder + '/list', 'index.html')
 
-@user_bp.route("/search", methods=["POST"])
-def search_query():
-    name = request.form.get('name')
-    gender = request.form.get('gender')
-    # POST 후에 결과를 쿼리 파라미터로 실어 보냄
-    return redirect(url_for('user.user', name=name, gender=gender))
-
 @user_bp.route('/api/list',methods=["POST"])
 def api_user_list():
     query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args

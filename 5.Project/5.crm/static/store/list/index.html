@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <title>사용자 조회 페이지</title>
+    <title>가게 조회 페이지</title>
     <style>
         nav{
             width: 100vw;
@@ -68,11 +68,25 @@
             <div>
                 <label for="name"> Name :</label>
                 <input type="text" id="nameInput" name="name" />
-                <label for="gender"> Gender :</label>
-                <select name="gender" id="genderSelect">
+                <label for="storeType"> Type :</label>
+                <select name="storeType" id="storeTypeSelect">
                     <option></option>
-                    <option>Female</option>
-                    <option>Male</option>
+                    <option>할리스</option>
+                    <option>코스타커피</option>
+                    <option>에디션덴마크</option>
+                    <option>폴바셋</option>
+                    <option>에이프릴커피</option>
+                    <option>카페꼼마</option>
+                    <option>테라로사</option>
+                    <option>인텔리젠시아</option>
+                    <option>스타벅스</option>
+                    <option>일리</option>
+                    <option>보난자커피</option>
+                    <option>블루보틀</option>
+                    <option>더반베를린</option>
+                    <option>팀홀튼</option>
+                    <option>카페드롭탑</option>
+                    <option>바샤커피</option>
                 </select>
                 <button id="submitBtn">조회</button>
             </div>
@@ -87,9 +101,9 @@
         <br/>
         <table>
             <tr>
-                <th><strong>회원 목록을 요청하고 있습니다 ...</strong></th>
+                <th><strong>가게 목록을 요청하고 있습니다 ...</strong></th>
             </tr>
-            <!--  회원 조회 -->
+            <!--  가게 조회 -->
         </table>
         <br/>
         <div id="pageGroup">
@@ -105,7 +119,7 @@
     </footer>
 
 <script>
-    const userTable = document.querySelector('table');
+    const storeTable = document.querySelector('table');
     const submitBtn = document.getElementById('submitBtn');
     const paging = document.getElementById('listCount');
     const pageGroup = document.getElementById('pageGroup');
@@ -135,10 +149,10 @@
             for...of는 내부적으로 params 객체를 복사한 이터레이터를 쓰기 때문에 더 안전하게 동작합니다
             */
    
-        console.log( params.get('name'), params.get('gender'),params.get('listCount'),paging.value, params.get('page'));        
+        console.log( params.get('name'), params.get('storeType'),params.get('listCount'),paging.value, params.get('page'));        
                    
         // select 박스
-        if (!params.get('listCount')) {
+        if (!params.get('listCount') ) {
             paging.value = '전체보기';
             params.delete('listCount');
             params.delete('page');
@@ -147,16 +161,14 @@
             paging.value = `${params.get('listCount')}개씩 보기`;
         }
         document.getElementById("nameInput").value = params.get('name');
-        document.getElementById("genderSelect").value = params.get('gender');
+        document.getElementById("storeTypeSelect").value = params.get('storeType');
         
-
         // 삼항연산자
         // document.getElementById('pages').textContent = params.get('page') ? params.get('page'):1;
         //  ? : 삼항 연산자는 falsy 값(0, '', null, undefined, false)도 걸러냅니다.
         // nullish 병합 연산자 (??)
         //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
         document.getElementById('pages').textContent = params.get('page') ?? 1;
-
         post(params);
     });
 
@@ -244,7 +256,7 @@
 // ------------------------------------------------------------------------
 
     function post(params) {
-        fetch(url + '/user/api/list',{ 
+        fetch(url + '/store/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 
@@ -252,8 +264,8 @@
 		}) // 주고 받을때는 문자열을 주고 받는다
             .then(response => {
                 if(!response.ok) throw new Error("네트워크 오류??");
-                userTable.innerHTML = `<tr>
-            <th><strong>회원 목록을 표시하고 있습니다 ...</strong></th>
+                storeTable.innerHTML = `<tr>
+            <th><strong>가게 목록을 표시하고 있습니다 ...</strong></th>
         </tr>`
                 return response.json() // 변수 => 결과값
             }) 
@@ -276,7 +288,7 @@
 
     function inputQuery(e){
         const name = document.getElementById('nameInput').value;
-        const gender = document.getElementById('genderSelect').value;
+        const storeType = document.getElementById('storeTypeSelect').value;
 
         // URL에서 쿼리 파라미터 읽어서 표시
         const params = new URLSearchParams(window.location.search);
@@ -284,8 +296,8 @@
         if(name)params.set('name', name)
         else params.delete('name');
 
-        if(gender)params.set('gender', gender)
-        else params.delete('gender');
+        if(storeType)params.set('storeType', storeType)
+        else params.delete('storeType');
         
         params.set('page',1);
         
@@ -348,9 +360,9 @@
 
     function dataTableDisplay(dataset){
         if (!dataset || dataset.length === 0) {
-            userTable.innerHTML = `
+            storeTable.innerHTML = `
                 <tr>
-                    <th><strong>회원을 찾을 수 없습니다</strong></th>
+                    <th><strong>가게를 찾을 수 없습니다</strong></th>
                 </tr>`;
             return; // 이하 실행하지 않음
         }
@@ -358,9 +370,8 @@
                        <th>행번호</th>
                        <th>ID</th>
                        <th>Name</th>
-                       <th>Gender</th>
-                       <th>Age</th>
-                       <th>Birthday</th>
+                       <th>storeType</th>
+                       <th>Address</th>
                    </tr>`;                 
         let rowNum = 1;                     
         for (const record of dataset) {
@@ -369,13 +380,12 @@
                 <td> ${rowNum} </td>
                 <td><a href="#">${record.id}</a></td>
                 <td>${record.name}</td>
-                <td>${record.gender}</td>
-                <td>${record.age}</td>
-                <td>${record.birth_date}</td>
+                <td>${record.store_type}</td>
+                <td>${record.address}</td>
             </tr>`
             rowNum ++;
         }
-        userTable.innerHTML = html;
+        storeTable.innerHTML = html;
     }
 
 </script>

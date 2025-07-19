@@ -4,7 +4,7 @@ import random
 class MenuGenerator:
     def __init__(self, season_menu_file_path):
         self.season_menu_file_path = season_menu_file_path
-        self.__main_menu_file_path = '5.Project/1.data_gen/data/menu.txt' # 기존 판매 메뉴
+        self.__main_menu_file_path = 'data/menu.txt' # 기존 판매 메뉴
         self.__new_desert = 10 ## 새로 개발한 디저트 가지수
 
     def generate_season_menu(self, count):
@@ -28,4 +28,4 @@ class MenuGenerator:
 
 ## 주의 : 클래스를 정의하는 파일을 수행시 모든 값은 default 값으로 초기화 된다.
 if __name__ == '__main__': # 아래 스크립트는 본 파일을 직접 실행할 때만(module로 불러올때 말고)
-    print(GenerateData(MenuGenerator('5.Project/1.data_gen/data/season_menu.txt'),10)())
+    print(GenerateData(MenuGenerator('data/season_menu.txt'),10)())

@@ -10,7 +10,7 @@ Hand-Drip,브라질 실비오(Bratil Silvio),5500
 Hand-Drip,강릉 블렌드(Gangneung Blend),6000
 Hand-Drip,윈터 솔스티스 블렌드(Winter Solstice Blend),6000
 Espresso Variation,아메리카노 어센틱(Americano Authentic),5500
-Espresso Variation,카페라테(Caffè Latte),5500
+Espresso Variation,카페라테(Caffe Latte),5500
 Espresso Variation,카푸치노(Cappuccino),5000
 Espresso Variation,에스프레소 마키아토(Espresso Macchiatto),5000
 Espresso Variation,에스프레소 더블(Espresso Double),5000

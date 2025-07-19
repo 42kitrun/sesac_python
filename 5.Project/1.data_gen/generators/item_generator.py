@@ -7,10 +7,10 @@ from generators.menu import MenuGenerator
 
 class ItemGenerator:
     def __init__(self):
-        self.__header = ['Id','Name','Type','UnitPrice']
+        self.__header = ['Id','Type','Name','UnitPrice']
         self.generator_map = {
             'Id': IdGenerator(),
-            'Item':GenerateData(MenuGenerator('5.Project/1.data_gen/data/season_menu.txt'),10)()
+            'Item':GenerateData(MenuGenerator('data/season_menu.txt'),10)()
         } # 기존 메뉴 55개 + 시즌 메뉴 10개 추가
         
 
