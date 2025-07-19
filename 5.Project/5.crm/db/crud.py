@@ -42,10 +42,13 @@ class DataGet(Crud):
         super().__init__()
         self.list_cnt = 0
         self.start_rownum = 0
+        self.page = 1
         
         if kwargs: # 페이징 처리를 하겠다
+            print(kwargs)
             self.list_cnt = kwargs['paging'][0]
-            self.start_rownum = kwargs['paging'][1]
+            self.page = kwargs['paging'][1]
+            self.start_rownum = (self.page-1)*self.list_cnt
 
         self.query:dict = query
 
@@ -76,28 +79,32 @@ class DataGet(Crud):
                 if k == 'gender':
                     sql += f" AND {k.upper()}  = '{v}' " # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
         
+        count_sql = sql.replace('*','count(*)')
+
         if self.list_cnt:
             sql += f' ORDER BY id OFFSET {self.start_rownum} ROWS FETCH NEXT {self.list_cnt} ROWS ONLY'
 
         print(sql)
-        return sql
+        print(count_sql)
+        return sql,count_sql
     
     def execute(self, target):
         if target.upper() not in self.tables:
             raise ValueError("존재하지 않는 테이블입니다.")
 
-        sql = self.sql(target)
+        sql, count_sql = self.sql(target)
 
+        rows = []
+        count = ''
         with OracleConnection() as cursor:
             cursor.execute(sql)
             rows = self.dict_r(cursor)
-            return rows
 
-
-# ------------------------------------------------------------------------------------
-
-
-
+        with OracleConnection() as cursor:
+            cursor.execute(count_sql)
+            count = cursor.fetchone()[0]
+        
+        return {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
 
 
 # ------------------------------------------------------------------------------------

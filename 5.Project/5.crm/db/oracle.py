@@ -62,5 +62,7 @@ class OracleConnection:
         return self.cursor
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type:
+            print("예외 발생:", exc_type, exc_val)
         self.cursor.close()
         OracleDBPool.release_connection(self.conn)

@@ -24,6 +24,7 @@ def search_query():
 def api_user_list():
     query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
     print(query)
-    # users = model.user_list(dict(query)) # limit, offset
+
     users = model.user_list(query)
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(users)

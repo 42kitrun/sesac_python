@@ -25,9 +25,10 @@ def user_list(query:dict):
     
     # {'name': 'adsf', 'gender': 'Female', 'listCount': '20', 'page':'2'}
     # 페이징 처리한다
-    removed_listCount = query.pop('listCount')
-    removed_page = int(query.pop('page')) -1
+    removed_listCount = int(query.pop('listCount'))
+    removed_page = int(query.pop('page'))
     return User(DataGet(query, paging=[removed_listCount,removed_page]))()
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
 
 if __name__ == '__main__':
     OracleDBPool.init_pool()
