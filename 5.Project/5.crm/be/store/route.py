@@ -1,12 +1,12 @@
 from flask import Blueprint,send_from_directory,jsonify,request,redirect,url_for
-import store.model as model
+import be.store.model as model
 
 import os
 store_bp = Blueprint('store', __name__
                                     # , root_path=os.path.abspath(os.path.dirname(__file__ + "/../.."))
                                     , root_path='/Users/seSAC/src/sesac_python/5.Project/5.crm'
-                                    , static_folder = 'static/store'   # 실제 파일(하드디스크, 코드상 폴더) 위치
-                                    , static_url_path = '/static/store' # 브라우저에서 접근할 때 사용할 URL 주소(URL(주소창)은 웹 서버의 루트(/)를 기준)
+                                    , static_folder = 'fe/static/store'   # 실제 파일(하드디스크, 코드상 폴더) 위치
+                                    , static_url_path = '/fe/static/store' # 브라우저에서 접근할 때 사용할 URL 주소(URL(주소창)은 웹 서버의 루트(/)를 기준)
 )
 
 @store_bp.route("/", methods=["GET","POST"])

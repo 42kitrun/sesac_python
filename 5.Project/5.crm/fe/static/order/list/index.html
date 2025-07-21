@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <title>가게 조회 페이지</title>
+    <title>주문 조회 페이지</title>
     <style>
         nav{
-            width: 100vw;
-            height: 10vw;
+            text-align: center;
             background-color: bisque;
+            padding: 2vh 10vw;
         }
+
+        nav a{
+            color: brown;
+            font-size: 20px;
+            text-decoration: none;
+            margin: 1vh 3vw;
+        }
+
         main {
             width: 100vw;
             display: flex;
@@ -24,6 +32,10 @@
             align-content: center;
             justify-content: space-around;
             width: 100%;
+        }
+
+        #inputForm{
+            visibility: hidden;
         }
 
         #submitBtn {
@@ -60,33 +72,23 @@
 </head>
 <body>
     <nav>
-        <div>여기는 네비게이션 // user // store // item // order // order_item</div>
+        <a href="/user">User</a>
+        <a href="/store">Store</a>
+        <a href="/item">Item</a>
+        <a href="/order">Order</a>
+        <a href="/orderitem">Order Item</a>
     </nav>
     <br/>
     <main>
         <div id="query">
-            <div>
+            <div id="inputForm">
                 <label for="name"> Name :</label>
                 <input type="text" id="nameInput" name="name" />
-                <label for="storeType"> Type :</label>
-                <select name="storeType" id="storeTypeSelect">
+                <label for="orderType"> Type :</label>
+                <select name="orderType" id="orderTypeSelect">
                     <option></option>
                     <option>할리스</option>
-                    <option>코스타커피</option>
-                    <option>에디션덴마크</option>
-                    <option>폴바셋</option>
-                    <option>에이프릴커피</option>
-                    <option>카페꼼마</option>
-                    <option>테라로사</option>
-                    <option>인텔리젠시아</option>
-                    <option>스타벅스</option>
-                    <option>일리</option>
-                    <option>보난자커피</option>
-                    <option>블루보틀</option>
-                    <option>더반베를린</option>
-                    <option>팀홀튼</option>
-                    <option>카페드롭탑</option>
-                    <option>바샤커피</option>
+  
                 </select>
                 <button id="submitBtn">조회</button>
             </div>
@@ -101,9 +103,9 @@
         <br/>
         <table>
             <tr>
-                <th><strong>가게 목록을 요청하고 있습니다 ...</strong></th>
+                <th><strong>주문 목록을 요청하고 있습니다 ...</strong></th>
             </tr>
-            <!--  가게 조회 -->
+            <!--  주문 조회 -->
         </table>
         <br/>
         <div id="pageGroup">
@@ -119,7 +121,7 @@
     </footer>
 
 <script>
-    const storeTable = document.querySelector('table');
+    const orderTable = document.querySelector('table');
     const submitBtn = document.getElementById('submitBtn');
     const paging = document.getElementById('listCount');
     const pageGroup = document.getElementById('pageGroup');
@@ -136,9 +138,15 @@
         // URL에서 쿼리 파라미터 읽어서 표시
         const params = new URLSearchParams(window.location.search);
 
-        // 빈 값 쿼리파라미터 제거
+        // 빈 값 쿼리파라미터 및 무효한 쿼리파라미터 제거
         for (const [key, value] of params.entries()) {
+            // 빈 값 쿼리파라미터 제거
             if (!value || value.trim() == "" || value === undefined) {
+                console.log(`삭제됨: ${key}`);
+                params.delete(key);
+            }
+            // 무효한 쿼리파라미터 제거
+            if(!["listCount","page"].includes(key)){
                 console.log(`삭제됨: ${key}`);
                 params.delete(key);
             }
@@ -149,19 +157,20 @@
             for...of는 내부적으로 params 객체를 복사한 이터레이터를 쓰기 때문에 더 안전하게 동작합니다
             */
    
-        console.log( params.get('name'), params.get('storeType'),params.get('listCount'),paging.value, params.get('page'));        
-                   
+        // console.log( params.get('name'), params.get('orderType'),params.get('listCount'),paging.value, params.get('page'));        
+        console.log(params.get('listCount'),paging.value, params.get('page'));        
+        
         // select 박스
         if (!params.get('listCount') ) {
             paging.value = '전체보기';
             params.delete('listCount');
             params.delete('page');
-            pageGroup.style.display = "none";
+            pageGroup.style.visibility = "hidden";
         } else {
             paging.value = `${params.get('listCount')}개씩 보기`;
         }
-        document.getElementById("nameInput").value = params.get('name');
-        document.getElementById("storeTypeSelect").value = params.get('storeType');
+        // document.getElementById("nameInput").value = params.get('name');
+        // document.getElementById("orderTypeSelect").value = params.get('orderType');
         
         // 삼항연산자
         // document.getElementById('pages').textContent = params.get('page') ? params.get('page'):1;
@@ -169,19 +178,23 @@
         // nullish 병합 연산자 (??)
         //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
         document.getElementById('pages').textContent = params.get('page') ?? 1;
+
+        // console.log( params.get('name'), params.get('orderType'),params.get('listCount'),paging.value, params.get('page'));        
+        console.log(params.get('listCount'),paging.value, params.get('page'));        
+        
         post(params);
     });
 
-    submitBtn.addEventListener('click',(e)=>{
-        e.preventDefault();
-        inputQuery(e)
-    });
+    // submitBtn.addEventListener('click',(e)=>{
+    //     e.preventDefault();
+    //     inputQuery(e)
+    // });
 
-    document.getElementById("nameInput").addEventListener('keyup',(e)=>{
-        if (e.key === 'Enter') {
-        inputQuery(e);
-    }
-    });
+    // document.getElementById("nameInput").addEventListener('keyup',(e)=>{
+    //     if (e.key === 'Enter') {
+    //     inputQuery(e);
+    // }
+    // });
     
     paging.addEventListener('change', (e)=>{
         const selectedPagingOption = e.target.value;
@@ -256,7 +269,7 @@
 // ------------------------------------------------------------------------
 
     function post(params) {
-        fetch(url + '/store/api/list',{ 
+        fetch(url + '/order/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 
@@ -264,8 +277,8 @@
 		}) // 주고 받을때는 문자열을 주고 받는다
             .then(response => {
                 if(!response.ok) throw new Error("네트워크 오류??");
-                storeTable.innerHTML = `<tr>
-            <th><strong>가게 목록을 표시하고 있습니다 ...</strong></th>
+                orderTable.innerHTML = `<tr>
+            <th><strong>주문 목록을 표시하고 있습니다 ...</strong></th>
         </tr>`
                 return response.json() // 변수 => 결과값
             }) 
@@ -286,24 +299,24 @@
             });
     }
 
-    function inputQuery(e){
-        const name = document.getElementById('nameInput').value;
-        const storeType = document.getElementById('storeTypeSelect').value;
+    // function inputQuery(e){
+    //     const name = document.getElementById('nameInput').value;
+    //     const orderType = document.getElementById('orderTypeSelect').value;
 
-        // URL에서 쿼리 파라미터 읽어서 표시
-        const params = new URLSearchParams(window.location.search);
+    //     // URL에서 쿼리 파라미터 읽어서 표시
+    //     const params = new URLSearchParams(window.location.search);
         
-        if(name)params.set('name', name)
-        else params.delete('name');
+    //     if(name)params.set('name', name)
+    //     else params.delete('name');
 
-        if(storeType)params.set('storeType', storeType)
-        else params.delete('storeType');
+    //     if(orderType)params.set('orderType', orderType)
+    //     else params.delete('orderType');
         
-        params.set('page',1);
+    //     params.set('page',1);
         
-        // 새 URL로 이동
-        window.location.search = params.toString();
-    }
+    //     // 새 URL로 이동
+    //     window.location.search = params.toString();
+    // }
 
     function pagesDisplay(pagingInfo){
         // 여기 아래부터는 paging
@@ -317,17 +330,8 @@
         lastPageNum = allPageCount;
 
         // previousPage, nextPage
-        if(thisPage==1) {
-            const previousPage = document.getElementById('previousPage');
-            previousPage.style.color ='rgba(0, 0, 0, 0)';
-            previousPage.style.cursor = 'default';
-        };
-
-        if(thisPage == lastPageNum) {
-            document.getElementById('nextPage').style.color ='rgba(0, 0, 0, 0)';
-            nextPage.style.color ='rgba(0, 0, 0, 0)';
-            nextPage.style.cursor = 'default';
-        }
+        if(thisPage==1) document.getElementById('previousPage').style.visibility ='hidden'; 
+        if(thisPage == lastPageNum) document.getElementById('nextPage').style.visibility ='hidden';
         
         let pageHtml = ``;
         let pageNumArr = [];
@@ -360,18 +364,18 @@
 
     function dataTableDisplay(dataset){
         if (!dataset || dataset.length === 0) {
-            storeTable.innerHTML = `
+            orderTable.innerHTML = `
                 <tr>
-                    <th><strong>가게를 찾을 수 없습니다</strong></th>
+                    <th><strong>주문를 찾을 수 없습니다</strong></th>
                 </tr>`;
             return; // 이하 실행하지 않음
         }
         let html =`<tr>
                        <th>행번호</th>
                        <th>ID</th>
-                       <th>Name</th>
-                       <th>storeType</th>
-                       <th>Address</th>
+                       <th>Order At</th>
+                       <th>Store ID</th>
+                       <th>User ID</th>
                    </tr>`;                 
         let rowNum = 1;                     
         for (const record of dataset) {
@@ -379,13 +383,13 @@
             <tr>
                 <td> ${rowNum} </td>
                 <td><a href="#">${record.id}</a></td>
-                <td>${record.name}</td>
-                <td>${record.store_type}</td>
-                <td>${record.address}</td>
+                <td>${record.order_dt}</td>
+                <td>${record.store_id}</td>
+                <td>${record.user_id}</td>
             </tr>`
             rowNum ++;
         }
-        storeTable.innerHTML = html;
+        orderTable.innerHTML = html;
     }
 
 </script>

@@ -1,11 +1,12 @@
 from flask import Flask, jsonify
-from db.oracle import OracleDBPool
-from user.route import user_bp
-from store.route import store_bp
-from item.route import item_bp
-# from order.route import order_bp
-# from order_item.route import order_item_bp
 from flask_cors import CORS
+
+from db.oracle import OracleDBPool
+from be.user.route import user_bp
+from be.store.route import store_bp
+from be.item.route import item_bp
+from be.order.route import order_bp
+from be.order_item.route import order_item_bp
 
 
 app = Flask(__name__)
@@ -19,7 +20,7 @@ def create_app():
     app.register_blueprint(user_bp, url_prefix = '/user')
     app.register_blueprint(store_bp, url_prefix = '/store')
     app.register_blueprint(item_bp, url_prefix = '/item')
-    # app.register_blueprint(order_bp, url_prefix = '/order')
+    app.register_blueprint(order_bp, url_prefix = '/order')
     # app.register_blueprint(order_item_bp, url_prefix = '/order_item')
     return app
 
