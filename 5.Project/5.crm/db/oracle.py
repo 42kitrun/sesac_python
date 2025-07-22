@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from datetime import datetime
 import oracledb
 import os
 from dotenv import load_dotenv

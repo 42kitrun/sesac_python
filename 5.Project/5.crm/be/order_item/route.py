@@ -1,7 +1,6 @@
-from flask import Blueprint,send_from_directory,jsonify,request,redirect,url_for
+from flask import Blueprint,send_from_directory,jsonify,request
 import be.order_item.model as model
 
-import os
 order_item_bp = Blueprint('orderitem', __name__
                                     # , root_path=os.path.abspath(os.path.dirname(__file__ + "/../.."))
                                     , root_path='/Users/seSAC/src/sesac_python/5.Project/5.crm'
@@ -22,3 +21,8 @@ def api_order_item_list():
     print('api 전송 직전',order_items['data'][0], order_items['paging'])
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(order_items)
+
+## orderitem/0a497257-2b1a-4836-940f-7b95db952e61/?listCount=10&page=3
+@order_item_bp.route("/<uuid:order_id>", methods=["GET", "POST"])
+def user_detail(order_id):
+    return send_from_directory(order_item_bp.static_folder + '/detail', 'index.html')

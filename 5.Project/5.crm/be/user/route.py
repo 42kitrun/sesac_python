@@ -1,7 +1,6 @@
-from flask import Blueprint,send_from_directory,jsonify,request,redirect,url_for
+from flask import Blueprint,send_from_directory,jsonify,request
 import be.user.model as model
 
-import os
 user_bp = Blueprint('user', __name__
                                     # , root_path=os.path.abspath(os.path.dirname(__file__ + "/../.."))
                                     , root_path='/Users/seSAC/src/sesac_python/5.Project/5.crm'
@@ -23,16 +22,7 @@ def api_user_list():
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(users)
 
-## user/detail/?id=0a497257-2b1a-4836-940f-7b95db952e61
-@user_bp.route("/detail", methods=["GET","POST"])
-def user_detail():
+## user/detail/0a497257-2b1a-4836-940f-7b95db952e61/?listCount=10&page=3
+@user_bp.route("/detail/<uuid:user_id>", methods=["GET", "POST"])
+def user_detail(user_id):
     return send_from_directory(user_bp.static_folder + '/detail', 'index.html')
-
-@user_bp.route("/api/detail/order", methods=["GET","POST"])
-def api_user_detail_order():
-    rquery = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
-    print(query)
-
-    user_orders = model.user_detail_order(query)
-    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
-    return jsonify(user_orders)

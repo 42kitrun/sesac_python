@@ -1,7 +1,6 @@
-from flask import Blueprint,send_from_directory,jsonify,request,redirect,url_for
+from flask import Blueprint,send_from_directory,jsonify,request
 import be.store.model as model
 
-import os
 store_bp = Blueprint('store', __name__
                                     # , root_path=os.path.abspath(os.path.dirname(__file__ + "/../.."))
                                     , root_path='/Users/seSAC/src/sesac_python/5.Project/5.crm'
