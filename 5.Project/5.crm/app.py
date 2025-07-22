@@ -21,7 +21,7 @@ def create_app():
     app.register_blueprint(store_bp, url_prefix = '/store')
     app.register_blueprint(item_bp, url_prefix = '/item')
     app.register_blueprint(order_bp, url_prefix = '/order')
-    # app.register_blueprint(order_item_bp, url_prefix = '/order_item')
+    app.register_blueprint(order_item_bp, url_prefix = '/orderitem')
     return app
 
 print('인터넷이 안되면 oracle db와의 연결 때문에 안 올라옵니다')

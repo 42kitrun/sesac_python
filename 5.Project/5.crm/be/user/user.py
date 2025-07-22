@@ -1,11 +1,9 @@
 import sys
 sys.path.append('5.Project/5.crm')
 
-from db.oracle import OracleDBPool
 from db.tables import Tables
-from db.get import Get
 
-class Item(Tables):
+class User(Tables):
 
     def __init__(self, query:dict, **kwargs):
         '''
@@ -13,7 +11,7 @@ class Item(Tables):
         self.table = '' # 하위 클래스에서 정하기
         '''
         super().__init__()
-        self.table = 'items'
+        self.table = 'users'
         self.list_cnt = 0
         self.page = 1
         self.start_rownum = 0
@@ -25,6 +23,14 @@ class Item(Tables):
             self.start_rownum = (self.page-1)*self.list_cnt
 
         self.query:dict = query
+
+
+    def column_list(self):
+        with OracleConnection() as cursor:
+            cursor.execute(f"SELECT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE table_name = :1 ",[self.table.upper()])
+
+            rows = [col[0] for col in cursor.fetchall()]
+            return rows
 
     def sql(self):
         # columns = self.column_list(table) 추후 검증 로직
@@ -40,7 +46,7 @@ class Item(Tables):
                         v = v.repalce('*','%')
                     v = '%'+v+'%'
                     sql += f" AND {k.upper()} like '{v}'" # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
-                if k in ('id', 'item_type'):
+                if k in ('gender', 'id'):
                     sql += f" AND {k.upper()}  = '{v}' " # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
         
         count_sql = sql.replace('*','count(*)')
@@ -51,28 +57,3 @@ class Item(Tables):
         print('sql 조회문',sql)
         print('count_sql 조회문',count_sql)
         return sql, count_sql, self.list_cnt, self.page
-
-# ------------------------------------------------------------------------------------------------------
-
-def item_list(query:dict):
-    if 'itemType' in query:
-        query['item_type'] = query.pop('itemType')
-
-    if 'listCount' not in query.keys():
-        # 페이징처리 안함
-        return Get(Item(query))()
-    
-    # {'name': 'adsf', 'gender': 'Female', 'listCount': '20', 'page':'2'}
-    # 페이징 처리한다
-    removed_listCount = int(query.pop('listCount'))
-    removed_page = int(query.pop('page'))
-    return Get(Item(query, paging=[removed_listCount,removed_page]))()
-    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
-
-if __name__ == '__main__':
-    OracleDBPool.init_pool()
-    print(Get(Item(paging=[10,0]))())
-
-
-
-

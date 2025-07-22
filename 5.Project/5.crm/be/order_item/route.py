@@ -2,7 +2,7 @@ from flask import Blueprint,send_from_directory,jsonify,request,redirect,url_for
 import be.order_item.model as model
 
 import os
-order_item_bp = Blueprint('order_item', __name__
+order_item_bp = Blueprint('orderitem', __name__
                                     # , root_path=os.path.abspath(os.path.dirname(__file__ + "/../.."))
                                     , root_path='/Users/seSAC/src/sesac_python/5.Project/5.crm'
                                     , static_folder = 'fe/static/order_item'   # 실제 파일(하드디스크, 코드상 폴더) 위치

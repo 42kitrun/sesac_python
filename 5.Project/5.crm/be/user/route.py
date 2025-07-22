@@ -9,6 +9,7 @@ user_bp = Blueprint('user', __name__
                                     , static_url_path = '/fe/static/user' # 브라우저에서 접근할 때 사용할 URL 주소(URL(주소창)은 웹 서버의 루트(/)를 기준)
 )
 
+## user
 @user_bp.route("/", methods=["GET","POST"])
 def user():
     return send_from_directory(user_bp.static_folder + '/list', 'index.html')
@@ -21,3 +22,17 @@ def api_user_list():
     users = model.user_list(query)
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(users)
+
+## user/detail/?id=0a497257-2b1a-4836-940f-7b95db952e61
+@user_bp.route("/detail", methods=["GET","POST"])
+def user_detail():
+    return send_from_directory(user_bp.static_folder + '/detail', 'index.html')
+
+@user_bp.route("/api/detail/order", methods=["GET","POST"])
+def api_user_detail_order():
+    rquery = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
+    print(query)
+
+    user_orders = model.user_detail_order(query)
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
+    return jsonify(user_orders)

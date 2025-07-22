@@ -9,14 +9,14 @@
         nav{
             text-align: center;
             background-color: bisque;
-            padding: 2vh 10vw;
+            padding: 2vh 0vw;
         }
 
         nav a{
             color: brown;
-            font-size: 20px;
+            font-size: 25px;
             text-decoration: none;
-            margin: 1vh 3vw;
+            margin: 1vh 1vw;
         }
 
         main {
@@ -269,7 +269,7 @@
 // ------------------------------------------------------------------------
 
     function post(params) {
-        fetch(url + '/order_item/api/list',{ 
+        fetch(url + '/orderitem/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 

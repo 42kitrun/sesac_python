@@ -3,24 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이 픽사베이</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <title>상품 조회 페이지</title>
+    <style>
+        nav{
+            text-align: center;
+            background-color: bisque;
+            padding: 5vh 10vw;
+        }
+
+        nav a{
+            color: brown;
+            font-size: 20px;
+            text-decoration: none;
+            margin: 2vh 3vw;
+        }
+
+        nav{
+            width: 100vw;
+            height: 10vw;
+            background-color: bisque;
+        }
+        main {
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* ← 중요! */
+        }
+        
+        #query {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        #submitBtn {
+            cursor: pointer;
+        }
+
+        table {
+            width: 100vw;
+            border: 1px solid transparent;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        #pageGroup {
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #pageGroup i {
+            margin: 0 8px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        #pages span{
+            margin: 0px 10px;
+        }
+        footer{
+            width: 100vw;
+            height: 10vh;
+            background-color:blanchedalmond;
+        }
+    </style>
 </head>
 <body>
-    <h1>이미지 검색</h1>
-    <form action="{{ url_for('index') }}">
-        <input type="text" name="q" placeholder="예) cat, dog, pet" required>
-        <button type="submit">검색</button>
-    </form>
+    <nav>
+        <a href="/user">User</a>
+        <a href="/store">Store</a>
+        <a href="/item">Item</a>
+        <a href="/order">Order</a>
+        <a href="/orderitem">Order Item</a>
+    </nav>
+    <br/>
+    <main>
+        <div id="query">
+            <div>
+                <label for="name"> Name :</label>
+                <input type="text" id="nameInput" name="name" />
+                <label for="itemType"> Type :</label>
+                <select name="itemType" id="itemTypeSelect">
+                    <option></option>
+                    <option>Desert</option>
+                    <option>Hand-Drip</option>
+                    <option>House Beverage</option>
+                    <option>Bakery</option>
+                    <option>SeasonDesert</option>
+                    <option>Espresso Variation</option>
+                    <option>Tea</option>
+                </select>
+                <button id="submitBtn">조회</button>
+            </div>
 
-    <h2>"{{ query }}" 에 대한 검색결과</h2>
-    <div>
-        {% if results %}
-            {% for image in results %}
-                <img src="{{ image }}">
-            {% endfor %}
-        {% else %}
-            <p>검색 결과가 없습니다.</p>
-        {% endif %}
-    </div>
+            <select id ="listCount">
+                <option>전체보기</option>
+                <option>20개씩 보기</option>
+                <option>35개씩 보기</option>
+                <option>50개씩 보기</option>
+            </select>
+        </div>
+        <br/>
+        <table>
+            <tr>
+                <th><strong>상품 목록을 요청하고 있습니다 ...</strong></th>
+            </tr>
+            <!--  가게 조회 -->
+        </table>
+        <br/>
+        <div id="pageGroup">
+            <i id = "firstPage" class="fa-duotone fa-solid fa-angles-left"></i>
+            <i id = "previousPage" class="fa-solid fa-angle-left"></i>
+            <span id = "pages"><!-- 페이지 표시 --></span>
+            <i id = "nextPage" class="fa-solid fa-angle-right"></i>
+            <i id = "lastPage" class="fa-duotone fa-solid fa-angles-right"></i>
+        </div>
+    </main>
+    <footer>
+        여기는 footer
+    </footer>
+
+<script>
+    const itemTable = document.querySelector('table');
+    const submitBtn = document.getElementById('submitBtn');
+    const paging = document.getElementById('listCount');
+    const pageGroup = document.getElementById('pageGroup');
+    const pages = document.getElementById('pages');
+
+    const url = 'http://localhost:7890';
+    const pagesCount = 5; // 화면에 보이고 싶은 페이지 수
+    let lastPageNum = 1; // 응답에서 바뀜
+
+// ------------------------------------------------------------------------    
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+        
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
+
+        // 빈 값 쿼리파라미터 제거
+        for (const [key, value] of params.entries()) {
+            if (!value || value.trim() == "" || value === undefined) {
+                console.log(`삭제됨: ${key}`);
+                params.delete(key);
+            }
+        }
+        /* params.forEach(...)는 내부적으로 순회(iteration) 중이기 때문에,
+            반복 중 params.delete()를 사용하면 컬렉션이 변경되어 제대로 삭제가 안 되는 경우가 있습니다.
+            이건 JS에서 forEach() 반복 중 컬렉션을 수정하는 전형적인 이슈입니다.
+            for...of는 내부적으로 params 객체를 복사한 이터레이터를 쓰기 때문에 더 안전하게 동작합니다
+            */
+   
+        console.log( params.get('name'), params.get('itemType'),params.get('listCount'),paging.value, params.get('page'));        
+                   
+        // select 박스
+        if (!params.get('listCount')) {
+            paging.value = '전체보기';
+            params.delete('listCount');
+            params.delete('page');
+            pageGroup.style.visibility= "hidden";
+
+        } else {
+            paging.value = `${params.get('listCount')}개씩 보기`;
+        }
+        document.getElementById("nameInput").value = params.get('name');
+        document.getElementById("itemTypeSelect").value = params.get('itemType');
+        
+        // 삼항연산자
+        // document.getElementById('pages').textContent = params.get('page') ? params.get('page'):1;
+        //  ? : 삼항 연산자는 falsy 값(0, '', null, undefined, false)도 걸러냅니다.
+        // nullish 병합 연산자 (??)
+        //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
+        document.getElementById('pages').textContent = params.get('page') ?? 1;
+        post(params);
+    });
+
+    submitBtn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        inputQuery(e)
+    });
+
+    document.getElementById("nameInput").addEventListener('keyup',(e)=>{
+        if (e.key === 'Enter') {
+        inputQuery(e);
+    }
+    });
+    
+    paging.addEventListener('change', (e)=>{
+        const selectedPagingOption = e.target.value;
+        console.log(selectedPagingOption);
+        paging.value = selectedPagingOption;
+        // sessionStorage.setItem('selectedPagingOption',selectedPagingOption);
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
+        if(selectedPagingOption === '전체보기'){
+            params.delete('listCount');
+            params.delete('page');
+        }else{
+            params.set('listCount',selectedPagingOption.slice(0,2));
+            params.set('page', 1);
+        }
+        window.location.search = params.toString();
+    });
+    
+// ------------------------------------------------------------------------
+
+    document.getElementById("firstPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+        if(!params.get('page') || params.get('page') == 1 ) return;
+
+        // page 파라미터를 무조건 1로 설정
+        params.set("page", "1");
+
+        window.location.search = params.toString();
+    });
+
+    document.getElementById("previousPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+        if(!params.get('page') || params.get('page') == 1 ) return;
+        
+        // page 파라미터를 현재 페이지 - 1로 설정
+        params.set("page", +params.get('page') -1 );
+
+        window.location.search = params.toString();
+    });
+
+    pages.addEventListener('click', (e) => {
+      // a 태그인지, 그리고 data-page 속성이 있는지 판별
+      if (e.target.tagName === 'A' && e.target.dataset.page) {
+        e.preventDefault(); // 기본 a 태그 이동 막기
+
+        // 현재 URL 쿼리 파라미터 가져오기
+        const params = new URLSearchParams(window.location.search);
+        params.set('page', e.target.dataset.page); // page 파라미터만 변경
+
+        window.location.search = params.toString();
+      }
+    });
+
+    document.getElementById("nextPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('page') == lastPageNum) return;
+
+        
+        // page 파라미터를 현재 페이지 +1 로 설정
+        params.set("page", +params.get('page') +1 );
+        window.location.search = params.toString();
+    });
+
+    document.getElementById("lastPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+
+        // page 파라미터를 무조건 마지막 페이지로 설정
+        params.set("page", lastPageNum );
+        window.location.search = params.toString();
+    });
+
+// ------------------------------------------------------------------------
+
+    function post(params) {
+        fetch(url + '/item/api/list',{ 
+		    method: 'POST',
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params.toString() 
+            
+		}) // 주고 받을때는 문자열을 주고 받는다
+            .then(response => {
+                if(!response.ok) throw new Error("네트워크 오류??");
+                itemTable.innerHTML = `<tr>
+            <th><strong>상품 목록을 표시하고 있습니다 ...</strong></th>
+        </tr>`
+                return response.json() // 변수 => 결과값
+            }) 
+            .then((data) => {
+                const dataset = data.data;
+                const pagingInfo = data.paging;
+
+                dataTableDisplay(dataset);
+                
+                // 여기 아래부터는 paging
+                pagesDisplay(pagingInfo);
+                // `Arr.slice()`는 기존 배열을 변경하지 않고 새로운 배열을 반환하며,
+                // `Arr.splice()`는 원본 배열을 변경하면서 새로운 배열을 반환
+                
+            })
+            .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
+                    console.error('오류가 났음: ', error);
+            });
+    }
+
+    function inputQuery(e){
+        const name = document.getElementById('nameInput').value;
+        const itemType = document.getElementById('itemTypeSelect').value;
+
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
+        
+        if(name)params.set('name', name)
+        else params.delete('name');
+
+        if(itemType)params.set('itemType', itemType)
+        else params.delete('itemType');
+        
+        params.set('page',1);
+        
+        // 새 URL로 이동
+        window.location.search = params.toString();
+    }
+
+    function pagesDisplay(pagingInfo){
+        // 여기 아래부터는 paging
+        const allCount = pagingInfo.all_count;
+        const listCount = pagingInfo.list_cnt;
+        const thisPage = pagingInfo.this_page;
+        const allPageCount = Math.ceil(allCount / listCount);
+        console.log('allCount',allCount,'listCount',listCount,'thisPage',thisPage,'allPageCount',allPageCount);
+        //pagesCount : 하단에 보이고싶은 페이지 수
+
+        //lastPageNum 갱신
+        lastPageNum = allPageCount;
+
+        // previousPage, nextPage
+        if(thisPage==1) document.getElementById('previousPage').style.visibility ='hidden'; 
+        if(thisPage == lastPageNum) document.getElementById('nextPage').style.visibility ='hidden';
+        
+        let pageHtml = ``;
+        let pageNumArr = [];
+        // 표시하고 싶은 페이지 수 보다 전체 페이지 수가 작은 경우
+        console.log('allPageCount',allPageCount,'pagesCount',pagesCount);
+        if(allPageCount <= pagesCount){
+            for (let n = 1; n <= allPageCount; n++){
+                if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+            };
+        }else{// 표시하고 싶은 페이지 수 보다 전체 페이지 수가 큰 경우
+            if(thisPage <= Math.ceil(pagesCount/2)){
+                for (let n = 1; n <= pagesCount; n++){
+                    if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                    else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+                };
+            }else if(thisPage >= allPageCount - Math.ceil(pagesCount/2)){
+                for (let n = allPageCount - pagesCount+1; n <= allPageCount; n++){
+                    if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                    else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+                };
+            }else{
+                for (let n = thisPage - Math.floor(pagesCount/2); n <= thisPage + Math.floor(pagesCount/2); n++){
+                    if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                    else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+                };
+            }
+        };
+        pages.innerHTML = pageHtml;
+    }
+
+    function dataTableDisplay(dataset){
+        if (!dataset || dataset.length === 0) {
+            itemTable.innerHTML = `
+                <tr>
+                    <th><strong>상품을 찾을 수 없습니다</strong></th>
+                </tr>`;
+            return; // 이하 실행하지 않음
+        }
+        let html =`<tr>
+                       <th>행번호</th>
+                       <th>ID</th>
+                       <th>itemType</th>
+                       <th>Name</th>
+                       <th>unitPrice</th>
+                   </tr>`;                 
+        let rowNum = 1;                     
+        for (const record of dataset) {
+            html += `
+            <tr>
+                <td> ${rowNum} </td>
+                <td><a href="#">${record.id}</a></td>
+                <td>${record.item_type}</td>
+                <td>${record.name}</td>
+                <td>${record.unit_price}</td>
+            </tr>`
+            rowNum ++;
+        }
+        itemTable.innerHTML = html;
+    }
+
+</script>
 </body>
 </html>

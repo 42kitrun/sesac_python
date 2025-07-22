@@ -3,67 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <title>사용자 조회 페이지</title>
+    <style>
+        nav{
+            text-align: center;
+            background-color: bisque;
+            padding: 2vh 0vw;
+        }
+
+        nav a{
+            color: brown;
+            font-size: 25px;
+            text-decoration: none;
+            margin: 1vh 1vw;
+        }
+
+        main {
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* ← 중요! */
+        }
+        
+        #orderInfo > div:first-child {
+            display: flex;
+            justify-content: space-between; /* 👈 핵심 */
+            align-items: center;
+        }
+
+
+        table {
+            width: 100vw;
+            border: 1px solid transparent;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        #pageGroup {
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #pageGroup i {
+            margin: 0 8px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        #pages span{
+            margin: 0px 10px;
+        }
+        footer{
+            width: 100vw;
+            height: 10vh;
+            background-color:blanchedalmond;
+        }
+    </style>
 </head>
 <body>
     <nav>
-        여기는 네비게이션 // user // store // item // order // order_item
+        <a href="/user">User</a>
+        <a href="/store">Store</a>
+        <a href="/item">Item</a>
+        <a href="/order">Order</a>
+        <a href="/orderitem">Order Item</a>
     </nav>
-    <form>
-        <span> Name :</span>
-        <input type="text" name="name" />
-        <span> Gender :</span>
-        <select>
-            <option></option>
-            <option>Female</option>
-            <option>Male</option>
-        </select>
-        <input type="submit" value="Submit"/>
-    </form>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th>Birthday</th>
-        </tr>
-        <!--  회원 조회 -->
-    </table>
+    <br/>
+    <main>
+        <div id="userInfo">
+            <p>고객정보</p>
+            <table>
+                <tr>
+                    <th><strong>회원 정보를 요청하고 있습니다 ...</strong></th>
+                </tr>
+                <!--  회원 조회 -->
+            </table>
+        </div>
+        <br/>
+        <div id="orderInfo">
+            <div>
+                <span>주문정보</span>
+                <select id ="listCount">
+                    <option>전체보기</option>
+                    <option>10개씩 보기</option>
+                    <option>25개씩 보기</option>
+                    <option>40개씩 보기</option>
+                </select>
+            </div>
+            <table>
+                <tr>
+                    <th><strong>회원님의 주문 목록을 요청하고 있습니다 ...</strong></th>
+                </tr>
+                <!--  주문 조회 -->
+            </table>
+            <br/>
+            <div id="pageGroup">
+                <i id = "firstPage" class="fa-duotone fa-solid fa-angles-left"></i>
+                <i id = "previousPage" class="fa-solid fa-angle-left"></i>
+                <span id = "pages"><!-- 페이지 표시 --></span>
+                <i id = "nextPage" class="fa-solid fa-angle-right"></i>
+                <i id = "lastPage" class="fa-duotone fa-solid fa-angles-right"></i>
+            </div>
+        </div>
+        <br/>
+        <div id="top5Stores">
+            <p>자주 방문한 매장 Top 5</p>
+            <ol>
+                <!-- <li>할리스 강서3호점 (1번 방문)</li>-->
+            </ol>
+        </div>
+    </main>
+    <footer>
+        여기는 footer
+    </footer>
+
 <script>
-    document.addEventListener('DOMContentLoaded', load);
-    const userTable = document.querySelector(table);
+    const userInfoTable = document.querySelector('#userInfo>table');
+    const orderInfoTable = document.querySelector('#orderInfo>table');
 
-    url = 'http://127.0.0.1:7890'
+    const paging = document.getElementById('listCount');
+    const pageGroup = document.getElementById('pageGroup');
+    const pages = document.getElementById('pages');
 
-    function load() {
-        userTable.innerHTML=`<tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th>Birthday</th>
-        </tr>`;
-        fetch(url + '/api/admin') // 주고 받을때는 문자열을 주고 받는다
-                .then(response => {
-                    if(!response.ok){
-                    }
-                    return response.json()}) // 변수 => 결과값
-                .then((users) => {
-                    for(users in users){
-                        imgTable.innerHTML += `
-            <tr id="${files[file]['filename']}">
-                <td><img src="${files[file]['img']}"></td>
-                <td>${files[file]['filename']}</td>
-                <td>
-                    <input type="text" id="keywordsInput"  placeholder="예) cat, animal" value ="${files[file]['keywords']}">
-                    <button onclick="updateKeywords(event)">수정</button>
-                </td>
-                <td><a href="#" onclick="deleteFile(event)" class="deleteBtn">삭제</a></td>
-            </tr> `
-                    }
-                });
+    const url = 'http://localhost:7890';
+    const pagesCount = 5; // 화면에 보이고 싶은 페이지 수
+    let lastPageNum = 1; // 응답에서 바뀜
+
+// ------------------------------------------------------------------------    
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+        
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
+
+        // 빈 값 쿼리파라미터 제거
+        for (const [key, value] of params.entries()) {
+            if (!value || value.trim() == "" || value === undefined) {
+                console.log(`삭제됨: ${key}`);
+                params.delete(key);
+            }
+        }
+        /* params.forEach(...)는 내부적으로 순회(iteration) 중이기 때문에,
+            반복 중 params.delete()를 사용하면 컬렉션이 변경되어 제대로 삭제가 안 되는 경우가 있습니다.
+            이건 JS에서 forEach() 반복 중 컬렉션을 수정하는 전형적인 이슈입니다.
+            for...of는 내부적으로 params 객체를 복사한 이터레이터를 쓰기 때문에 더 안전하게 동작합니다
+            */
+   
+        console.log( params.get('id'), params.get('listCount'),paging.value, params.get('page'));        
+                   
+        // select 박스
+        if (!params.get('listCount')) {
+            paging.value = '전체보기';
+            params.delete('listCount');
+            params.delete('page');
+            pageGroup.style.visibility = "hidden";
+        } else {
+            paging.value = `${params.get('listCount')}개씩 보기`;
+        }
+
+        // 삼항연산자
+        // document.getElementById('pages').textContent = params.get('page') ? params.get('page'):1;
+        //  ? : 삼항 연산자는 falsy 값(0, '', null, undefined, false)도 걸러냅니다.
+        // nullish 병합 연산자 (??)
+        //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
+        document.getElementById('pages').textContent = params.get('page') ?? 1;
+
+        postUserInfo(params);
+        postOrderInfo(params);
+    });
+
+    paging.addEventListener('change', (e)=>{
+        const selectedPagingOption = e.target.value;
+        console.log(selectedPagingOption);
+        paging.value = selectedPagingOption;
+        // sessionStorage.setItem('selectedPagingOption',selectedPagingOption);
+        // URL에서 쿼리 파라미터 읽어서 표시
+        const params = new URLSearchParams(window.location.search);
+        if(selectedPagingOption === '전체보기'){
+            params.delete('listCount');
+            params.delete('page');
+        }else{
+            params.set('listCount',selectedPagingOption.slice(0,2));
+            params.set('page', 1);
+        }
+        window.location.search = params.toString();
+    });
+    
+// ------------------------------------------------------------------------
+
+    document.getElementById("firstPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+        if(!params.get('page') || params.get('page') == 1 ) return;
+
+        // page 파라미터를 무조건 1로 설정
+        params.set("page", "1");
+
+        window.location.search = params.toString();
+    });
+
+    document.getElementById("previousPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+        if(!params.get('page') || params.get('page') == 1 ) return;
+        
+        // page 파라미터를 현재 페이지 - 1로 설정
+        params.set("page", +params.get('page') -1 );
+
+        window.location.search = params.toString();
+    });
+
+    pages.addEventListener('click', (e) => {
+      // a 태그인지, 그리고 data-page 속성이 있는지 판별
+      if (e.target.tagName === 'A' && e.target.dataset.page) {
+        e.preventDefault(); // 기본 a 태그 이동 막기
+
+        // 현재 URL 쿼리 파라미터 가져오기
+        const params = new URLSearchParams(window.location.search);
+        params.set('page', e.target.dataset.page); // page 파라미터만 변경
+
+        window.location.search = params.toString();
+      }
+    });
+
+    document.getElementById("nextPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('page') == lastPageNum) return;
+
+        
+        // page 파라미터를 현재 페이지 +1 로 설정
+        params.set("page", +params.get('page') +1 );
+        window.location.search = params.toString();
+    });
+
+    document.getElementById("lastPage").addEventListener("click", () => {
+        const params = new URLSearchParams(window.location.search);
+
+        // page 파라미터를 무조건 마지막 페이지로 설정
+        params.set("page", lastPageNum );
+        window.location.search = params.toString();
+    });
+
+// ------------------------------------------------------------------------
+
+    function postUserInfo(params) {
+        const userInfoParams = new URLSearchParams({'id':params.get('id')});
+        fetch(url + '/user/api/list',{ 
+		    method: 'POST',
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: userInfoParams.toString() 
+            
+		}) // 주고 받을때는 문자열을 주고 받는다
+            .then(response => {
+                if(!response.ok) throw new Error("네트워크 오류??");
+                userInfoTable.innerHTML = `<tr>
+            <th><strong>회원 정보를 표시하고 있습니다 ...</strong></th>
+        </tr>`
+                return response.json() // 변수 => 결과값
+            }) 
+            .then((data) => {
+                const dataset = data.data;
+
+                if (!dataset || dataset.length === 0) {
+                    userInfoTable.innerHTML = `
+                        <tr>
+                            <th><strong>회원 정보를 찾을 수 없습니다</strong></th>
+                        </tr>`;
+                    return; // 이하 실행하지 않음
+                }
+                let html =`<tr>
+                               <th>ID</th>
+                               <th>Name</th>
+                               <th>Gender</th>
+                               <th>Age</th>
+                               <th>Birthday</th>
+                               <th>Address</th>
+                           </tr>`;                                    
+                for (const record of dataset) {
+                    html += `
+                    <tr>
+                        <td>${record.id}</a></td>
+                        <td>${record.name}</td>
+                        <td>${record.gender}</td>
+                        <td>${record.age}</td>
+                        <td>${record.birth_date}</td>
+                        <td>${record.address}</td>
+                    </tr>`
+                }
+                userInfoTable.innerHTML = html;
+                
+            })
+            .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
+                    console.error('오류가 났음: ', error);
+            });
     }
+
+    function postOrderInfo(params) {
+        fetch(url + '/order/api/list',{ 
+		    method: 'POST',
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params.toString() 
+            
+		}) // 주고 받을때는 문자열을 주고 받는다
+            .then(response => {
+                if(!response.ok) throw new Error("네트워크 오류??");
+                orderInfoTable.innerHTML = `<tr>
+            <th><strong>회원 주문 목록을 표시하고 있습니다 ...</strong></th>
+        </tr>`
+                return response.json() // 변수 => 결과값
+            }) 
+            .then((data) => {
+                const dataset = data.data;
+                const pagingInfo = data.paging;
+
+                dataTableDisplay(dataset);
+                
+                // 여기 아래부터는 paging
+                pagesDisplay(pagingInfo);
+                // `Arr.slice()`는 기존 배열을 변경하지 않고 새로운 배열을 반환하며,
+                // `Arr.splice()`는 원본 배열을 변경하면서 새로운 배열을 반환
+                
+            })
+            .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
+                    console.error('오류가 났음: ', error);
+            });
+    }
+
+    function pagesDisplay(pagingInfo){
+        // 여기 아래부터는 paging
+        const allCount = pagingInfo.all_count;
+        const listCount = pagingInfo.list_cnt;
+        const thisPage = pagingInfo.this_page;
+        const allPageCount = Math.ceil(allCount / listCount);
+        //pagesCount : 하단에 보이고싶은 페이지 수
+
+        //lastPageNum 갱신
+        lastPageNum = allPageCount;
+
+        // previousPage, nextPage
+        if(thisPage==1) document.getElementById('previousPage').style.visibility ='hidden'; 
+        if(thisPage == lastPageNum) document.getElementById('nextPage').style.visibility ='hidden';
+        
+        let pageHtml = ``;
+        let pageNumArr = [];
+        // 표시하고 싶은 페이지 수 보다 전체 페이지 수가 작은 경우
+        if(allPageCount <= pagesCount){
+            for (let n = 1; n <= allPageCount; n++){
+                if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+            };
+        }else{// 표시하고 싶은 페이지 수 보다 전체 페이지 수가 큰 경우
+            if(thisPage <= Math.ceil(pagesCount/2)){
+                for (let n = 1; n <= pagesCount; n++){
+                    if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                    else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+                };
+            }else if(thisPage >= allPageCount - Math.ceil(pagesCount/2)){
+                for (let n = allPageCount - pagesCount+1; n <= allPageCount; n++){
+                    if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                    else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+                };
+            }else{
+                for (let n = thisPage - Math.floor(pagesCount/2); n <= thisPage + Math.floor(pagesCount/2); n++){
+                    if(n === thisPage)pageHtml += `<span id="thisPage">${n}</span>`;
+                    else pageHtml += `<span><a href="#" data-page="${n}">${n}</a></span>`;
+                };
+            }
+        };
+        pages.innerHTML = pageHtml;
+    }
+
+    function dataTableDisplay(dataset){
+        if (!dataset || dataset.length === 0) {
+            orderInfoTable.innerHTML = `
+                <tr>
+                    <th><strong>회원을 찾을 수 없습니다</strong></th>
+                </tr>`;
+            return; // 이하 실행하지 않음
+        }
+        let html =`<tr>
+                       <th>행번호</th>
+                       <th>Order ID</th>
+                       <th>Purchased Date</th>
+                       <th>Purchased Location</th>
+                   </tr>`;                 
+        let rowNum = 1;                     
+        for (const record of dataset) {
+            html += `
+            <tr>
+                <td> ${rowNum} </td>
+                <td><a href="#">${record.order_id}</a></td>
+                <td>${record.purchased_date}</td>
+                <td>${record.purchased_loc}</td>
+            </tr>`
+            rowNum ++;
+        }
+        orderInfoTable.innerHTML = html;
+    }
+
 </script>
 </body>
 </html>
