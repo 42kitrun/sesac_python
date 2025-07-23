@@ -10,9 +10,7 @@ class Order(Tables):
         '''
         self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
         self.table = '' # 하위 클래스에서 정하기
-        '''
-        super().__init__()
-        self.table = 'orders'
+
         self.list_cnt = 0
         self.page = 1
         self.start_rownum = 0
@@ -24,7 +22,11 @@ class Order(Tables):
             self.start_rownum = (self.page-1)*self.list_cnt
 
         self.query:dict = query
-        print('order query', self.query,query)
+        print(f'{self.table} query', self.query)
+        '''
+        self.table = 'orders'
+        super().__init__(query, **kwargs)
+        
 
     def sql(self):
         
@@ -62,3 +64,38 @@ class Order(Tables):
         print('sql 조회문',sql)
         print('count_sql 조회문',count_sql)
         return sql, count_sql, self.list_cnt, self.page
+
+
+class OrderSalesMonthly(Tables):
+    def __init__(self,query):
+        '''
+        self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
+        self.table = '' # 하위 클래스에서 정하기
+        '''
+        super().__init__(query)    
+        self.table = 'orders'
+        self.store_id = query['store_id']
+
+    def sql(self):
+        print('OrderSalesMonthly')
+        sql = '''SELECT SUBSTR(o.ORDER_DT,1,7) AS month
+			     	  , sum(i.UNIT_PRICE ) AS revenue
+                      , count(i.ID) AS count
+                   FROM CRM.orders o
+                   JOIN CRM.ORDERITEMS oi
+                     ON oi.ORDER_ID = o.ID
+                   JOIN CRM.ITEMS i 
+                     ON i.ID = oi.ITEM_ID 
+                  WHERE 1=1
+                    AND o.STORE_ID = :sid
+                  GROUP BY SUBSTR(o.ORDER_DT,1,7)
+                  ORDER BY 1 DESC'''
+
+        count_sql = f'SELECT COUNT(*) AS count FROM ({sql}) s'
+
+        if self.list_cnt:
+            sql += f' OFFSET {self.start_rownum} ROWS FETCH NEXT {self.list_cnt} ROWS ONLY'
+
+        print('sql 조회문',sql)
+        print('count_sql 조회문',count_sql)
+        return  ((sql,{ "sid": self.store_id }), (count_sql,{ "sid": self.store_id }), self.list_cnt, self.page )

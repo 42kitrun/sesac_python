@@ -8,6 +8,9 @@ from db.store import Store
 def store_list(query:dict):
     if 'storeType' in query:
         query['store_type'] = query.pop('storeType')
+    
+    if 'storeId' in query:
+        query['id'] = query.pop('storeId')
 
     if 'listCount' not in query.keys():
         # 페이징처리 안함

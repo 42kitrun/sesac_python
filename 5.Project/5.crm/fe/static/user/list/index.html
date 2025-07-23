@@ -97,7 +97,7 @@
             </select>
         </div>
         <br/>
-        <table>
+        <table id="userTable">
             <tr>
                 <th><strong>회원 목록을 요청하고 있습니다 ...</strong></th>
             </tr>
@@ -163,11 +163,11 @@
         
 
         // 삼항연산자
-        // document.getElementById('pages').textContent = params.get('page') ? params.get('page'):1;
+        // pages.textContent = params.get('page') ? params.get('page'):1;
         //  ? : 삼항 연산자는 falsy 값(0, '', null, undefined, false)도 걸러냅니다.
         // nullish 병합 연산자 (??)
         //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
-        document.getElementById('pages').textContent = params.get('page') ?? 1;
+        pages.textContent = params.get('page') ?? 1;
 
         post(params);
     });
@@ -199,7 +199,7 @@
         }
         window.location.search = params.toString();
     });
-    
+
 // ------------------------------------------------------------------------
 
     document.getElementById("firstPage").addEventListener("click", () => {
@@ -370,7 +370,7 @@
             html += `
             <tr>
                 <td> ${rowNum} </td>
-                <td><a href="#">${record.id}</a></td>
+                <td><a href="/user/${record.id}">${record.id}</a></td>
                 <td>${record.name}</td>
                 <td>${record.gender}</td>
                 <td>${record.age}</td>

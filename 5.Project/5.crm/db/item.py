@@ -9,9 +9,7 @@ class Item(Tables):
         '''
         self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
         self.table = '' # 하위 클래스에서 정하기
-        '''
-        super().__init__()
-        self.table = 'items'
+
         self.list_cnt = 0
         self.page = 1
         self.start_rownum = 0
@@ -23,6 +21,10 @@ class Item(Tables):
             self.start_rownum = (self.page-1)*self.list_cnt
 
         self.query:dict = query
+        print(f'{self.table} query', self.query)
+        '''
+        self.table = 'items'
+        super().__init__(query, **kwargs)
 
     def sql(self):
         # columns = self.column_list(table) 추후 검증 로직

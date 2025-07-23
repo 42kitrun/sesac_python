@@ -121,6 +121,7 @@
 <script>
     const userInfoTable = document.querySelector('#userInfo>table');
     const orderInfoTable = document.querySelector('#orderInfo>table');
+    const userTop5Store = document.querySelector('#top5Stores>ol')
 
     const paging = document.getElementById('listCount');
     const pageGroup = document.getElementById('pageGroup');
@@ -171,15 +172,16 @@
         }
 
         // 삼항연산자
-        // document.getElementById('pages').textContent = params.get('page') ? params.get('page'):1;
+        // pages.textContent = params.get('page') ? params.get('page'):1;
         //  ? : 삼항 연산자는 falsy 값(0, '', null, undefined, false)도 걸러냅니다.
         // nullish 병합 연산자 (??)
         //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
-        document.getElementById('pages').textContent = params.get('page') ?? 1;
+        pages.textContent = params.get('page') ?? 1;
 
         console.log("before posting",params.toString());
         postOrderInfo(params);// 다른함수에서 params의 키,값을 바꿔도 scope이 여기까지라 다음 함수에 영향을 준다
         postUserInfo(params);
+        postUserTop5Store(params);
     });
 
     paging.addEventListener('change', (e)=>{
@@ -254,6 +256,38 @@
 
 // ------------------------------------------------------------------------
 
+    function postOrderInfo(params) {
+        console.log("orders",params.toString());
+        fetch(url + '/order/api/list',{ 
+		    method: 'POST',
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params.toString() 
+            
+		}) // 주고 받을때는 문자열을 주고 받는다
+            .then(response => {
+                if(!response.ok) throw new Error("네트워크 오류??");
+                orderInfoTable.innerHTML = `<tr>
+            <th><strong>회원 주문 목록을 표시하고 있습니다 ...</strong></th>
+        </tr>`
+                return response.json() // 변수 => 결과값
+            }) 
+            .then((data) => {
+                const dataset = data.data;
+                const pagingInfo = data.paging;
+
+                dataTableDisplay(dataset);
+                
+                // 여기 아래부터는 paging
+                pagesDisplay(pagingInfo);
+                // `Arr.slice()`는 기존 배열을 변경하지 않고 새로운 배열을 반환하며,
+                // `Arr.splice()`는 원본 배열을 변경하면서 새로운 배열을 반환
+                
+            })
+            .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
+                    console.error('오류가 났음: ', error);
+            });
+    }
+
     function postUserInfo(userInfoParams) {
         userInfoParams.delete('listCount');
         userInfoParams.delete('page');
@@ -292,7 +326,7 @@
                 for (const record of dataset) {
                     html += `
                     <tr>
-                        <td>${record.id}</a></td>
+                        <td>${record.id}</td>
                         <td>${record.name}</td>
                         <td>${record.gender}</td>
                         <td>${record.age}</td>
@@ -308,32 +342,28 @@
             });
     }
 
-    function postOrderInfo(params) {
-        console.log("orders",params.toString());
-        fetch(url + '/order/api/list',{ 
-		    method: 'POST',
-		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: params.toString() 
-            
-		}) // 주고 받을때는 문자열을 주고 받는다
+    function postUserTop5Store(userIdparams) {
+        console.log(`/user/api/${userIdparams.get('userId')}/favorite-stores/top5`);
+        fetch(url + `/user/api/${userIdparams.get('userId')}/favorite-stores/top5`)
             .then(response => {
                 if(!response.ok) throw new Error("네트워크 오류??");
-                orderInfoTable.innerHTML = `<tr>
-            <th><strong>회원 주문 목록을 표시하고 있습니다 ...</strong></th>
-        </tr>`
+                userTop5Store.innerHTML = `
+            <li><strong>회원 단골매장 정보를 표시하고 있습니다 ...</strong></li>`
                 return response.json() // 변수 => 결과값
             }) 
             .then((data) => {
                 const dataset = data.data;
-                const pagingInfo = data.paging;
 
-                dataTableDisplay(dataset);
-                
-                // 여기 아래부터는 paging
-                pagesDisplay(pagingInfo);
-                // `Arr.slice()`는 기존 배열을 변경하지 않고 새로운 배열을 반환하며,
-                // `Arr.splice()`는 원본 배열을 변경하면서 새로운 배열을 반환
-                
+                if (!dataset || dataset.length === 0) {
+                    userTop5Store.innerHTML = `
+                        <li><strong>회원의 단골매장 정보를 찾을 수 없습니다</strong></li>`;
+                    return; // 이하 실행하지 않음
+                }
+                let userTop5StoreHtml =``;                                    
+                for (const record of dataset) {
+                    userTop5StoreHtml += `<li>${record.store_name} (${record.order_count}번 방문)</li>`
+                }
+                userTop5Store.innerHTML = userTop5StoreHtml;
             })
             .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
                     console.error('오류가 났음: ', error);
@@ -403,9 +433,9 @@
             html += `
             <tr>
                 <td> ${rowNum} </td>
-                <td><a href="#">${record.id}</a></td>
+                <td><a href="/order/${record.id}">${record.id}</a></td>
                 <td>${record.order_dt}</td>
-                <td><a href="#">${record.store_id}</a></td>
+                <td><a href="/store/${record.store_id}">${record.store_id}</a></td>
             </tr>`
             rowNum ++;
         }

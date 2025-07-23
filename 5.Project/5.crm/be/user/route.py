@@ -13,6 +13,13 @@ user_bp = Blueprint('user', __name__
 def user():
     return send_from_directory(user_bp.static_folder + '/list', 'index.html')
 
+## user/0a497257-2b1a-4836-940f-7b95db952e61/?listCount=10&page=3
+@user_bp.route("/<uuid:user_id>", methods=["GET", "POST"])
+def user_detail(user_id):
+    return send_from_directory(user_bp.static_folder + '/detail', 'index.html')
+
+# ------------------------------------------------------------------------------------
+
 @user_bp.route('/api/list',methods=["POST"])
 def api_user_list():
     query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
@@ -22,7 +29,10 @@ def api_user_list():
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(users)
 
-## user/detail/0a497257-2b1a-4836-940f-7b95db952e61/?listCount=10&page=3
-@user_bp.route("/detail/<uuid:user_id>", methods=["GET", "POST"])
-def user_detail(user_id):
-    return send_from_directory(user_bp.static_folder + '/detail', 'index.html')
+@user_bp.route('/api/<uuid:user_id>/favorite-stores/top5',methods=["GET"])
+def api_user_detail_top5(user_id):
+    query = {'user_id':user_id}
+
+    top_5 = model.user_detail_top5(query)
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
+    return jsonify(top_5)

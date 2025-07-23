@@ -1,5 +1,5 @@
 from db.oracle import *
-from abc import ABC
+from abc import ABC,abstractmethod
 
 class Tables(ABC):
     _tables = None  # 클래스 변수로 선언
@@ -7,9 +7,22 @@ class Tables(ABC):
     # def __init_subclass__(cls):    # 클래스를 "정의"하는 시점(≠ 인스턴스 생성 시)에만 실행
     #     super().__init_subclass__()
     #     if isinstance():
-    def __init__(self):
+    def __init__(self,  query:dict, **kwargs):
         self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
         self.table = '' # 하위 클래스에서 정하기
+
+        self.list_cnt = 0
+        self.page = 1
+        self.start_rownum = 0
+        
+        if kwargs: # 페이징 처리를 하겠다
+            print('페이징 처리 입력값',kwargs)
+            self.list_cnt = kwargs['paging'][0]
+            self.page = kwargs['paging'][1]
+            self.start_rownum = (self.page-1)*self.list_cnt
+
+        self.query:dict = query
+        print(f'{self.table} query', self.query)
 
     def __repr__(self):
         return '''

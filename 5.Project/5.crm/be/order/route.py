@@ -21,3 +21,13 @@ def api_order_list():
     print('api 전송 직전',orders['data'][0], orders['paging'])
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(orders)
+
+@order_bp.route('/api/sales/monthly',methods=["POST"])
+def api_order_sales_monthly():
+    query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
+    print('/order/api/sales/monthly',query)
+
+    orders = model.order_sales_monthly(query)
+    print('api 전송 직전',orders['data'][0], orders['paging'])
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
+    return jsonify(orders)

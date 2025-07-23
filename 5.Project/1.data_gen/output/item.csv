@@ -1,66 +1,66 @@
 Id,Type,Name,UnitPrice
-89b37a9b-2327-4e8d-b47d-6d2d67283b7c,Hand-Drip,코스타리카 엘 세드로(Costa Rica C.O.E Winner El Cedro),12000
-e1095717-df80-4418-a796-4fe3361ba593,Hand-Drip,파나마 호세 게이샤(Panama Jose Geisha),10000
-c0053572-d1cc-43c5-9a97-6af571dedea3,Hand-Drip,에티오피아 구지 함벨라 내추럴(Ethiopia Guji Hambela Natural),6000
-83d81cc5-af8f-40f5-a005-f9dbdf1ee4da,Hand-Drip,에티오피아 시다모 하마쇼(Ethiopia Sidamo Hamasho),6000
-4837d4a9-8441-4f6b-9ab1-387167863e30,Hand-Drip,르완다 저스틴(Rwanda Justin),6000
-de6c643a-ebe2-4e29-858d-028be528ed7b,Hand-Drip,과테말라 아우렐리오II(Guatemala Aurelioll),6000
-cf6d9e01-0209-4669-b17f-d4505a6e9e05,Hand-Drip,온두라스 마리&모이(Honduras Mary&Moi),6000
-9bade036-31cf-4709-bb79-c05478f327e9,Hand-Drip,페루 코프밤(Peru Coopbam),6000
-29053c3f-1b28-4364-8006-b9a3f2768a1e,Hand-Drip,브라질 실비오(Bratil Silvio),5500
-1505bad0-b2a1-43cb-833b-f1e90b8f9673,Hand-Drip,강릉 블렌드(Gangneung Blend),6000
-4fd10d20-f267-4a30-8f15-a418182e4e77,Hand-Drip,윈터 솔스티스 블렌드(Winter Solstice Blend),6000
-559370da-b250-430b-a9d9-ed3beae828f5,Espresso Variation,아메리카노 어센틱(Americano Authentic),5500
-6e69c4eb-db85-47f5-8095-016cb12ea3e9,Espresso Variation,카페라테(Caffe Latte),5500
-1a192be3-de4e-4554-8e88-1e21b3ec2311,Espresso Variation,카푸치노(Cappuccino),5000
-6118b2bf-86a6-42f2-9cd9-5490a6eea6b7,Espresso Variation,에스프레소 마키아토(Espresso Macchiatto),5000
-7ef3c41e-9ceb-4243-b3b9-3f99c7bb6630,Espresso Variation,에스프레소 더블(Espresso Double),5000
-0b80f33f-d5ca-4c81-bc9e-9df29dcd0b2a,House Beverage,하우스 주스 제주 감귤로 착즙한(Jeju Mandarin Juice),7000
+db38d6ae-e73d-41f4-9fed-dee67d252d58,Hand-Drip,코스타리카 엘 세드로(Costa Rica C.O.E Winner El Cedro),12000
+1a192be3-de4e-4554-8e88-1e21b3ec2311,Hand-Drip,파나마 호세 게이샤(Panama Jose Geisha),10000
+bfd31932-1f82-4359-a932-88f9a6925ebc,Hand-Drip,에티오피아 구지 함벨라 내추럴(Ethiopia Guji Hambela Natural),6000
+170054c7-961f-4cbc-a494-39c8b4dfd78f,Hand-Drip,에티오피아 시다모 하마쇼(Ethiopia Sidamo Hamasho),6000
+ce687062-e977-4541-a207-215ae0fac9b6,Hand-Drip,르완다 저스틴(Rwanda Justin),6000
+c0053572-d1cc-43c5-9a97-6af571dedea3,Hand-Drip,과테말라 아우렐리오II(Guatemala Aurelioll),6000
+5f370703-7678-42c6-9e05-d91b73192971,Hand-Drip,온두라스 마리&모이(Honduras Mary&Moi),6000
+0465275d-6dd4-4e13-8b4a-449f0633a26b,Hand-Drip,페루 코프밤(Peru Coopbam),6000
+4504b158-4efc-48d3-839e-5d8679fa52e8,Hand-Drip,브라질 실비오(Bratil Silvio),5500
+791f7dfe-179e-4869-8c52-1b05f7bcf9e1,Hand-Drip,강릉 블렌드(Gangneung Blend),6000
+f3154ae4-d7b5-4b8a-9f01-c93c792f5ace,Hand-Drip,윈터 솔스티스 블렌드(Winter Solstice Blend),6000
+29053c3f-1b28-4364-8006-b9a3f2768a1e,Espresso Variation,아메리카노 어센틱(Americano Authentic),5500
+104f4741-5b99-46f2-ac22-87014eef2137,Espresso Variation,카페라테(Caffe Latte),5500
+8e83141e-fe2d-44a4-8139-0e3d4eeda523,Espresso Variation,카푸치노(Cappuccino),5000
+1c90149b-0619-46c7-8239-0166da91aeb1,Espresso Variation,에스프레소 마키아토(Espresso Macchiatto),5000
+83d81cc5-af8f-40f5-a005-f9dbdf1ee4da,Espresso Variation,에스프레소 더블(Espresso Double),5000
+e1095717-df80-4418-a796-4fe3361ba593,House Beverage,하우스 주스 제주 감귤로 착즙한(Jeju Mandarin Juice),7000
 b112b18b-89bf-4ec9-a4b4-7a454967f8da,House Beverage,베네수엘라 초콜릿(Venezuelan Chocolate),6000
-f11cf2bd-f057-46dd-b1c4-d700d9af6f1f,House Beverage,우유(Milk),3000
-1b637372-8917-48f1-8021-afa84fe1d5d9,Tea,그릭 세이지(Greek Sage),5000
-da1d4110-a7d6-4354-bffe-7ca3ea505fea,Tea,카카오 티(Cacao Tea),5000
-ba4e1260-8369-4630-913c-7a63236ffd22,Tea,실론 시나몬 티(Ceyion Cinnamon Tea),5000
-791f7dfe-179e-4869-8c52-1b05f7bcf9e1,Tea,어센틱 허브티(Authentic Herbal Tea),5000
-4b2cd605-f352-4a06-b6ef-60e9b898278c,Bakery,바타르(Batard),8000
-8e83141e-fe2d-44a4-8139-0e3d4eeda523,Bakery,검은깨 바타르(Black Sesame Batard),10000
-104f4741-5b99-46f2-ac22-87014eef2137,Bakery,통밀 100%(Whole Wheat 100%),10000
-9fc83877-7ed3-421d-a547-3c7ee8275849,Bakery,통밀 고다치즈 깜파뉴(Whole Wheat Gouda Cheese Campagne),13000
-9329bafd-8e3b-4fca-b4fd-60142264092f,Bakery,앉은뱅이밀 바게트(Traditional Baguette),4000
-0465275d-6dd4-4e13-8b4a-449f0633a26b,Bakery,에멘탈 치즈 바게트(Emmental Cheese Baguette),5000
-ce687062-e977-4541-a207-215ae0fac9b6,Bakery,치아바타(Ciabatta),3000
-86e59dd2-2d27-4fe6-b3fb-78aaf71edf8f,Bakery,치즈 치아바타(Cheese Ciabatta),4000
-45f68bcb-e2c6-4f00-836a-40d0ac764b95,Bakery,크루아상(Croissant),3800
-3e91cae1-4d5a-45a3-b5e6-be3447a01f2d,Bakery,뺑오쇼콜라(Pain au Chocolat),4200
-7eade385-5c26-425f-b164-5d06a9b5f974,Bakery,팥앙금빵(Red Bean Bread),3500
-4310c9ac-f430-4f11-8f31-04b47b145e31,Bakery,오디 크림치즈(Mulberry Cream Cheese),7000
-a4cd08b2-6e85-41f3-ac78-21ccaa845d9e,Bakery,초코 브리오슈(Choco Brioche),8000
-11fdd236-eb83-477d-95ea-b3629f06a0e7,Bakery,크루아상 샌드위치(Croissant Sandwich),8500
-a8340485-13a2-45e4-a225-b64204bd0c67,Bakery,퀸 아망(Kouign-Amann),4500
-fec90528-cb36-4a35-a5c7-3bde5d4fc28c,Desert,까눌레(Canelé),3800
-89b6e7d2-9b63-48ce-8048-946aa53b6e6e,Desert,초콜릿 바(Chocolate Bar),4000
-e7d5522c-6ad9-4ea2-bfdc-c8b455db449e,Desert,판나코타(Panna Cotta),7000
-9ed935ac-4b85-470a-9b9c-f81175be0484,Desert,티라미수(Tiramisu),6000
-5cede163-8ce3-431b-a37c-834fbdec107e,Desert,휘낭시에 트리오(Financier Trio),7000
-1c90149b-0619-46c7-8239-0166da91aeb1,Desert,초코칩 쿠키(Choco Chip Cookie),3200
-8e535cbb-ac4b-4dac-81e9-9f9f2a65e83e,Desert,흑임자 쿠키(Black Sesame Cookie),3200
-ecea9758-f9f0-4e48-bda5-88aa8166093e,Desert,녹차 쿠키(Green Tea Cookie),3200
-23e66294-37c0-4dbb-b5b1-eacf917e1aa6,Desert,레몬 치즈 케이크(Lemon Cheese Cake),6000
-2420ac34-0227-48c2-8fe8-2248dd553dfb,Desert,아메리칸 피칸 파이(American Pecan Pie),6000
-e268ae65-5d53-454c-831f-9a7716c7b1da,Desert,프레시 레몬 케이크(Fresh Lemon Cake),4500
-7b400d61-fca0-4d9d-8c3b-f4551de4201e,Desert,로열 얼그레이 케이크(Royal Barl Grey Cake),4500
-76058922-d28d-4c05-977a-d6dabf12d63f,Desert,피스타치오 & 유자 쿠키(Pistacchio & Yuja Cookie),3200
-4152f993-6db7-4961-b83d-5462d2b915b2,Desert,플레인 마들렌(Plain Madeleine),3800
-170054c7-961f-4cbc-a494-39c8b4dfd78f,Desert,라즈베리 마들렌(Raspberry Madeleine),4300
-a609129d-00a4-4dd4-aab6-efb84e391230,Desert,유자 마들렌(Yujs Madeleine),4300
-a6bb97d1-473a-4c75-a305-1ef55fdccf45,Desert,커피 캐러멜 마들렌(Coffce Caramel Madeleine),4300
-f3154ae4-d7b5-4b8a-9f01-c93c792f5ace,SeasonDesert,체리 버터바,4000
-3bd50eb7-e81f-4394-bb6b-9d2f6c1f1332,SeasonDesert,키위 도넛,3400
-bfd31932-1f82-4359-a932-88f9a6925ebc,SeasonDesert,레몬 까눌레,4600
-5f370703-7678-42c6-9e05-d91b73192971,SeasonDesert,오렌지 개성주악,3800
-e8ac8788-fb5e-4bfb-8654-232a7f425d72,SeasonDesert,갈릭 약과,3100
-fb89163f-ee4a-4106-9104-c053a7d6a1ae,SeasonDesert,자몽 아이스크림,4200
-4504b158-4efc-48d3-839e-5d8679fa52e8,SeasonDesert,통팥 마카롱,3900
-f3c59db2-1284-4ce4-9281-6932425e5a9f,SeasonDesert,커피 소금빵,4100
-4c09fcff-3db9-4535-b915-fa8f780ce6aa,SeasonDesert,레몬 모찌,4700
-db38d6ae-e73d-41f4-9fed-dee67d252d58,SeasonDesert,순수우유 마들렌,3600
+4fd10d20-f267-4a30-8f15-a418182e4e77,House Beverage,우유(Milk),3000
+ba4e1260-8369-4630-913c-7a63236ffd22,Tea,그릭 세이지(Greek Sage),5000
+4310c9ac-f430-4f11-8f31-04b47b145e31,Tea,카카오 티(Cacao Tea),5000
+4b2cd605-f352-4a06-b6ef-60e9b898278c,Tea,실론 시나몬 티(Ceyion Cinnamon Tea),5000
+e7d5522c-6ad9-4ea2-bfdc-c8b455db449e,Tea,어센틱 허브티(Authentic Herbal Tea),5000
+de6c643a-ebe2-4e29-858d-028be528ed7b,Bakery,바타르(Batard),8000
+2420ac34-0227-48c2-8fe8-2248dd553dfb,Bakery,검은깨 바타르(Black Sesame Batard),10000
+7b400d61-fca0-4d9d-8c3b-f4551de4201e,Bakery,통밀 100%(Whole Wheat 100%),10000
+23e66294-37c0-4dbb-b5b1-eacf917e1aa6,Bakery,통밀 고다치즈 깜파뉴(Whole Wheat Gouda Cheese Campagne),13000
+cf6d9e01-0209-4669-b17f-d4505a6e9e05,Bakery,앉은뱅이밀 바게트(Traditional Baguette),4000
+da1d4110-a7d6-4354-bffe-7ca3ea505fea,Bakery,에멘탈 치즈 바게트(Emmental Cheese Baguette),5000
+5cede163-8ce3-431b-a37c-834fbdec107e,Bakery,치아바타(Ciabatta),3000
+6118b2bf-86a6-42f2-9cd9-5490a6eea6b7,Bakery,치즈 치아바타(Cheese Ciabatta),4000
+e268ae65-5d53-454c-831f-9a7716c7b1da,Bakery,크루아상(Croissant),3800
+1505bad0-b2a1-43cb-833b-f1e90b8f9673,Bakery,뺑오쇼콜라(Pain au Chocolat),4200
+4c09fcff-3db9-4535-b915-fa8f780ce6aa,Bakery,팥앙금빵(Red Bean Bread),3500
+a8340485-13a2-45e4-a225-b64204bd0c67,Bakery,오디 크림치즈(Mulberry Cream Cheese),7000
+3e91cae1-4d5a-45a3-b5e6-be3447a01f2d,Bakery,초코 브리오슈(Choco Brioche),8000
+86e59dd2-2d27-4fe6-b3fb-78aaf71edf8f,Bakery,크루아상 샌드위치(Croissant Sandwich),8500
+f3c59db2-1284-4ce4-9281-6932425e5a9f,Bakery,퀸 아망(Kouign-Amann),4500
+9fc83877-7ed3-421d-a547-3c7ee8275849,Desert,까눌레(Canelé),3800
+a6bb97d1-473a-4c75-a305-1ef55fdccf45,Desert,초콜릿 바(Chocolate Bar),4000
+7eade385-5c26-425f-b164-5d06a9b5f974,Desert,판나코타(Panna Cotta),7000
+ecea9758-f9f0-4e48-bda5-88aa8166093e,Desert,티라미수(Tiramisu),6000
+fec90528-cb36-4a35-a5c7-3bde5d4fc28c,Desert,휘낭시에 트리오(Financier Trio),7000
+76058922-d28d-4c05-977a-d6dabf12d63f,Desert,초코칩 쿠키(Choco Chip Cookie),3200
+0b80f33f-d5ca-4c81-bc9e-9df29dcd0b2a,Desert,흑임자 쿠키(Black Sesame Cookie),3200
+a4cd08b2-6e85-41f3-ac78-21ccaa845d9e,Desert,녹차 쿠키(Green Tea Cookie),3200
+11fdd236-eb83-477d-95ea-b3629f06a0e7,Desert,레몬 치즈 케이크(Lemon Cheese Cake),6000
+6e69c4eb-db85-47f5-8095-016cb12ea3e9,Desert,아메리칸 피칸 파이(American Pecan Pie),6000
+9329bafd-8e3b-4fca-b4fd-60142264092f,Desert,프레시 레몬 케이크(Fresh Lemon Cake),4500
+9bade036-31cf-4709-bb79-c05478f327e9,Desert,로열 얼그레이 케이크(Royal Barl Grey Cake),4500
+4152f993-6db7-4961-b83d-5462d2b915b2,Desert,피스타치오 & 유자 쿠키(Pistacchio & Yuja Cookie),3200
+559370da-b250-430b-a9d9-ed3beae828f5,Desert,플레인 마들렌(Plain Madeleine),3800
+f11cf2bd-f057-46dd-b1c4-d700d9af6f1f,Desert,라즈베리 마들렌(Raspberry Madeleine),4300
+89b6e7d2-9b63-48ce-8048-946aa53b6e6e,Desert,유자 마들렌(Yujs Madeleine),4300
+a609129d-00a4-4dd4-aab6-efb84e391230,Desert,커피 캐러멜 마들렌(Coffce Caramel Madeleine),4300
+4837d4a9-8441-4f6b-9ab1-387167863e30,SeasonDesert,체리 버터바,4000
+89b37a9b-2327-4e8d-b47d-6d2d67283b7c,SeasonDesert,키위 도넛,3400
+fb89163f-ee4a-4106-9104-c053a7d6a1ae,SeasonDesert,레몬 까눌레,4600
+8e535cbb-ac4b-4dac-81e9-9f9f2a65e83e,SeasonDesert,오렌지 개성주악,3800
+9ed935ac-4b85-470a-9b9c-f81175be0484,SeasonDesert,갈릭 약과,3100
+1b637372-8917-48f1-8021-afa84fe1d5d9,SeasonDesert,자몽 아이스크림,4200
+e8ac8788-fb5e-4bfb-8654-232a7f425d72,SeasonDesert,통팥 마카롱,3900
+3bd50eb7-e81f-4394-bb6b-9d2f6c1f1332,SeasonDesert,커피 소금빵,4100
+45f68bcb-e2c6-4f00-836a-40d0ac764b95,SeasonDesert,레몬 모찌,4700
+7ef3c41e-9ceb-4243-b3b9-3f99c7bb6630,SeasonDesert,순수우유 마들렌,3600

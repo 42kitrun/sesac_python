@@ -12,6 +12,13 @@ store_bp = Blueprint('store', __name__
 def store():
     return send_from_directory(store_bp.static_folder + '/list', 'index.html')
 
+## store/detail/0a497257-2b1a-4836-940f-7b95db952e61/?listCount=10&page=3
+@store_bp.route("/<uuid:store_id>", methods=["GET", "POST"])
+def store_detail(store_id):
+    return send_from_directory(store_bp.static_folder + '/detail', 'index.html')
+
+# ------------------------------------------------------------------------------------
+
 @store_bp.route('/api/list',methods=["POST"])
 def api_store_list():
     query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
@@ -21,3 +28,4 @@ def api_store_list():
     print('api 전송 직전',stores['data'][0], stores['paging'])
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(stores)
+

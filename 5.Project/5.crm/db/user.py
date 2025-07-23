@@ -9,9 +9,7 @@ class User(Tables):
         '''
         self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
         self.table = '' # 하위 클래스에서 정하기
-        '''
-        super().__init__()
-        self.table = 'users'
+
         self.list_cnt = 0
         self.page = 1
         self.start_rownum = 0
@@ -23,7 +21,10 @@ class User(Tables):
             self.start_rownum = (self.page-1)*self.list_cnt
 
         self.query:dict = query
-
+        print(f'{self.table} query', self.query)
+        '''
+        self.table = 'users'
+        super().__init__(query, **kwargs)
 
     def column_list(self):
         with OracleConnection() as cursor:
@@ -45,9 +46,9 @@ class User(Tables):
                     if '*' in v:
                         v = v.repalce('*','%')
                     v = '%'+v+'%'
-                    sql += f" AND {k.upper()} like '{v}'" # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
+                    sql += f" AND {k.upper()} like ':{k.upper()}'" # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
                 if k in ('gender', 'id'):
-                    sql += f" AND {k.upper()}  = '{v}' " # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
+                    sql += f" AND {k.upper()}  = ':{k.upper()}' " # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
         
         count_sql = sql.replace('*','count(*)')
 
@@ -56,4 +57,44 @@ class User(Tables):
 
         print('sql 조회문',sql)
         print('count_sql 조회문',count_sql)
-        return sql, count_sql, self.list_cnt, self.page
+        return (sql, self.query), (count_sql,self.query), self.list_cnt, self.page
+
+class UserTop5Store(Tables):
+    def __init__(self,query, **kwargs):
+        '''
+        self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
+        self.table = '' # 하위 클래스에서 정하기
+
+        self.list_cnt = 0
+        self.page = 1
+        self.start_rownum = 0
+        
+        if kwargs: # 페이징 처리를 하겠다
+            print('페이징 처리 입력값',kwargs)
+            self.list_cnt = kwargs['paging'][0]
+            self.page = kwargs['paging'][1]
+            self.start_rownum = (self.page-1)*self.list_cnt
+
+        self.query:dict = query
+        print(f'{self.table} query', self.query)
+        '''
+        self.table = 'orders'
+        super().__init__(query, **kwargs)    
+        self.user_id = query['user_id']
+
+    def sql(self):
+        print('UserTop5Store')
+        return  '''SELECT store_name
+                        , order_count
+                     FROM (SELECT store_id
+                     			, max(name) AS store_name
+                                , COUNT(*) AS order_count
+                                , RANK() OVER (ORDER BY COUNT(*) DESC) AS rnk
+                             FROM CRM.orders o 
+                             JOIN CRM.stores s
+                               ON s.id = o.store_id
+                            WHERE user_id = :uid
+                            GROUP BY store_id
+                          ) ranked
+                    WHERE rnk <= 5
+                    ORDER BY order_count DESC''',  { "uid": self.user_id }

@@ -3,7 +3,7 @@ sys.path.append('5.Project/5.crm')
 
 from db.oracle import OracleDBPool
 from db.get import Get
-from db.order import Order
+from db.order import Order, OrderSalesMonthly
 
 def order_list(query:dict):
     # 조회 쿼리 중에 컬럼명이 다른 컬럼의 키 변경
@@ -23,6 +23,15 @@ def order_list(query:dict):
     return Get(Order(query, paging=[removed_listCount,removed_page]))()
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
 
+def order_sales_monthly(query:dict):
+    # 조회 쿼리 중에 컬럼명이 다른 컬럼의 키 변경
+    if 'storeId' in query:
+        print(query.keys())
+        query['store_id'] = query.pop('storeId')
+
+    print(query)
+    return Get(OrderSalesMonthly(query))()
+
 if __name__ == '__main__':
     OracleDBPool.init_pool()
-    print(Get(Order(paging=[10,0]))())
+    print(Get(OrderSalesMonthly(paging=[10,0]))())
