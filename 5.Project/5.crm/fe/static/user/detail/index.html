@@ -291,12 +291,11 @@
     function postUserInfo(userInfoParams) {
         userInfoParams.delete('listCount');
         userInfoParams.delete('page');
-        console.log(userInfoParams.toString());
+        console.log('userInfoParams',userInfoParams.toString());
         fetch(url + '/user/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: userInfoParams.toString() 
-            
 		}) // 주고 받을때는 문자열을 주고 받는다
             .then(response => {
                 if(!response.ok) throw new Error("네트워크 오류??");
@@ -344,7 +343,11 @@
 
     function postUserTop5Store(userIdparams) {
         console.log(`/user/api/${userIdparams.get('userId')}/favorite-stores/top5`);
-        fetch(url + `/user/api/${userIdparams.get('userId')}/favorite-stores/top5`)
+        fetch(url + `/user/api/${userIdparams.get('userId')}/favorite-stores/top5`,{
+            method: 'POST',
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: userIdparams.toString() 
+        })
             .then(response => {
                 if(!response.ok) throw new Error("네트워크 오류??");
                 userTop5Store.innerHTML = `

@@ -23,16 +23,18 @@ def user_detail(user_id):
 @user_bp.route('/api/list',methods=["POST"])
 def api_user_list():
     query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
-    print(query)
+    print('/user/api/list/',query)
 
     users = model.user_list(query)
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(users)
 
-@user_bp.route('/api/<uuid:user_id>/favorite-stores/top5',methods=["GET"])
+@user_bp.route('/api/<uuid:user_id>/favorite-stores/top5',methods=["POST"])
 def api_user_detail_top5(user_id):
-    query = {'user_id':user_id}
+    query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
+    print('/user/api/<uuid:user_id>/favorite-stores/top5',query)
 
     top_5 = model.user_detail_top5(query)
+    print('api 전송 직전',top_5['data'][0], top_5['paging'])
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(top_5)

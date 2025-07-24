@@ -108,7 +108,7 @@
             </div>
         </div>
         <br/>
-        <div id="regularCustomer">
+        <div id="loyaltyInfoTable">
             <p>단골 고객</p>
             <table>
                 <tr>
@@ -125,7 +125,7 @@
 <script>
     const storeInfoTable = document.querySelector('#storeInfo>table');
     const salesInfoTable = document.querySelector('#salesInfo>table');
-    const regularCustomerTable = document.querySelector('#regularCustomer>table');
+    const loyaltyInfoTable = document.querySelector('#loyaltyInfoTable>table');
 
     const paging = document.getElementById('listCount');
     const pageGroup = document.getElementById('pageGroup');
@@ -183,7 +183,8 @@
         pages.textContent = params.get('page') ?? 1;
 
         console.log("before posting",params.toString());
-        // postRegularUserInfo(params);
+        
+        postLoyaltyInfo(params);
         postSalesInfo(params);// 다른함수에서 params의 키,값을 바꿔도 scope이 여기까지라 다음 함수에 영향을 준다
         postStoreInfo(params);
     });
@@ -311,8 +312,8 @@
     }
 
     function postSalesInfo(params) {
-        console.log("orders",params.toString());
-        fetch(url + '/order/api/sales/monthly',{ 
+        console.log("sales",params.toString());
+        fetch(url + '/store/api/monthly_sales',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 
@@ -332,6 +333,34 @@
                 
                 // 여기 아래부터는 paging
                 pagesDisplay(pagingInfo);
+            })
+            .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
+                    console.error('오류가 났음: ', error);
+            });
+    }
+
+    function postLoyaltyInfo(params) {
+        console.log("loyalty",params.toString());
+        fetch(url + '/store/api/loyalty',{ 
+		    method: 'POST',
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params.toString() 
+		}) // 주고 받을때는 문자열을 주고 받는다
+            .then(response => {
+                if(!response.ok) throw new Error("네트워크 오류??");
+                loyaltyInfoTable.innerHTML = `<tr>
+            <th><strong>매장 주문 목록을 표시하고 있습니다 ...</strong></th>
+        </tr>`
+                return response.json() // 변수 => 결과값
+            }) 
+            .then((data) => {
+                const dataset = data.data;
+                const pagingInfo = data.paging;
+
+                loyaltyInfoTableDisplay(dataset);
+                
+                // 여기 아래부터는 paging
+                // pagesDisplay(pagingInfo);
             })
             .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
                     console.error('오류가 났음: ', error);
@@ -408,6 +437,34 @@
             rowNum ++;
         }
         salesInfoTable.innerHTML = html;
+    }
+
+    function loyaltyInfoTableDisplay(dataset){
+        if (!dataset || dataset.length === 0) {
+            loyaltyInfoTable.innerHTML = `
+                <tr>
+                    <th><strong>단골 고객을 찾을 수 없습니다</strong></th>
+                </tr>`;
+            return; // 이하 실행하지 않음
+        }
+        let html =`<tr>
+                       <th>행번호</th>
+                       <th>Customer ID</th>
+                       <th>Name</th>
+                       <th>Frequency</th>
+                   </tr>`;                 
+        let rowNum = 1;                     
+        for (const record of dataset) {
+            html += `
+            <tr>
+                <td> ${rowNum} </td>
+                <td><a href="#">${record.user_id}</a></td>
+                <td>${record.name}</td>
+                <td>${record.frequency}</td>
+            </tr>`
+            rowNum ++;
+        }
+        loyaltyInfoTable.innerHTML = html;
     }
 
 </script>

@@ -29,3 +29,25 @@ def api_store_list():
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(stores)
 
+
+#store_detail_api이지만 실상 order table이 drive table이라면...? 어떻게 라우트를 설계해야하나...?
+# store/api/loyalty? order/api/loyalty?
+@store_bp.route('/api/monthly_sales',methods=["POST"])
+def api_store_sales_monthly():
+    query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
+    print('/store/api/monthly_sales',query)
+
+    sales_monthly = model.store_sales_monthly(query)
+    print('api 전송 직전',sales_monthly['data'][0], sales_monthly['paging'])
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
+    return jsonify(sales_monthly)
+
+@store_bp.route('/api/loyalty', methods=["POST"])
+def api_store_loyalty():
+    query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
+    print('/store/api/loyalty',query)
+
+    loyalty = model.store_loyalty(query)
+    print('api 전송 직전',loyalty['data'][0], loyalty['paging'])
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
+    return jsonify(loyalty)

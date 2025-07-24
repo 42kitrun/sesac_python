@@ -23,11 +23,16 @@ def user_list(query:dict):
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
 
 def user_detail_top5(query:dict):
+    # 조회 쿼리 중에 컬럼명이 다른 컬럼의 키 변경
+    if 'userId' in query:
+        query['user_id'] = query.pop('userId')
+    
     # user_id만 전달됨
     if 'user_id' not in query:
+        print(query)
         raise KeyError('user_detail_top5 should have only user_id key in query')
     
-    return Get(UserTop5Store(query))
+    return Get(UserTop5Store(query))()
     # {'data': rows, 'paging':{'all_count':len(rows),'list_cnt':len(rows), 'this_page':1}}
 
 

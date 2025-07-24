@@ -1,6 +1,7 @@
 import sys
 sys.path.append('5.Project/5.crm')
 
+from db.oracle import OracleConnection
 from db.tables import Tables
 
 class User(Tables):
@@ -10,7 +11,7 @@ class User(Tables):
         self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
         self.table = '' # 하위 클래스에서 정하기
 
-        self.list_cnt = 0
+        self.list_cnt = 0 # 기본값
         self.page = 1
         self.start_rownum = 0
         
@@ -20,7 +21,8 @@ class User(Tables):
             self.page = kwargs['paging'][1]
             self.start_rownum = (self.page-1)*self.list_cnt
 
-        self.query:dict = query
+         # 오라클에서 :PARAM명 형식의 바인딩 시, 바인딩 파라미터 이름은 항상 대문자로 처리.
+        self.query:dict = {k.upper():v for k,v in query.items()}
         print(f'{self.table} query', self.query)
         '''
         self.table = 'users'
@@ -35,29 +37,8 @@ class User(Tables):
 
     def sql(self):
         # columns = self.column_list(table) 추후 검증 로직
-        
-        sql = f"SELECT * FROM  CRM.{self.table} WHERE 1=1" 
-        
-        if self.query:
-            for k, v in self.query.items():
-                if k == 'name':
-                    if '?' in v:
-                        v = v.replace('?',"_")
-                    if '*' in v:
-                        v = v.repalce('*','%')
-                    v = '%'+v+'%'
-                    sql += f" AND {k.upper()} like ':{k.upper()}'" # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
-                if k in ('gender', 'id'):
-                    sql += f" AND {k.upper()}  = ':{k.upper()}' " # tuple이던 아니던 반복적으로 감싸도 중복없는 tuple
-        
-        count_sql = sql.replace('*','count(*)')
 
-        if self.list_cnt:
-            sql += f' ORDER BY id OFFSET {self.start_rownum} ROWS FETCH NEXT {self.list_cnt} ROWS ONLY'
-
-        print('sql 조회문',sql)
-        print('count_sql 조회문',count_sql)
-        return (sql, self.query), (count_sql,self.query), self.list_cnt, self.page
+        return super().common_sql()
 
 class UserTop5Store(Tables):
     def __init__(self,query, **kwargs):
@@ -65,7 +46,7 @@ class UserTop5Store(Tables):
         self.tables = Tables.get_tables()  # 모든 객체가 같은 값 사용
         self.table = '' # 하위 클래스에서 정하기
 
-        self.list_cnt = 0
+        self.list_cnt = 0 # 기본값
         self.page = 1
         self.start_rownum = 0
         
@@ -75,16 +56,16 @@ class UserTop5Store(Tables):
             self.page = kwargs['paging'][1]
             self.start_rownum = (self.page-1)*self.list_cnt
 
-        self.query:dict = query
+         # 오라클에서 :PARAM명 형식의 바인딩 시, 바인딩 파라미터 이름은 항상 대문자로 처리.
+        self.query:dict = {k.upper():v for k,v in query.items()}
         print(f'{self.table} query', self.query)
         '''
         self.table = 'orders'
         super().__init__(query, **kwargs)    
-        self.user_id = query['user_id']
 
     def sql(self):
         print('UserTop5Store')
-        return  '''SELECT store_name
+        sql =   '''SELECT store_name
                         , order_count
                      FROM (SELECT store_id
                      			, max(name) AS store_name
@@ -93,8 +74,17 @@ class UserTop5Store(Tables):
                              FROM CRM.orders o 
                              JOIN CRM.stores s
                                ON s.id = o.store_id
-                            WHERE user_id = :uid
+                            WHERE user_id = :USER_ID
                             GROUP BY store_id
                           ) ranked
                     WHERE rnk <= 5
-                    ORDER BY order_count DESC''',  { "uid": self.user_id }
+                    ORDER BY order_count DESC''',  self.query
+
+        count_sql = f'SELECT COUNT(*) AS count FROM ({sql[0]}) s', self.query
+        
+        if self.list_cnt:
+            sql += f' ORDER BY id OFFSET {self.start_rownum} ROWS FETCH NEXT {self.list_cnt} ROWS ONLY'
+
+        print('sql 조회문',sql)
+        print('count_sql 조회문',count_sql)
+        return sql, count_sql, self.list_cnt, self.page
