@@ -12,12 +12,28 @@ item_bp = Blueprint('item', __name__
 def item():
     return send_from_directory(item_bp.static_folder + '/list', 'index.html')
 
+@item_bp.route("/<uuid:item_id>", methods=["GET","POST"])
+def item_detail(item_id):
+    return send_from_directory(item_bp.static_folder + '/detail', 'index.html')
+
+# ------------------------------------------------------------------------------------
+
 @item_bp.route('/api/list',methods=["POST"])
 def api_item_list():
     query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
-    print(query)
+    print('item/api/list',query)
 
     items = model.item_list(query)
     print('api 전송 직전',items['data'][0], items['paging'])
     # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
     return jsonify(items)
+
+@item_bp.route('/api/monthly_sales',methods=["POST"])
+def api_item_sales_monthly():
+    query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args
+    print('/item/api/monthly_sales',query)
+
+    sales_monthly = model.item_sales_monthly(query)
+    print('api 전송 직전',sales_monthly['data'][0], sales_monthly['paging'])
+    # {'data': rows, 'paging':{'all_count':count,'list_cnt':self.list_cnt, 'this_page':self.page}}
+    return jsonify(sales_monthly)

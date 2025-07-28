@@ -80,7 +80,7 @@
     </nav>
     <br/>
     <main>
-        <div id="query">
+        <div id="query"><!-- visibility? : hidden -->
             <div id="inputForm">
                 <label for="name"> Name :</label>
                 <input type="text" id="nameInput" name="name" />
@@ -382,7 +382,7 @@
             html += `
             <tr>
                 <td> ${rowNum} </td>
-                <td><a href="#">${record.id}</a></td>
+                <td><a href="/order/${record.id}">${record.id}</a></td>
                 <td>${record.order_dt}</td>
                 <td>${record.store_id}</td>
                 <td>${record.user_id}</td>

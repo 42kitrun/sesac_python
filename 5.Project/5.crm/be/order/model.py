@@ -8,9 +8,10 @@ from db.order import Order
 def order_list(query:dict):
     # 조회 쿼리 중에 컬럼명이 다른 컬럼의 키 변경
     if 'userId' in query:
-        print(query.keys())
         query['user_id'] = query.pop('userId')
-        print(query.keys())
+
+    if 'orderId' in query:
+        query['ID'] = query.pop('orderId')
 
     if 'listCount' not in query.keys():
         # 페이징처리 안함

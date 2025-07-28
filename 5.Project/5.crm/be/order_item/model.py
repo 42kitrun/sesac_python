@@ -7,8 +7,8 @@ from db.order_item import OrderItem
 
 def order_item_list(query:dict):
     # 조회 쿼리 중에 컬럼명이 다른 컬럼의 키 변경
-    # if 'orderType' in query:
-    #     query['order_type'] = query.pop('orderType')
+    if 'orderItemId' in query:
+        query['id'] = query.pop('orderItemId')
 
     if 'listCount' not in query.keys():
         # 페이징처리 안함

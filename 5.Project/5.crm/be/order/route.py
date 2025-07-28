@@ -12,6 +12,12 @@ order_bp = Blueprint('order', __name__
 def order():
     return send_from_directory(order_bp.static_folder + '/list', 'index.html')
 
+@order_bp.route("/<uuid:order_id>", methods=["GET","POST"])
+def order_detail(order_id):
+    return send_from_directory(order_bp.static_folder + '/detail', 'index.html')
+
+# ------------------------------------------------------------------------------------
+
 @order_bp.route('/api/list',methods=["POST"])
 def api_order_list():
     query = dict(request.form) # post로 보낸거는 request.from // get으로 보낸거는 request.args

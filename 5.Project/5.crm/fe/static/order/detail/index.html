@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <title>주문 상세 페이지</title>
+    <title>주문 조회 페이지</title>
     <style>
         nav{
             text-align: center;
@@ -23,15 +23,24 @@
             width: 100vw;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; /* ← 중요! */
         }
         
-        #orderInfo > div:first-child {
+        #query {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: row;
+            align-content: center;
+            justify-content: space-around;
+            width: 100%;
         }
 
+        #inputForm{
+            visibility: hidden;
+        }
+
+        #submitBtn {
+            cursor: pointer;
+        }
 
         table {
             width: 100vw;
@@ -71,47 +80,40 @@
     </nav>
     <br/>
     <main>
-        <div id="userInfo">
-            <p>고객정보</p>
-            <table>
-                <tr>
-                    <th><strong>회원 정보를 요청하고 있습니다 ...</strong></th>
-                </tr>
-                <!--  회원 조회 -->
-            </table>
-        </div>
-        <br/>
-        <div id="orderInfo">
-            <div>
-                <span>주문정보</span>
-                <select id ="listCount">
-                    <option>전체보기</option>
-                    <option>10개씩 보기</option>
-                    <option>25개씩 보기</option>
-                    <option>40개씩 보기</option>
+        <div id="query"><!-- visibility? : hidden -->
+            <div id="inputForm">
+                <label for="name"> Name :</label>
+                <input type="text" id="nameInput" name="name" />
+                <label for="orderType"> Type :</label>
+                <select name="orderType" id="orderTypeSelect">
+                    <option></option>
+                    <option>할리스</option>
+  
                 </select>
+                <button id="submitBtn">조회</button>
             </div>
-            <table>
-                <tr>
-                    <th><strong>회원님의 주문 목록을 요청하고 있습니다 ...</strong></th>
-                </tr>
-                <!--  주문 조회 -->
-            </table>
-            <br/>
-            <div id="pageGroup">
-                <i id = "firstPage" class="fa-duotone fa-solid fa-angles-left"></i>
-                <i id = "previousPage" class="fa-solid fa-angle-left"></i>
-                <span id = "pages"><!-- 페이지 표시 --></span>
-                <i id = "nextPage" class="fa-solid fa-angle-right"></i>
-                <i id = "lastPage" class="fa-duotone fa-solid fa-angles-right"></i>
-            </div>
+
+            <select id ="listCount">
+                <option>전체보기</option>
+                <option>25개씩 보기</option>
+                <option>40개씩 보기</option>
+                <option>60개씩 보기</option>
+            </select>
         </div>
         <br/>
-        <div id="top5Stores">
-            <p>자주 방문한 매장 Top 5</p>
-            <ol>
-                <!-- <li>할리스 강서3호점 (1번 방문)</li>-->
-            </ol>
+        <table>
+            <tr>
+                <th><strong>주문 목록을 요청하고 있습니다 ...</strong></th>
+            </tr>
+            <!--  주문 조회 -->
+        </table>
+        <br/>
+        <div id="pageGroup">
+            <i id = "firstPage" class="fa-duotone fa-solid fa-angles-left"></i>
+            <i id = "previousPage" class="fa-solid fa-angle-left"></i>
+            <span id = "pages"><!-- 페이지 표시 --></span>
+            <i id = "nextPage" class="fa-solid fa-angle-right"></i>
+            <i id = "lastPage" class="fa-duotone fa-solid fa-angles-right"></i>
         </div>
     </main>
     <footer>
@@ -119,9 +121,8 @@
     </footer>
 
 <script>
-    const userInfoTable = document.querySelector('#userInfo>table');
-    const orderInfoTable = document.querySelector('#orderInfo>table');
-
+    const orderTable = document.querySelector('table');
+    const submitBtn = document.getElementById('submitBtn');
     const paging = document.getElementById('listCount');
     const pageGroup = document.getElementById('pageGroup');
     const pages = document.getElementById('pages');
@@ -136,7 +137,7 @@
         
         // URL에서 쿼리 파라미터 읽어서 표시
         const params = new URLSearchParams(window.location.search);
-        params.append("userId",window.location.pathname.split('/').slice(-1));
+        params.append("orderId",window.location.pathname.split('/').slice(-1));
         console.log(params.toString());
 
         // 빈 값 쿼리파라미터 및 무효한 쿼리파라미터 제거
@@ -147,7 +148,7 @@
                 params.delete(key);
             }
             // 무효한 쿼리파라미터 제거
-            if(!["listCount","page","userId"].includes(key)){
+            if(!["listCount","page","orderId"].includes(key)){
                 console.log(`삭제됨: ${key}`);
                 params.delete(key);
             }
@@ -158,10 +159,11 @@
             for...of는 내부적으로 params 객체를 복사한 이터레이터를 쓰기 때문에 더 안전하게 동작합니다
             */
    
-        console.log( params.get('userId'), params.get('listCount'),paging.value, params.get('page'));        
-                   
+        // console.log( params.get('name'), params.get('orderType'),params.get('listCount'),paging.value, params.get('page'));        
+        console.log(params.get('listCount'),paging.value, params.get('page'));        
+        
         // select 박스
-        if (!params.get('listCount')) {
+        if (!params.get('listCount') ) {
             paging.value = '전체보기';
             params.delete('listCount');
             params.delete('page');
@@ -169,7 +171,9 @@
         } else {
             paging.value = `${params.get('listCount')}개씩 보기`;
         }
-
+        // document.getElementById("nameInput").value = params.get('name');
+        // document.getElementById("orderTypeSelect").value = params.get('orderType');
+        
         // 삼항연산자
         // pages.textContent = params.get('page') ? params.get('page'):1;
         //  ? : 삼항 연산자는 falsy 값(0, '', null, undefined, false)도 걸러냅니다.
@@ -177,11 +181,23 @@
         //  ?? 는 null 또는 undefined인 경우에만 대체 값을 적용
         pages.textContent = params.get('page') ?? 1;
 
-        console.log("before posting",params.toString());
-        postOrderInfo(params);// 다른함수에서 params의 키,값을 바꿔도 scope이 여기까지라 다음 함수에 영향을 준다
-        postUserInfo(params);
+        // console.log( params.get('name'), params.get('orderType'),params.get('listCount'),paging.value, params.get('page'));        
+        console.log(params.get('listCount'),paging.value, params.get('page'));        
+        
+        post(params);
     });
 
+    // submitBtn.addEventListener('click',(e)=>{
+    //     e.preventDefault();
+    //     inputQuery(e)
+    // });
+
+    // document.getElementById("nameInput").addEventListener('keyup',(e)=>{
+    //     if (e.key === 'Enter') {
+    //     inputQuery(e);
+    // }
+    // });
+    
     paging.addEventListener('change', (e)=>{
         const selectedPagingOption = e.target.value;
         console.log(selectedPagingOption);
@@ -254,62 +270,7 @@
 
 // ------------------------------------------------------------------------
 
-    function postUserInfo(userInfoParams) {
-        userInfoParams.delete('listCount');
-        userInfoParams.delete('page');
-        console.log(userInfoParams.toString());
-        fetch(url + '/user/api/list',{ 
-		    method: 'POST',
-		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: userInfoParams.toString() 
-            
-		}) // 주고 받을때는 문자열을 주고 받는다
-            .then(response => {
-                if(!response.ok) throw new Error("네트워크 오류??");
-                userInfoTable.innerHTML = `<tr>
-            <th><strong>회원 정보를 표시하고 있습니다 ...</strong></th>
-        </tr>`
-                return response.json() // 변수 => 결과값
-            }) 
-            .then((data) => {
-                const dataset = data.data;
-
-                if (!dataset || dataset.length === 0) {
-                    userInfoTable.innerHTML = `
-                        <tr>
-                            <th><strong>회원 정보를 찾을 수 없습니다</strong></th>
-                        </tr>`;
-                    return; // 이하 실행하지 않음
-                }
-                let html =`<tr>
-                               <th>ID</th>
-                               <th>Name</th>
-                               <th>Gender</th>
-                               <th>Age</th>
-                               <th>Birthday</th>
-                               <th>Address</th>
-                           </tr>`;                                    
-                for (const record of dataset) {
-                    html += `
-                    <tr>
-                        <td>${record.id}</a></td>
-                        <td>${record.name}</td>
-                        <td>${record.gender}</td>
-                        <td>${record.age}</td>
-                        <td>${record.birth_date}</td>
-                        <td>${record.address}</td>
-                    </tr>`
-                }
-                userInfoTable.innerHTML = html;
-                
-            })
-            .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
-                    console.error('오류가 났음: ', error);
-            });
-    }
-
-    function postOrderInfo(params) {
-        console.log("orders",params.toString());
+    function post(params) {
         fetch(url + '/order/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -318,8 +279,8 @@
 		}) // 주고 받을때는 문자열을 주고 받는다
             .then(response => {
                 if(!response.ok) throw new Error("네트워크 오류??");
-                orderInfoTable.innerHTML = `<tr>
-            <th><strong>회원 주문 목록을 표시하고 있습니다 ...</strong></th>
+                orderTable.innerHTML = `<tr>
+            <th><strong>주문 목록을 표시하고 있습니다 ...</strong></th>
         </tr>`
                 return response.json() // 변수 => 결과값
             }) 
@@ -339,6 +300,25 @@
                     console.error('오류가 났음: ', error);
             });
     }
+
+    // function inputQuery(e){
+    //     const name = document.getElementById('nameInput').value;
+    //     const orderType = document.getElementById('orderTypeSelect').value;
+
+    //     // URL에서 쿼리 파라미터 읽어서 표시
+    //     const params = new URLSearchParams(window.location.search);
+        
+    //     if(name)params.set('name', name)
+    //     else params.delete('name');
+
+    //     if(orderType)params.set('orderType', orderType)
+    //     else params.delete('orderType');
+        
+    //     params.set('page',1);
+        
+    //     // 새 URL로 이동
+    //     window.location.search = params.toString();
+    // }
 
     function pagesDisplay(pagingInfo){
         // 여기 아래부터는 paging
@@ -386,30 +366,32 @@
 
     function dataTableDisplay(dataset){
         if (!dataset || dataset.length === 0) {
-            orderInfoTable.innerHTML = `
+            orderTable.innerHTML = `
                 <tr>
-                    <th><strong>회원을 찾을 수 없습니다</strong></th>
+                    <th><strong>주문를 찾을 수 없습니다</strong></th>
                 </tr>`;
             return; // 이하 실행하지 않음
         }
         let html =`<tr>
                        <th>행번호</th>
-                       <th>Order ID</th>
-                       <th>Purchased Date</th>
-                       <th>Purchased Location</th>
+                       <th>ID</th>
+                       <th>Order At</th>
+                       <th>Store ID</th>
+                       <th>User ID</th>
                    </tr>`;                 
         let rowNum = 1;                     
         for (const record of dataset) {
             html += `
             <tr>
                 <td> ${rowNum} </td>
-                <td><a href="#">${record.id}</a></td>
+                <td>${record.id}</td>
                 <td>${record.order_dt}</td>
-                <td><a href="#">${record.store_id}</a></td>
+                <td><a href="/store/${record.store_id}">${record.store_id}</a></td>
+                <td><a href="/user/${record.user_id}">${record.user_id}</a></td>
             </tr>`
             rowNum ++;
         }
-        orderInfoTable.innerHTML = html;
+        orderTable.innerHTML = html;
     }
 
 </script>
