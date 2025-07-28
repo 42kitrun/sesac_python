@@ -28,17 +28,47 @@
 
         #salesInfo > div:first-child {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
         }
 
-
         table {
-            width: 100vw;
-            border: 1px solid transparent;
-            border-collapse: collapse;
-            text-align: center;
-        }
+  width: 97vw;
+  border-collapse: collapse;
+  overflow-x: hidden;   /* 가로 스크롤 숨기기 */
+overflow-y: auto;     /* 세로 스크롤은 필요 시 자동 표시 */
+}
+
+thead, tbody {
+  display: block; /* tbody만 스크롤 적용하려면 block으로 만듬 */
+}
+
+thead {
+  width: 100%;
+}
+
+tbody {
+  max-height: 200px;       /* 원하는 높이 */
+  overflow-y: auto;        /* 세로 스크롤 */
+  width: 100%;
+}
+
+thead tr, tbody tr {
+  display: table;
+  table-layout: fixed;  /* 고정된 열 너비 */
+  width: 100%;
+  table-layout: fixed;
+}
+
+thead th, tbody td {
+  /* 셀 너비와 정렬 맞춤용 */
+  width: 20%;      /* 열 개수에 맞춰 퍼센트 조절 */
+  text-align: center;
+  border: 1px solid #ccc; /* 경계선 */
+  padding: 8px;
+  box-sizing: border-box;
+}
+
 
         #pageGroup {
             text-align: center;
@@ -54,6 +84,13 @@
         #pages span{
             margin: 0px 10px;
         }
+        #salesInfoGraph{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 97%;
+            
+        }
         footer{
             width: 100vw;
             height: 10vh;
@@ -64,10 +101,10 @@
 <body>
     <nav>
         <a href="/user">User</a>
-        <a href="/store">Store</a>
-        <a href="/item">Item</a>
         <a href="/order">Order</a>
         <a href="/orderitem">Order Item</a>
+        <a href="/store">Store</a>
+        <a href="/item">Item</a>
     </nav>
     <br/>
     <main>
@@ -92,9 +129,9 @@
                 </select>
             </div>
             <table>
-                <tr>
+                <thead>
                     <th><strong>상품의 월간 매출액을 요청하고 있습니다 ...</strong></th>
-                </tr>
+                </thead>
                 <!--  월간 매출액 조회 -->
             </table>
             <br/>
@@ -109,22 +146,19 @@
         <br/>
         <div id="salesInfoGraph">
             <p>월간 매출액 그래프</p>
-            <table>
-                <tr>
-                    <th><strong>상품의 월간 매출액 그래프를 요청하고 있습니다 ...</strong></th>
-                </tr>
-                <!--  월간 매출액 그래프 조회 -->
-            </table>
+            <canvas id="myChart"></canvas>
         </div>
     </main>
     <footer>
         여기는 footer
     </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const itemInfoTable = document.querySelector('#itemInfo>table');
     const salesInfoTable = document.querySelector('#salesInfo>table');
     const salesInfoGraphTable = document.querySelector('#salesInfoGraph>table');
+    const ctx = document.getElementById('myChart').getContext('2d');
+
 
     const paging = document.getElementById('listCount');
     const pageGroup = document.getElementById('pageGroup');
@@ -186,6 +220,7 @@
         
         postSalesInfo(params);// 다른함수에서 params의 키,값을 바꿔도 scope이 여기까지라 다음 함수에 영향을 준다
         postitemInfo(params);
+        
     });
 
     paging.addEventListener('change', (e)=>{
@@ -326,7 +361,7 @@
             }) 
             .then((data) => {
                 const dataset = data.data;
-                salesData = data.data;
+                drawingChart(data.data);
                 const pagingInfo = data.paging;
 
                 dataTableDisplay(dataset);
@@ -392,12 +427,13 @@
                 </tr>`;
             return; // 이하 실행하지 않음
         }
-        let html =`<tr>
+        let html =`<thead>
                        <th>행번호</th>
                        <th>Month</th>
-                       <th>Revenue</th>
-                       <th>Count</th>
-                   </tr>`;                 
+                       <th>Total Revenue</th>
+                       <th>Item Count</th>
+                   </thead>
+                   <tbody>`;                 
         let rowNum = 1;                     
         for (const record of dataset) {
             html += `
@@ -409,6 +445,7 @@
             </tr>`
             rowNum ++;
         }
+        html += '</tbody>'
         salesInfoTable.innerHTML = html;
     }
 
@@ -440,6 +477,60 @@
         loyaltyInfoTable.innerHTML = html;
     }
 
+    function drawingChart(chartData){
+        const month = [];
+        const totalRevenue = [];
+        const itemCount = [];
+
+        for(const record of chartData){
+            month.push(record.month);
+            totalRevenue.push(record.revenue);
+            itemCount.push(record.count);
+        };
+        
+        const data = {
+          labels: month,
+          datasets: [{
+            type: 'bar',
+            label: 'Item Count',
+            data: itemCount,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            yAxisID: 'yLeft'  // 왼쪽 y축 사용 명시
+          }, {
+            type: 'line',
+            label: 'Total Revenue',
+            data: totalRevenue,
+            fill: false,
+            borderColor: 'rgb(54, 162, 235)',
+            yAxisID: 'yRight' // 오른쪽 y축 사용 명시
+          }]
+        };
+        
+        const config = {
+          type: 'bar',  // 기본 차트 타입
+          data: data,
+          options: {
+            scales: {
+              yLeft: {
+                type: 'linear',
+                position: 'left',
+                beginAtZero: true,
+                ticks: { color: 'rgb(255, 99, 132)' }
+              },
+              yRight: {
+                type: 'linear',
+                position: 'right',
+                beginAtZero: true,
+                ticks: { color: 'rgb(54, 162, 235)' },
+                grid: { drawOnChartArea: false }
+              }
+            }
+          }
+        };
+
+        new Chart(ctx, config);
+    }
 </script>
 </body>
 </html>
