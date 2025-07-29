@@ -64,10 +64,10 @@
 <body>
     <nav>
         <a href="/user">User</a>
-        <a href="/store">Store</a>
-        <a href="/item">Item</a>
         <a href="/order">Order</a>
         <a href="/orderitem">Order Item</a>
+        <a href="/store">Store</a>
+        <a href="/item">Item</a>
     </nav>
     <br/>
     <main>
@@ -258,7 +258,7 @@
 
     function postOrderInfo(params) {
         console.log("orders",params.toString());
-        fetch(url + '/order/api/list',{ 
+        fetch('/order/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 
@@ -292,7 +292,7 @@
         userInfoParams.delete('listCount');
         userInfoParams.delete('page');
         console.log('userInfoParams',userInfoParams.toString());
-        fetch(url + '/user/api/list',{ 
+        fetch('/user/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: userInfoParams.toString() 
@@ -343,7 +343,7 @@
 
     function postUserTop5Store(userIdparams) {
         console.log(`/user/api/${userIdparams.get('userId')}/favorite-stores/top5`);
-        fetch(url + `/user/api/${userIdparams.get('userId')}/favorite-stores/top5`,{
+        fetch(`/user/api/${userIdparams.get('userId')}/favorite-stores/top5`,{
             method: 'POST',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: userIdparams.toString() 

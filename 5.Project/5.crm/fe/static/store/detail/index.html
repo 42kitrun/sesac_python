@@ -265,7 +265,7 @@
         storeInfoParams.delete('listCount');
         storeInfoParams.delete('page');
         console.log(storeInfoParams.toString());
-        fetch(url + '/store/api/list',{ 
+        fetch( '/store/api/list',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: storeInfoParams.toString() 
@@ -313,7 +313,7 @@
 
     function postSalesInfo(params) {
         console.log("sales",params.toString());
-        fetch(url + '/store/api/monthly_sales',{ 
+        fetch( '/store/api/monthly_sales',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 
@@ -341,7 +341,7 @@
 
     function postLoyaltyInfo(params) {
         console.log("loyalty",params.toString());
-        fetch(url + '/store/api/loyalty',{ 
+        fetch( '/store/api/loyalty',{ 
 		    method: 'POST',
 		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString() 
