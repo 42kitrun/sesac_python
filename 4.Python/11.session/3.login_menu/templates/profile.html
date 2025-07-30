@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}회원정보 수정 페이지{% endblock %}
+{% block content %}
+<H1>회원 정보 수정</H1>
+
+    <form method="POST">
+        <!-- 회원정보 수정 폼 만들기 id/pw/submit -->
+        <label for="id">ID: </label>
+        <input type="text" name="id" value ="{{ id }}" readonly>
+        <br><br>
+        <label for="name">이름: </label>
+        <input type="text" name="name" value ="{{ name }}">
+        <br><br>
+        <label for="password">PW: </label>
+        <input type="password" name="password" value="{{ pw }}">
+        <br><br>
+        <input type="submit" value="저장">
+    </form>
+{% endblock %}

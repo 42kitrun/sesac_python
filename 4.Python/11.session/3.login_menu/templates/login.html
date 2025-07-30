@@ -1,20 +1,33 @@
+<style>
+    form{
+        width: 50wh;
+    }
+    input[type='submit']{
+        width: 100%;
+        background-color: blue;
+        color:white;
+    }
+</style>
+
 {% extends "base.html" %}
 
 {% block title %}로그인 페이지{% endblock %}
 {% block content %}
-<H1>로그인...</H1>
+<H1>🔐 로그인</H1>
     {% if error %}
         <p style="color: red;">{{ error }}</p>
     {% endif %}
 
     <form method="POST">
         <!-- 로그인 폼 만들기 id/pw/submit -->
-        <label for="id">ID:</label>
+        <label for="id">아이디</label>
+        <br>
         <input type="text" name="id">
+        <br><br>
+        <label for="password">비밀번호</label>
         <br>
-        <label for="password">PW:</label>
         <input type="password" name="password">
-        <br>
-        <input type="submit" value="로그인">
+        <br><br>
+        <input type="submit" class ='button' value="로그인">
     </form>
 {% endblock %}

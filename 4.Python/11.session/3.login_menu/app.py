@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = 'sesac'
 
 users = [
-    {'name': 'MyName', 'id': 'user', 'pw': 'password'}
+    {'name': 'MyName', 'id': 'user', 'pw': 'user'}
 ]
 
 items = [
@@ -84,6 +84,7 @@ def login_submit():
     input_pw = request.form.get('password')
     
     user = next((u for u in users if u['id'] == input_id and u['pw'] == input_pw), None)
+
     if user: # 성공
         session['user'] = user  # 사용자 정보를 모두다 저장함.
         return redirect(url_for("user"))
@@ -94,6 +95,21 @@ def login_submit():
 def logout():
     session.pop('user', None)  # user가 없으면 KeyError 가 날 수 있음.. 그래서 없을때 None 반환..
     return redirect(url_for('home'))
+
+@app.route('/profile', methods=['POST','GET'])
+def profile():
+    if "user" not in session:
+        return redirect(url_for(login))
+    user = session.get('user')
+    if request.method == 'POST':
+        name = request.form.get('name')
+        pw = request.form.get('pw')
+        user['name'] = name
+        user['pw'] = pw
+        session['user'] = user
+        return redirect(url_for('profile'))   
+
+    return render_template('profile.html', id=user['id'], name=user['name'], pw=user['pw'])
 
 if __name__ == "__main__":
     app.run(debug=True)

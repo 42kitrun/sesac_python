@@ -1,25 +1,41 @@
+<style>
+</style>
 {% extends "base.html" %}
 
 {% block title %}상품 페이지{% endblock %}
 {% block content %}
-<H1>상품</H1>
+<H1>🛒 상품 목록</H1>
 {% if error %}
 <p style="color:red">{{ error }}</p>
 {% endif %}
 {% if message %}
 <p style="color:green">{{ message }}</p>
 {% endif %}
-<UL>
-    {% for item in items %}
-        <li>
-            <strong>{{ item.name }}</strong>
-             - {{ item.price }} 원 - 
-            <!-- <a href="/add_to_cart?item_id={{item.id}}">담기</a> -->
-            <form action="{{ url_for('add_to_cart') }}" method="POST" style="display:inline;">
-                <input type="hidden" name="item_id" value="{{ item.id }}">
-                <button type="submit">담기</button>
-            </form>
-        </li>
-    {% endfor %}
-</UL>
+<table class="table table-striped table-hover tableWidth">
+    <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">상품명</th>
+          <th scope="col">가격</th>
+          <th scope="col">담기</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }} 원</td>
+                <!-- <a href="/add_to_cart?item_id={{item.id}}">담기</a> -->
+                <td>
+                    <form action="{{ url_for('add_to_cart') }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit" class="button">담기</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
 {% endblock %}
