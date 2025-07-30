@@ -33,40 +33,40 @@
         }
 
         table {
-  width: 100vw;
-  border-collapse: collapse;
+          width: 100vw;
+          border-collapse: collapse;
 
-}
+        }
 
-thead, tbody {
-  display: block; /* tbody만 스크롤 적용하려면 block으로 만듬 */
-}
+        thead, tbody {
+          display: block; /* tbody만 스크롤 적용하려면 block으로 만듬 */
+        }
 
-thead {
-  width: 100%;
-}
+        thead {
+          width: 100%;
+        }
 
-tbody {
-  max-height: 200px;       /* 원하는 높이 */
-  overflow-y: auto;        /* 세로 스크롤 */
-  width: 100%;
-}
+        tbody {
+          max-height: 200px;       /* 원하는 높이 */
+          overflow-y: auto;        /* 세로 스크롤 */
+          width: 100%;
+        }
 
-thead tr, tbody tr {
-  display: table;
-  table-layout: fixed;  /* 고정된 열 너비 */
-  width: 100%;
-  table-layout: fixed;
-}
+        thead tr, tbody tr {
+          display: table;
+          table-layout: fixed;  /* 고정된 열 너비 */
+          width: 100%;
+          table-layout: fixed;
+        }
 
-thead th, tbody td {
-  /* 셀 너비와 정렬 맞춤용 */
-  width: 20%;      /* 열 개수에 맞춰 퍼센트 조절 */
-  text-align: center;
-  border: 1px solid #ccc; /* 경계선 */
-  padding: 8px;
-  box-sizing: border-box;
-}
+        thead th, tbody td {
+          /* 셀 너비와 정렬 맞춤용 */
+          width: 20%;      /* 열 개수에 맞춰 퍼센트 조절 */
+          text-align: center;
+          border: 1px solid #ccc; /* 경계선 */
+          padding: 8px;
+          box-sizing: border-box;
+        }
 
 
         #pageGroup {
@@ -100,10 +100,10 @@ thead th, tbody td {
 <body>
     <nav>
         <a href="/user">User</a>
-        <a href="/order">Order</a>
-        <a href="/orderitem">Order Item</a>
         <a href="/store">Store</a>
         <a href="/item">Item</a>
+        <a href="/order">Order</a>
+        <a href="/orderitem">Order Item</a>
     </nav>
     <br/>
     <main>
@@ -481,7 +481,7 @@ thead th, tbody td {
         const totalRevenue = [];
         const itemCount = [];
 
-        for(const record of chartData){
+        for(const record of chartData.reverse()){
             month.push(record.month);
             totalRevenue.push(record.revenue);
             itemCount.push(record.count);

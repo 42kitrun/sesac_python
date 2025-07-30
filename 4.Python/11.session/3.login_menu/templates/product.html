@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}상품 페이지{% endblock %}
+{% block content %}
+<H1>상품</H1>
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+{% if message %}
+<p style="color:green">{{ message }}</p>
+{% endif %}
+<UL>
+    {% for item in items %}
+        <li>
+            <strong>{{ item.name }}</strong>
+             - {{ item.price }} 원 - 
+            <!-- <a href="/add_to_cart?item_id={{item.id}}">담기</a> -->
+            <form action="{{ url_for('add_to_cart') }}" method="POST" style="display:inline;">
+                <input type="hidden" name="item_id" value="{{ item.id }}">
+                <button type="submit">담기</button>
+            </form>
+        </li>
+    {% endfor %}
+</UL>
+{% endblock %}
