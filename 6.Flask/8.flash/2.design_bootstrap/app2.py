@@ -4,7 +4,7 @@ app = Flask(__name__)
 app.secret_key = 'abcd1234'
 
 users = [
-    {'name': 'MyName', 'id': 'user', 'pw': 'user'},
+    {'name': 'MyName', 'id': 'user', 'pw': 'password'},
 ]
 
 @app.route('/')
@@ -20,14 +20,14 @@ def login():
         user = next((u for u in users if u["id"] == user and u["pw"] == password), None)
         if user:
             session['user'] = user
-            flash("로그인에 성공했습니다.")
+            flash("로그인에 성공했습니다.", "success")
             return redirect(url_for('user'))
         
-        flash("ID/PW가 일치하지 않습니다.")
+        flash("ID/PW가 일치하지 않습니다.", "danger")
         return redirect(url_for('home'))
     else:
         if 'user' in session:
-            flash("이미 로그인 된 사용자 입니다.")
+            flash("이미 로그인 된 사용자 입니다.", "warning")
             return redirect(url_for('user'))
         
         return redirect(url_for('home'))
@@ -38,16 +38,16 @@ def user():
         user = session['user']
         return render_template('user.html', name=user['name'])
 
-    flash("비정상 접근입니다. 로그인 부터 하고 오세요.")
+    flash("비정상 접근입니다. 로그인 부터 하고 오세요.", "danger")
     return redirect(url_for('home'))
 
 @app.route("/logout")
 def logout():
     if 'user' in session:
         session.pop('user', None)
-        flash("정상적으로 로그아웃 되었습니다.")
+        flash("정상적으로 로그아웃 되었습니다.", "success")
     else:
-        flash('이미 로그아웃 되었습니다.')
+        flash("이미 로그아웃 되었습니다.", "warning")
         
     return redirect(url_for('home'))
 
