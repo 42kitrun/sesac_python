@@ -20,15 +20,16 @@ def view_cart():
     if not user:
         return render_template("cart.html", user=None, items=items, error="로그인 후 사용할 수 있습니다.")
     
-    cart = session.get("cart", {}) # 카트가 없으면 {} 빈 dict를 반환하겠다.
+    if  'cart' not in session:
+        cart = session.get("cart", {}) # 카트가 없으면 {} 빈 dict를 반환하겠다.
     
-    cart_items = []
-    for item_id, item_qty in cart.items():
-        item = next((i for i in items if i['id'] == item_id), None)
-        if item:
-            a_item = item.copy()
-            a_item["qty"] = item_qty
-            cart_items.append(a_item)
+    
+    cart = session["cart"]
+    print(cart.items())
+
+    cart_items = [{'id':item_id, 'qty':qty } for item_id, qty in cart.keys() if items['id'] == item_id]
+
+    print(cart_items)
     
     return render_template("cart.html", user=user, cart=cart_items)
 
@@ -58,8 +59,25 @@ def add_to_cart():
         cart[item_id] = 1
         
     session["cart"] = cart
+    print(session["cart"])
     
     return render_template("product.html", user=user, items=items, message=f"{item_id} 가 담겼습니다.")
+
+@app.route('/delete/<item_id>')
+def delete_item_id(item_id):
+    user = session.get('user')
+    if not user:
+        return redirect(url_for('login')) 
+    
+    cart = session["cart"]
+
+    cart.pop(item_id,None)
+
+    session["cart"] = cart
+    cart = session["cart"]
+    cart_items = [{'id':item_id, 'qty':qty } for item_id, qty in cart.items()]
+
+    return redirect(url_for('view_cart', user=user, cart=cart_items))
 
 @app.route('/')
 def home():
