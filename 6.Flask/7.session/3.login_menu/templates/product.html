@@ -11,7 +11,7 @@
 {% if message %}
 <p style="color:green">{{ message }}</p>
 {% endif %}
-<table class="table table-striped table-hover tableWidth">
+<table class="table table-striped table-hover h-auto w-75">
     <thead class="table-dark">
         <tr>
           <th scope="col">#</th>
@@ -24,7 +24,7 @@
       <tbody>
         {% for item in items %}
             <tr>
-                <td>{{ loop.index }}</td>
+                <td  scope="row">{{ loop.index }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.price }} 원</td>
                 <!-- <a href="/add_to_cart?item_id={{item.id}}">담기</a> -->

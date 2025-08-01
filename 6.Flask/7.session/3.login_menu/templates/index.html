@@ -1,22 +1,24 @@
-<style>
-    .btnGroup{
-        display: flex;
-        flex-direction: row;
-        gap :  20px;
-    }
-</style>
 {% extends "base.html" %}
 
 {% block title %}홈페이지{% endblock %}
 {% block content %}
-<H1>🏡 홈 페이지</H1>
+<H1 class="text-center my-4">🏡 홈 페이지</H1>
 <p>이곳은 Flask 웹 애플리케이션의 시작화면 입니다.</p>
 <div class="btnGroup">
-    <form action="/login">
-        <input type='submit' class="button" value="로그인">
-    </form>
-    <form action="/product">
-        <input type='submit'  value="상품보기">
-    </form>
+    <button type="button" class="btn btn-primary">로그인</button>
+    <button type="button" class="btn btn-outline-secondary">상품보기</button>
 </div>
+<script>
+    const btnGroup = document.getElementsByClassName('btnGroup')[0];
+    
+    btnGroup.addEventListener('click', (e) => {
+        if(e.target.innerText === "로그인"){
+            
+        }else if(e.target.innerText === "상품보기"){
+
+        };
+
+    });
+    
+</script>
 {% endblock %}
