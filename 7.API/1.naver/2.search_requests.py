@@ -28,7 +28,7 @@ if response.status_code == 200:
     
     selected_columns = [["title", "link", "description"]]
     for item in data["items"]:
-        # print(item['title'], item['link'])
+        print(item['title'], item['link'])
         selected_columns.append([item['title'], item['link'], item['description']])
         
     print(tabulate(selected_columns, headers="firstrow", tablefmt="list"))

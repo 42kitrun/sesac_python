@@ -34,18 +34,18 @@ def session_store(sid, data):
     db.session.add(session_data)
     db.session.commit()
 
-def get_session_data(sid):
-    session_data = SessionData.query.get(sid)
-    if session_data and session_data.data:
-        return json.loads(session_data.data)
-    return {}
-
 @app.route('/get-session')
 def get_session():
     # 저장된 세션 정보 다시 가져오기
     stored_session_data = get_session_data(session.sid)
     stored_session_str = json.dumps(stored_session_data, indent=4)
     return f'저장된 정보: {stored_session_str}'
+
+def get_session_data(sid):
+    session_data = SessionData.query.get(sid)
+    if session_data and session_data.data:
+        return json.loads(session_data.data)
+    return {}
 
 @app.route('/clear-session')
 def del_session():

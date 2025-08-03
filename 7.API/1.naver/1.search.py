@@ -1,8 +1,11 @@
+from dotenv import load_dotenv
 import urllib.request
-import json
+import os
 
-client_id = ""  # 여기에 발급받은 ID/Secret 을 입력
-client_secret = ""
+load_dotenv()  # .env 파일을 읽어서, 거기 있는 내용을 메모리에 둠
+
+client_id = os.getenv("NAVER_CLIENT_ID") # 여기에 발급반은 ID/Secret을 입력
+client_secret = os.getenv("NAVER_CLIENT_SECRET")
 
 text = "Python 개발"
 
