@@ -47,7 +47,7 @@ Session(app)
 
 @app.route('/')
 def index():
-    user = session.get('user')
+    user = session.get('user') #flask가 session ID 발급
     return render_template('index.html', user=user)
 
 @app.route('/login/naver/')
@@ -62,6 +62,7 @@ def login_naver():
 
 @app.route('/naver/callback') # 네이버 인증 끝난 이후에 돌아올 곳
 def naver_callback():
+
     code = request.args.get('code')  # 서버(네이버)가 인증 성공의 댓가로 준 값 : 이걸로 네이버와 확인
     state = request.args.get('state')  # 내 사이트에서 갔다 온건지 확인용, 내가 보낸 글자 잘 왔는지 확인
     print(f"code: {code}, state: {state}")
@@ -89,7 +90,7 @@ def naver_callback():
     
     profile_response = profile['response']
     naver_user_id = profile_response['id']  # 네이버에서 제공하는 고유 ID
-    
+
     # 데이터베이스에 영구 저장할 사용자 정보
     # DB에서 사용자 확인/생성 
     user = User.query.get(naver_user_id)
@@ -116,27 +117,40 @@ def naver_callback():
         'gender': user.gender
     }
 
-    user = get_session_data(sid)
+    user = User.query.get(naver_user_id)
 
-    return redirect(url_for('index'))    
+    return redirect(url_for('index', user=user))     
 
-def session_store(sid, data):
-    session_data = SessionData.query.get(sid) # Session id, internally we use secrets.token_urlsafe() to generate one session id.
-    if not session_data: # 없으면 회원가입페이지로
-        session_data = SessionData(id=sid)
-        
-    session_data.data = json.dumps(data)
-    db.session.add(session_data)
-    db.session.commit()    
+@app.route('/profile', methods=['GET','POST'])
+def profile():
+    if not session.get('user'):
+        return redirect(url_for('index'))
 
-def get_session_data(sid):
-    session_data = SessionData.query.get(sid)
-    if session_data and session_data.data:
-        return json.loads(session_data.data)
-    return {}
+    if request.method == 'POST':
+        data = request.form
+        print(data)
+        return ''
+
+    user = session['user']
+    print(user)
+
+    # 연령대 리스트
+    ages = ['10-19',
+            '20-29',
+            '30-39',
+            '40-49',
+            '50-59',
+            '60-69',
+            '70-79',
+            '80-89'
+    ]
+    return render_template('profile.html',user=user, ages=ages)
 
 @app.route('/logout')
 def logout():
+    if not session.get('user'):
+        return redirect(url_for('index'))
+
     session.clear() # 이 사용자의 세션 모두 삭제
     return redirect(url_for('index'))
 

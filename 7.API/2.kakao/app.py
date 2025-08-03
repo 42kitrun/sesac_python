@@ -39,8 +39,7 @@ def login_kakao():
 @app.route('/auth/kakao/callback')
 def callback():
     code = request.args.get('code')  # 서버가 인증 성공의 댓가로 준 값
-    state = request.args.get('state')  # 내 사이트에서 갔다 온건지 확인용, 내가 보낸 글자 잘 왔는지 확인
-    print(f"code: {code}, state: {state}")
+    print(f"code: {code}")
     
     # 카카오에게 코드 검증후 토큰을 발급받을 엔드포인트 및 입력값 확인하기
     # 인가 코드 발급 요청에 필요한 파라미터 구성
@@ -68,7 +67,7 @@ def profile():
     }
 
     req = requests.get( "https://kapi.kakao.com/v2/user/me", headers=headers)  # 사용자 정보 조회 API 요청 전송
-    print(req.text)  # 조회한 사용자 정보를 클라이언트에 반환
+    # print(req.text)  # 조회한 사용자 정보를 클라이언트에 반환
     '''{
         "id":4357384534,
         "connected_at":"2025-08-03T12:58:46Z",
@@ -93,7 +92,7 @@ def profile():
     # 응답 JSON 형태로 변환
     user_info = req.json()
     user = user_info.get('properties')
-    print(user)
+    # print(user)
     # 위에 내용 다 끝나면?? 사용자 정보 저장하고, 수정하고 등등 기능 추가
 
     return render_template("index.html", user=user)

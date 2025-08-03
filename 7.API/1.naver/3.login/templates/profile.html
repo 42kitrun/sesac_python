@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 정보 수정</title>
+</head>
+<body>
+    <h3>사용자 정보 수정</h3>
+    <form action="/profile">
+        <label for="nickname">닉네임 : </label>
+        <input type='text' name="nickname" value="{{ user.nickname }}" readonly>
+        
+        <label for="age">연령대 : </label>
+        <input type='text' name="age" value="{{ user.nickname }}">
+        
+        <label for="gender">성별 : </label>
+        <select name="gender">
+            <option value="M" {% if user.gender=="M" %} selected{% endif %}>Male</option>
+            <option value="F" {% if user.gender=="F" %} selected{% endif %}>Female</option>
+        </select>
+    
+        <button type="submit">수정 저장</button>
+    </form>
+    
+</body>
+</html>
