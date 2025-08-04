@@ -44,10 +44,10 @@ def callback():
     # 카카오에게 코드 검증후 토큰을 발급받을 엔드포인트 및 입력값 확인하기
     # 인가 코드 발급 요청에 필요한 파라미터 구성
     data = {
-        'grant_type': 'authorization_code',  # 인증 방식 고정값
-        'client_id': KAKAO_REST_API_KEY,              # 내 앱의 REST API 키
-        'redirect_uri': KAKAO_REDIRECT_URI,        # 등록된 리다이렉트 URI
-        'client_secret': KAKAO_CLIENT_SECRET,      # 선택: 클라이언트 시크릿(Client Secret) 사용 시 추가
+        'grant_type': 'authorization_code',   # 인증 방식 고정값
+        'client_id': KAKAO_REST_API_KEY,      # 내 앱의 REST API 키
+        'redirect_uri': KAKAO_REDIRECT_URI,   # 등록된 리다이렉트 URI
+        'client_secret': KAKAO_CLIENT_SECRET, # 선택: 클라이언트 시크릿(Client Secret) 사용 시 추가
         'code': code     # 전달받은 인가 코드
     }
 

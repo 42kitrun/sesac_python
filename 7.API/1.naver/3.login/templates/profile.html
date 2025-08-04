@@ -8,12 +8,23 @@
 <body>
     <h3>사용자 정보 수정</h3>
     <form action="/profile">
+        <label for="user_id">user_id : </label>
+        <input type='text' name="user_id" value="{{ user.user_id }}" readonly>
+
         <label for="nickname">닉네임 : </label>
-        <input type='text' name="nickname" value="{{ user.nickname }}" readonly>
+        <input type='text' name="nickname" value="{{ user.nickname }}">
         
         <label for="age">연령대 : </label>
-        <input type='text' name="age" value="{{ user.nickname }}">
-        
+        <select name="age">
+        {% for age in ages %}
+            {% if age == user.age %}
+                <option value="{{ age }}" selected>{{ age }}</option>
+            {% else %}
+                <option value="{{ age }}">{{ age }}</option>
+            {% endif %}
+        {% endfor %}
+        </select>
+
         <label for="gender">성별 : </label>
         <select name="gender">
             <option value="M" {% if user.gender=="M" %} selected{% endif %}>Male</option>

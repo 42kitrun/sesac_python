@@ -127,9 +127,12 @@ def profile():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        data = request.form
-        print(data)
-        return ''
+        user_id = request.form.get('user_id')
+        nickname = request.form.get('nickname')
+        age = request.form.get('age')
+        gender = request.form.get('gender')
+        
+        
 
     user = session['user']
     print(user)

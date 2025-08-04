@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>회원가입이라고 치고 이메일만 검증하기</h2>
+    <div>
+        <label for="email">이메일: </label>
+        <input type="email" id="email">
+        <button id="emailBtn">인증코드 전송</button>
+    </div>
+
+    <div>
+        <label for="code">인증코드: </label>
+        <input type="code" id="code">
+        <button id="verifyBtn">인증코드 확인</button>
+    </div>
+
+    <p id="result"><!-- 결과 출력할곳--></p>
+
+    <script>
+        const emailBtn = document.getElementById('emailBtn');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const resultP = document.getElementById('result');
+
+        // 미션1. email 주소 가져다가 서버로 보내기 (/sendcode)
+        // result 에다가 "메일 전송 성공/실패 여부 출력" (서버에서 받아와서...)
+        emailBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            email_address = e.target.parentElement.querySelector('input').value;
+            if (e.target.tagName === 'BUTTON') {
+                fetch('/send-code', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `email=${email_address}`.toString()
+                }) // 주고 받을때는 문자열을 주고 받는다
+                    .then(response => {
+                        if (!response.ok) throw new Error("네트워크 오류??");
+                        return response.json() // 변수 => 결과값
+                    })
+                    .then((result) => {
+                        console.log(result);
+
+                    })
+            }
+        });
+
+        // 미션2. code를 가져다가 서버로 보내기 (/verify-code)
+        // result 에다가 "검증 코드 맞음/틀림 여부 출력" (서버에서 받아와서...)
+        verifyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            verify_code = e.target.parentElement.querySelector('input').value;
+            if (e.target.tagName === 'BUTTON') {
+                fetch('/verify-code', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `verify_code=${verify_code}`.toString()
+                }) // 주고 받을때는 문자열을 주고 받는다
+                    .then(response => {
+                        if (!response.ok) throw new Error("네트워크 오류??");
+                        return response.json() // 변수 => 결과값
+                    })
+                    .then((result) => {
+                        console.log(result);
+                        resultP.innerText = result.message;
+
+                    })
+            }
+        });
+    </script>
+</body>
+
+</html>
