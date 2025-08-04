@@ -7,8 +7,8 @@ import os
 
 load_dotenv()
 
-IMAP_SERVER = 'imap.naver.com'
-IMAP_PORT = 993
+IMAP_SERVER = os.getenv('NAVER_MAIL_SERVER')
+IMAP_PORT = os.getenv('NAVER_MAIL_PORT')
 
 NAVER_EMAIL = os.getenv('NAVER_EMAIL')
 NAVER_PASSWORD = os.getenv('NAVER_PASSWORD')
@@ -22,7 +22,7 @@ status, messages = mail.search(None, "ALL")
 
 # print(status, messages)
 mail_ids = messages[0].split()
-latest_mail_id = mail_ids[-1] # 가장 끝, (즉 최신 이메일 ID 가져오기)
+latest_mail_id = mail_ids[-2] # 가장 끝, (즉 최신 이메일 ID 가져오기)
 
 # 최신 메일 가져오기
 status, msg_data = mail.fetch(latest_mail_id, "(RFC822)") 
@@ -48,9 +48,11 @@ for response_part in msg_data:
             for part in msg.walk():  # 메일 본문, 멀티파트로 인코딩 된걸 하나하나 읽어가기
                 content_type = part.get_content_type()
                 body = part.get_payload(decode=True).decode("utf-8")
+                # body = part.get_payload()
                 print(f"본문: {body}")
         else: # 단일 파트 메일
             body = msg.get_payload(decode=True).decode('utf-8')
+            # body = msg.get_payload()
             print(f"본문: {body}")
             break
             

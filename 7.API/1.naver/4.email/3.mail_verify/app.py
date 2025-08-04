@@ -1,6 +1,7 @@
 # pip install flask-mail
 from flask import Flask, request, jsonify, render_template, session
 from flask_mail import Mail, Message
+# The Flask-Mail extension provides a simple interface to set up SMTP with your Flask application
 
 from dotenv import load_dotenv
 import os
@@ -11,8 +12,8 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'abcd1234'
 
-app.config['MAIL_SERVER'] = os.getenv("NAVER_MAIL_SERVER")
-app.config['MAIL_PORT'] = os.getenv("NAVER_MAIL_PORT")
+app.config['MAIL_SERVER'] = os.getenv("NAVER_SMTP_MAIL_SERVER")
+app.config['MAIL_PORT'] = os.getenv("NAVER_SMTP_MAIL_PORT")
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.getenv("NAVER_EMAIL")
 app.config['MAIL_PASSWORD'] = os.getenv("NAVER_PASSWORD")

@@ -3,9 +3,10 @@ from email.mime.text import MIMEText  # 메일의 컨텐츠 인코딩 포멧
 
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
-SMTP_SERVER = 'smtp.naver.com'  # 이거도 사실 환경...
+SMTP_SERVER = os.getenv("NAVER_SMTP_MAIL_SERVER")  # 이거도 사실 환경...
 SMTP_PORT = 587  # SMTP 는 465, IMAP은 587 (그럼에도 서버 주소는 동일함)
 
 NAVER_EMAIL = os.getenv("NAVER_EMAIL")
