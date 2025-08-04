@@ -17,3 +17,5 @@ __pycache__/
 
 # 민감정보파일
 .env
+7.API/5.gmail/*.json
+
