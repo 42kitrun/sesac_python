@@ -1,27 +1,22 @@
 from dotenv import load_dotenv
 import os
-import requests, json
+import requests
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 response = requests.post('https://api.openai.com/v1/chat/completions',
-    json = {
+    json={
         'model':'gpt-4o',
-        # 'input':'Write a one-sentence bedtime story about a unicorn'
-        'messages':[
-            # {"role": "user",
-            #  "content":"잠자리에 들기 전에 양에 대한 스토리를 한문장 말해주시오."
-            # }
-            {"role": "user",
-             "content":"오늘 저녁 메뉴는?"
-            }
+        'messages': [
+            # {"role":"user", "content": "잠자리에 들기 전에 양에 대한 스토리를 한문장 말해주시오."}
+            {"role":"user", "content": "어떤 옵션이 있다고?? 다시 말해줘"}
         ]
     },
     headers={
-        'Content-Type':'application/json',
-        'Authorization':f'Bearer {OPENAI_API_KEY}',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {OPENAI_API_KEY}',
     }
 )
 

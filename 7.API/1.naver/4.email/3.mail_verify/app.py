@@ -18,8 +18,6 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.getenv("NAVER_EMAIL")
 app.config['MAIL_PASSWORD'] = os.getenv("NAVER_PASSWORD")
 mail = Mail(app)
-print(app.config['MAIL_SERVER'])
-print(app.config['MAIL_PORT'])
 
 @app.route('/')
 def signup():
@@ -57,6 +55,34 @@ def verify_code():
         return jsonify({"message": "인증성공"})
 
     return jsonify({"message": "인증실패"})
+
+@app.route('/check-id', methods=['POST'])
+def check_id():
+    user_id = request.json.get('id') # 사용자로부터 받아오기
+    print(user_id)
+    
+    id_session = session.get('user_id')
+    if id_session:
+        if user_id in id_session:
+            return jsonify({"message": "아이디 중복"})
+        else:
+            return jsonify({"message": "아이디 사용 가능"})
+    else:
+        return jsonify({"message": "아이디 사용 가능"})
+
+@app.route('/register-userinfo', methods=['POST'])
+def register_user_info():
+    user_id = request.json.get('userInfo') # 사용자로부터 받아오기
+    print(user_id)
+    
+    id_session = session.get('user_id')
+    if id_session:
+        if user_id in id_session:
+            return jsonify({"message": "아이디 중복"})
+        else:
+            return jsonify({"message": "아이디 사용 가능"})
+    else:
+        return jsonify({"message": "아이디 사용 가능"})
 
 if __name__ == "__main__":
     app.run(debug=True)
