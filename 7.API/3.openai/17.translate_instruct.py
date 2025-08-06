@@ -12,7 +12,7 @@ template = "다음 문장을 영어로 번역하시오.\n\n{article}"
 prompt = PromptTemplate(input_variables=["article"], template=template)
 
 # 2. 모델 정의
-llm = OpenAI(temperature=0.5) # 번역할꺼니깐, 창의력 줄이고, 펙트 위주로...
+llm = OpenAI(temperature=0.5) # 번역할꺼니깐, 창의력 줄이고, 팩트 위주로...
 
 # 3. 체인 생성
 chain = prompt | llm | RunnableLambda(lambda x: {"translated": x.strip()})

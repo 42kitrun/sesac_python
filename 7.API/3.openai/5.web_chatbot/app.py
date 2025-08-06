@@ -33,7 +33,7 @@ def ask_chatgpt(user_input):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo", # gpt-4o-mini
         messages = history,
-        temperature=1.0   # 0에 가까울수록 창의성을 떨어짐
+        temperature=1.0   # 0에 가까울수록 창의성이 떨어짐
     )
     
     chatgpt_response = response.choices[0].message.content

@@ -21,7 +21,7 @@ def generate_name():
     
     prompt = f"What is a good company name that makes {product}?"
     # 각자 프롬프트를 잘 만들어서, 언제나 한글 회사명으로 1개만 주어지게 한다.
-    prompt = f"다음 상품을 만드는 창의 적인 회사 이름을 1개만 작성해줘. 상품명: {product}"
+    prompt = f"다음 상품을 만드는 창의적인 회사 이름을 1개만 작성해줘. 상품명: {product}"
     
     result = llm1.invoke(prompt)
     names = result.strip()
@@ -34,7 +34,7 @@ def generate_name2():
     product = data.get("product", None)
     
     # 채팅 모델을 사용해서 동일한 질문을 한다.
-    prompt = f"다음 상품을 만드는 창의 적인 회사 이름을 영어로 1개만 작성해줘. 상품명: {product}"
+    prompt = f"다음 상품을 만드는 창의적인 회사 이름을 영어로 1개만 작성해줘. 상품명: {product}"
 
     messages = [
         SystemMessage(content="당신은 회사 이름을 창의적으로 잘 만드는 작명가 입니다."),

@@ -25,7 +25,6 @@ def ask_chatgpt(user_input):
         temperature=1.0   # 의료/법률 0.0, 작명/소설 1.0, 1.1, 1.2
     )
     
-    
     gpt_response = {'role':'assistant', 'content': response.choices[0].message.content}
     history.append(gpt_response)
 

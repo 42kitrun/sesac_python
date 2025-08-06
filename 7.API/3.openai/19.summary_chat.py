@@ -1,18 +1,26 @@
 from dotenv import load_dotenv
 
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
-from langchain_openai import OpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.runnables import RunnableLambda
 
 load_dotenv()
 
 # 1. 템플릿 정의
 template = "다음 문장을 3줄로 요약하시오.\n\n{article}"
-prompt = PromptTemplate(input_variables=["article"], template=template)
+# prompt = ChatPromptTemplate.from_messages([
+#     HumanMessagePromptTemplate.from_template(template)
+# ])
+
+prompt = ChatPromptTemplate.from_messages([
+    SystemMessagePromptTemplate.from_template("당신은 긴 장문에 대해서 요약하는 전문가 입니다."),
+    HumanMessagePromptTemplate.from_template(template)
+])
+
 
 # 2. 모델 정의
-llm = OpenAI(temperature=0.5) # 요약할꺼니깐, 창의력 줄이고, 팩트 위주로...
+llm = ChatOpenAI(temperature=0.5) # 요약할꺼니깐, 창의력 줄이고, 펙트 위주로...
 
 # 3. 체인 생성
 print_line_by_line = RunnableLambda(
@@ -21,7 +29,7 @@ print_line_by_line = RunnableLambda(
     }
 )
 
-chain = prompt | llm | RunnableLambda(lambda x: {"summary": x.strip()})
+chain = prompt | llm | RunnableLambda(lambda x: {"summary": x.content.strip()})
 # chain = prompt | llm | print_line_by_line
 
 # 4. 입력 및 호출

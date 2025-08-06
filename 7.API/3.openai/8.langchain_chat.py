@@ -34,9 +34,10 @@ from langchain.schema import SystemMessage, HumanMessage, AIMessage
 
 llm2 = ChatOpenAI(model="gpt-3.5-turbo") # gpt-3.5-turbo <- chat 모델
 prompt = [
-    SystemMessage(content="당신은 요리 레시피 연구가 입니다."),
-    HumanMessage(content="디저트 케이크를 맛있게 만들려면"),
-    AIMessage(content="신선한 재료를 사용하고, 정확한 계량과 온도 조절로 부드럽고 촉촉한 식감을 살리는 것이 비결입니다."),
+    SystemMessage(content="당신은 요리 레시피 연구가 입니다."), # 큰 맥락
+    HumanMessage(content="디저트 케이크를 맛있게 만들려면"), # 내가 하고 싶은 질문
+    AIMessage(content="신선한 재료를 사용하고, 정확한 계량과 온도 조절로 부드럽고 촉촉한 식감을 살리는 것이 비결입니다."), 
+    # 예시( 제로샷, 원샷, 투샷, 퓨샷) 이 아니라 일관된 답변 생성을 위해서 입력함
     HumanMessage(content="식감을 살리는 비결은?"),
 ]
 result = llm2.invoke(prompt)

@@ -12,7 +12,7 @@ client = openai.OpenAI(api_key=openai_api_key)
 response = client.chat.completions.create(
     model='gpt-3.5-turbo',
     messages = [
-        {'role':'user', 'content': '아무말이나 적어봅시다.'}
+        {'role':'user', 'content': 'langchain이 무엇이고 cli_llm이 있음에도 langchain이 필요한 이유는 뭐야?'}
     ]
 )
 
