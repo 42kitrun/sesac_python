@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
+# 여기는 사용자가 입력한 문장의 뒷부분을 이어서 텍스트(문장, 단어 등)를 생성하는 Completion 모델(instruct)이 필요하겠다
+# instruct로 chain 만들기
 # 1. 프롬프트 생성기 생성
 template = """You are a naming consultant. 
 Suggest 5 creative company names for a {company} that makes {product}

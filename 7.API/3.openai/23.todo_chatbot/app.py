@@ -1,64 +1,23 @@
-from flask import Flask, jsonify, request
-import database as db
+from flask import Flask, request, jsonify
 
-app = Flask(__name__, static_folder='public',static_url_path='')
+from routes.chatbot_routes import chatbot_bp
+from routes.todo_routes import todo_bp
 
-db.create_table()
+app = Flask(__name__, static_folder='public', static_url_path='')
 
-# 내 메모 리스트 담을곳 << 나는 sqlite3로 !
-# todos = []
+app.register_blueprint(todo_bp)
+app.register_blueprint(chatbot_bp)
 
 @app.route('/')
 def home():
     return app.send_static_file('index.html')
 
-# ------------------------------------------------------------
+# 미션1. 투두의 CRUD 완성
+# 미션2. 챗봇을 프런트에 추가하고 /api/chat 을 추가할 차례가 되었는데...
+#        근데, 완전히 다른 요청을 여기 한 파일에서 할거냐??
+# 미션2-1. 어떻게 라우트를 분리할까? todo 서비스와 chat 서비스를 분리하자
+#         routes 를 분리하려면?? blueprint를 도입한다
+# 미션3. 채팅 아무 말이나 받아서 GPT에게 주고, 요청 받아서 화면에 뿌리기
 
-@app.route('/api/todo', methods=['GET'])
-def get_todos():
-    todos = [dict(todo) for todo in db.get_todos()]
-    print(todos)
-    return jsonify({'message':'성공적으로 저장됨',
-                    'data' : todos})
-
-@app.route('/api/todo', methods=['POST'])
-def add_todo():
-    todo = request.get_json()
-    print('todo to add:', todo)
-    db.insert_user(todo)
-    return jsonify({'message':'success',
-                    'added_todo':todo})
-
-@app.route('/api/todo', methods=['PATCH']) # 일부 수정
-def update_todo():
-    todo = request.get_json()
-    print(todo)
-    if todo.get('id') is not None:
-        db.update_status(todo.get('id'), todo.get('status'))
-        return jsonify({'message':'success',
-                        'changed_todo': todo})
-    
-    return jsonify({'result':'fail'})
-
-@app.route('/api/todo', methods=['DELETE'])
-def delete_todo():
-    todo_id = request.get_json()
-    print(todo_id)
-    if todo_id is not None:
-        db.delete_todo(todo_id)
-        return jsonify({'result':'success',
-                        'deleted_id':todo_id})
-    else:
-        return jsonify({'result':'fail'})
-
-# ------------------------------------------------------------
-
-@app.route('/api/chat', methods=['GET'])
-def get_chat():
-    todos = [dict(todo) for todo in db.get_todos()]
-    print(todos)
-    return jsonify({'message':'성공적으로 저장됨',
-                    'data' : todos})    
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)

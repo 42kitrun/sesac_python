@@ -69,14 +69,18 @@ function addMessage(message, sender) {
     const messageElement = document.createElement('div');
     messageElement.innerHTML = sender === 'user'
         ? `<i class="bi bi-person"></i> ${message}`
-        : `<i class="bi bi-robot"></i> ${message}`;
+        : `<i class="bi bi-robot"></i> ${addLine(message)}`;
     messageElement.classList.add(sender);
 
     container.appendChild(messageElement);
     container.scrollTop = container.scrollHeight;
 }
 
-const ECHO_MODE = true;
+function addLine(message) {
+    return message.replace(/\n/g, '<br>')
+}
+
+const ECHO_MODE = false;
 
 async function sendMessageToServer(userInput) {
     if (ECHO_MODE) {
@@ -91,6 +95,7 @@ async function sendMessageToServer(userInput) {
 
     const data = await response.json();
     console.log('서버응답:', data)
+    loadTodos();
 
     return data.chatbot; // 나중에 서버의 응답 변수로 변경해야함.
 }

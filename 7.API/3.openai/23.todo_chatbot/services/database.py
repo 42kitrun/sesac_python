@@ -25,7 +25,7 @@ def create_table():
     conn.close()
     
 # 데이터 삽입 함수
-def insert_user(todo):
+def insert_todo(todo):
     conn = connect_db()
     cur = conn.cursor()
     
@@ -45,24 +45,33 @@ def get_todos():
     conn.commit()
     conn.close()
     
-    return rows  # 가져온 todo 반환
+    return [dict(row) for row in rows]  # 가져온 todo 반환
 
 # 데이터 수정 함수
-def update_status(id, status):
+def update_status(id, status=None):
     conn = connect_db()
     cur = conn.cursor()
     
-    cur.execute('UPDATE todos SET status=? WHERE id=?', (status, id))
-    
+    cur.execute('''UPDATE todos SET status=
+            CASE status
+                WHEN 0 THEN 1
+                ELSE 0
+            END WHERE id=?''', (status, id))
+
     conn.commit()
     conn.close()
 
 # todo 삭제
-def delete_todo(todo):
+def delete_todo(todo_id):
     conn = connect_db()
     cur = conn.cursor()
     
-    cur.execute('DELETE FROM todos WHERE id=?', (todo,))
+    cur.execute('SELECT todo FROM todos WHERE id=?', (todo_id,))
+    todo = cur.fetchone()
+
+    cur.execute('DELETE FROM todos WHERE id=?', (todo_id,))
     
     conn.commit()
     conn.close()
+
+    return dict(todo).get('todo')

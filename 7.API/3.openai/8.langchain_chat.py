@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-from langchain_openai import OpenAI  # Completion 모델
+from langchain_openai import OpenAI      # Completion 모델
 from langchain_openai import ChatOpenAI  # Chat 모델 (QA모델)
 
 load_dotenv()

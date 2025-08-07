@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
-from langchain_core.prompts import PromptTemplate  # 이전까지 배운거
-from langchain_core.prompts import ChatPromptTemplate   # 지금부터 할거
+from langchain_core.prompts import PromptTemplate  # 이전까지 배운거 <- Completion(instruct)
+from langchain_core.prompts import ChatPromptTemplate   # 지금부터 할거 <- QA(Chat 모델)
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.runnables import RunnableLambda
 
@@ -9,7 +9,8 @@ from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
-
+# 여러 번 문답(질문, 재질문)을 주고받을 때 대화의 흐름을 이해하며 적절하게 답변하는 QA: Question-Answering 모델(Chat 모델)
+# Chat 모델로 chain 만들기
 # 1. 프롬프트 템플릿 생성
 prompt = ChatPromptTemplate.from_messages([
     SystemMessage(content="You are a naming consultant for new companies"),
