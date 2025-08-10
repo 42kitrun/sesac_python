@@ -18,8 +18,16 @@ def create_table():
             id INTEGER PRIMARY KEY AUTOINCREMENT, 
             todo TEXT NOT NULL, 
             status INTEGER NOT NULL
-        )
-    ''')
+        )'''
+    )
+
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS chat_history(
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            history TEXT NOT NULL, 
+              TEXT NOT NULL
+        )'''
+    )
     
     conn.commit()
     conn.close()

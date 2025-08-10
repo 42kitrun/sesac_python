@@ -6,6 +6,9 @@ from collections import deque
 from openai import OpenAI
 
 from services import todo_service as todo
+import database as db
+
+db.create_table()
 
 load_dotenv()
 API_KEY = os.getenv("OPENAI_API_KEY")
@@ -72,7 +75,7 @@ def ask_gpt(question):
     system_prompt = system_prompt2
     print("내가 GPT에게 할 질문:\n", system_prompt)
     
-     system_prompt = system_prompt3
+    system_prompt = system_prompt3
     print("내가 GPT에게 할 질문:\n", system_prompt)
     
     user_history_messages = build_prompt_message(system_prompt3)

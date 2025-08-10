@@ -14,6 +14,8 @@ __pycache__/
 *.sqlite3
 **/login_btn/*
 **/instance/*
+/DATA/
+
 
 # 민감정보파일
 .env
