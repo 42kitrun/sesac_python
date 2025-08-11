@@ -20,7 +20,7 @@ load_dotenv()
 PERSIST_DIR = "./chroma_db"  # 쓸데없이 DB 커밋하지 않도록 .gitignore에 추가할것
 
 def create_vector_db():
-    loader = TextLoader('./nvme.txt', encoding='utf-8')
+    loader = TextLoader('./data/nvme.txt', encoding='utf-8')
     documents = loader.load()
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200) # 1000/200, 2000/500

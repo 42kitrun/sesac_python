@@ -20,8 +20,8 @@ from langchain_core.documents import Document
 load_dotenv()
 
 # 1. 문서 로딩
-document1 = TextLoader('./nvme.txt', encoding='utf-8').load()
-document2 = TextLoader('./ssd.txt', encoding='utf-8').load()
+document1 = TextLoader('./data/nvme.txt', encoding='utf-8').load()
+document2 = TextLoader('./data/ssd.txt', encoding='utf-8').load()
 # print(documents)
 
 # 2. 문서를 청크(chunk) 단위로 짜르기

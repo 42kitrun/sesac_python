@@ -21,7 +21,7 @@ from langchain_community.vectorstores import Chroma
 load_dotenv()
 
 # 1. 문서 로딩
-loader = TextLoader('./nvme.txt', encoding='utf-8')
+loader = TextLoader('./data/nvme.txt', encoding='utf-8')
 documents = loader.load()
 # print(documents)
 

@@ -106,7 +106,7 @@ def answer_question(question):
     print("A: ", response)
     print('----- 끝 -----')
 
-# answer_question("시큐어코딩의 주요 기법들에 대해서 리스트 형태로 요약해서 설명해줘")
+answer_question("시큐어코딩의 주요 기법들에 대해서 리스트 형태로 요약해서 설명해줘")
 # answer_question("입력데이터 검증 및 오류 기법에 대해서 상세히 설명해줘")
-answer_question("입력데이터 취약점 예시는?")
+# answer_question("입력데이터 취약점 예시는?")
 # answer_question("오늘 저녁에 먹을 메뉴는?")
