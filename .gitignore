@@ -15,7 +15,7 @@ __pycache__/
 **/login_btn/*
 **/instance/*
 /DATA/
-
+/*/chroma_db
 
 # 민감정보파일
 .env
