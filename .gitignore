@@ -21,3 +21,5 @@ __pycache__/
 .env
 7.API/5.gmail/*.json
 
+# node.js 라이브러리 환경
+node_modules/
