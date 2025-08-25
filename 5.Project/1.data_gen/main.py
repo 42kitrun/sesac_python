@@ -83,16 +83,15 @@ if __name__ == '__main__':
     display = ''
     input_info = "아래와 같이 공백으로 간격을 두어 입력하세요\n user 10_000 csv\n[user/store/item/order/orderitem] [데이터 갯수] [console/csv/excel] "
 
-    argv_len = len(sys.argv)
-    if argv_len  == 1: 
-        try:
+    # python main.py user 10_000 csv 실행한 경우
+    if len(sys.argv)  == 4:
+        _type, num_data, display = sys.argv[1:4]
+    else:
+        try: # python main.py 실행한 경우
             _type, num_data, display = [e for e in input(input_info).strip().split(' ') if e] 
         except:
-            raise Exception(input_info)
-    elif argv_len == 4:
-        _type, num_data, display = sys.argv[1], sys.argv[2], sys.argv[3]
-    else:
-        raise Exception(input_info)    
-
+            print(input_info)
+            sys.exit()
+            
     num_data = int(num_data)
     my_data = DisplayData().generate_display(_type, num_data, display)
