@@ -90,8 +90,7 @@ if __name__ == '__main__':
         try: # python main.py 실행한 경우
             _type, num_data, display = [e for e in input(input_info).strip().split(' ') if e] 
         except:
-            print(input_info)
-            sys.exit()
+            sys.exit(input_info)
             
     num_data = int(num_data)
     my_data = DisplayData().generate_display(_type, num_data, display)
