@@ -78,8 +78,7 @@
 ├── 6.Flask/                # Flask 웹 프레임워크
 ├── 7.API/                  # 외부 API 연동 (Naver, Kakao, OpenAI)
 ├── 8.Node/                 # Node.js 및 React 프로젝트
-├── database/               # 데이터베이스 스키마 및 예제 데이터
-└── LICENSE
+└── database/               # 데이터베이스 스키마 및 예제 데이터
 ```
 
 ## 🛠️ 개발 환경 설정
@@ -127,10 +126,6 @@ Pixabay API를 활용한 이미지 검색 및 관리 시스템
 5. **Pull Request**를 열어주세요
 
 코드는 프로젝트의 스타일 가이드를 따르며, 필요한 경우 테스트 코드를 포함해주세요.
-
-## 📜 라이선스
-
-이 프로젝트는 MIT 라이선스를 따릅니다.
 
 ---
 *SeSAC Python 풀스택 개발자 과정 학습 자료*
